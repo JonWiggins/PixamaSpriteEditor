@@ -26,10 +26,14 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        pixamawindow.cpp
+        pixamawindow.cpp \
+    frame.cpp \
+    pixamamodel.cpp
 
 HEADERS += \
-        pixamawindow.h
+        pixamawindow.h \
+    frame.h \
+    pixamamodel.h
 
 FORMS += \
         pixamawindow.ui
