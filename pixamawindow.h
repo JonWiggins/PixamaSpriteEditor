@@ -22,6 +22,9 @@ protected:
 
 private:
     Ui::PixamaWindow *ui;
+
+signals:
+    void mouseClickSignal(int x, int y);
 };
 
 #endif // PIXAMAWINDOW_H

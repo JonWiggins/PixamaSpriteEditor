@@ -5,7 +5,7 @@
 #include <vector>
 #include "frame.h"
 
-class PixamaModel : QObject
+class PixamaModel : public QObject
 {
     Q_OBJECT
 
@@ -18,6 +18,7 @@ public slots:
     //void updateFrameSlot(int x, int y, Pixel p);
     //void updateFrameSlot(int x, int y, int r, int g, int b, int a);
     //void openSlot(std::string file);
+    void mouseEventSlot(int x, int y);
 
 signals:
     //Frame updateCanvasSignal();
