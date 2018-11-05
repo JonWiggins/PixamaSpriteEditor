@@ -2,7 +2,7 @@
 
 Frame::Frame()
 {
-    int test = 3;
+    std::make_tuple<int,int,int,double>(1,2,3,1.0);
 }
 
 std::tuple<int, int, int, double> Frame::getPixel(int x, int y)
