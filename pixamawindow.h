@@ -13,7 +13,12 @@ class PixamaWindow : public QMainWindow
 
 public:
     explicit PixamaWindow(QWidget *parent = nullptr);
-    ~PixamaWindow();
+    ~PixamaWindow() override;
+
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
     Ui::PixamaWindow *ui;
