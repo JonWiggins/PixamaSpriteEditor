@@ -39,7 +39,7 @@ void PixamaModel::saveFileSlot(QString fileName){
     //The height and width of a sprite frame specified by 2 integers with a space between followed by a \n newline.
     outputStream << this->height << " " << this->width << "\n";
     //The number of frames represented by a single integer followed by a newline.
-    outputStream << (int) this->frameList.size() << "\n";
+    outputStream << static_cast<int>(this->frameList.size()) << "\n";
     //Each frame in order from lowest to highest numbered. A frame is output by
     // starting at the top row and going to the bottom, list the pixels for each row as red green blue alpha values with spaces in-between two values. Finish a row with a newline. Do not add extra whitespace between color values or pixels or between rows or between frames.
     for(auto &element : frameList){
