@@ -19,12 +19,19 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    void saveButtonClicked();
+    void openButtonClicked();
 
 private:
     Ui::PixamaWindow *ui;
 
 signals:
     void mouseClickSignal(int x, int y);
+    void saveFileSignal(QString fileName);
+    void openFileSignal(QString fileName);
+
+public slots:
+       void displayErrorMessageSlot(QString title, QString details);
 };
 
 #endif // PIXAMAWINDOW_H

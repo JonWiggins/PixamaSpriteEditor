@@ -2,6 +2,7 @@
 #include "ui_pixamawindow.h"
 #include <QtWidgets>
 #include <iostream>
+#include <QMessageBox>
 
 PixamaWindow::PixamaWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -34,3 +35,24 @@ void PixamaWindow::mouseReleaseEvent(QMouseEvent *event)
     emit mouseClickSignal((int) event->localPos().x(), (int)event->localPos().y());
 
 }
+
+
+void PixamaWindow::saveButtonClicked(){
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Save Pixama Project"), "",
+                                                    tr("Sprite Sheet Project (*.ssp)"));
+    emit saveFileSignal(fileName);
+}
+
+void PixamaWindow::displayErrorMessageSlot(QString title, QString details){
+    QMessageBox::information(this, tr(title.toStdString().c_str()), details);
+
+}
+
+void PixamaWindow::openButtonClicked(){
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Open Pixama Project"), "",
+                                                    tr("Sprite Sheet Project (*.ssp)"));
+    emit openFileSignal(fileName);
+}
+
