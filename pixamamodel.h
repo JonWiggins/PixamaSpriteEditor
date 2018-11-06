@@ -13,6 +13,8 @@ class PixamaModel : public QObject
 
 public:
     PixamaModel();
+    int height;
+    int width;
 
 public slots:
     //void updateFrameSlot(int x, int y, Pixel p);
