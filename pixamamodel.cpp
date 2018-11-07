@@ -1,21 +1,22 @@
 #include "pixamamodel.h"
 #include <iostream>
-#include <tuple>
 #include <QFile>
 #include <QDataStream>
-#include <tuple>
 
 PixamaModel::PixamaModel()
 {
     //TODO replace these with meaningful values
     this->height = 100;
     this->width = 100;
+    this->pixelSize = 10; //Assuming pixels are square
+
+    this->currentColor = std::make_tuple<int, int, int, double>(0, 0, 0, 0.0); //Current color at startup is transparent
 }
 
 void PixamaModel::mouseEventSlot(int x, int y)
 {
     std::cout << "setting backing frame" << std::endl;
-    Frame toChange = frameList.at(0);
+    //Frame toChange = frameList.at(0);
     //toChange.setPixel(0,0, std::make_tuple(0, 0, 0, 0.0));
 }
 
@@ -45,8 +46,8 @@ void PixamaModel::saveFileSlot(QString fileName)
     outputStream << this->height << " " << this->width << "\n";
 
     //The number of frames represented by a single integer followed by a newline.
-    outputStream << (int) this->frameList.size() << "\n";
-
+    outputStream << static_cast<int>(this->frameList.size()) << "\n";
+  
     //Each frame in order from lowest to highest numbered. A frame is output by
     // starting at the top row and going to the bottom, list the pixels for each row as red green blue alpha values with spaces in-between two values. Finish a row with a newline. Do not add extra whitespace between color values or pixels or between rows or between frames.
     for(Frame element : frameList)

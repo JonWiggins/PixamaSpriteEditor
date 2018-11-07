@@ -2,7 +2,6 @@
 #define PIXAMAWINDOW_H
 
 #include <QMainWindow>
-#include <QGraphicsScene>
 #include <pixamamodel.h>
 
 namespace Ui {
@@ -16,6 +15,7 @@ class PixamaWindow : public QMainWindow
 public:
     explicit PixamaWindow(QWidget *parent = nullptr);
     ~PixamaWindow() override;
+    PixamaModel model;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -23,11 +23,9 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void saveButtonClicked();
     void openButtonClicked();
-    void buttonDownScreenPos(QGraphicsSceneMouseEvent *event);
 
 private:
     Ui::PixamaWindow *ui;
-    PixamaModel model;
 
 signals:
     void mouseClickSignal(int x, int y);
