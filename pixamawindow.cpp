@@ -9,6 +9,23 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     ui(new Ui::PixamaWindow)
 {
     ui->setupUi(this);
+
+    //Connections from view -> model
+    QObject::connect(
+                this, &PixamaWindow::mouseClickSignal,
+                &model, &PixamaModel::mouseEventSlot);
+    QObject::connect(
+                this, &PixamaWindow::saveFileSignal,
+                &model, &PixamaModel::saveFileSlot);
+    QObject::connect(
+                this, &PixamaWindow::openFileSignal,
+                     &model, &PixamaModel::openFileSlot);
+
+    //Connections from model -> view
+    QObject::connect(
+                &model, &PixamaModel::displayErrorMessageSignal,
+                     this, &PixamaWindow::displayErrorMessageSlot);
+
 }
 
 PixamaWindow::~PixamaWindow()
@@ -18,28 +35,9 @@ PixamaWindow::~PixamaWindow()
 
 void PixamaWindow::buttonDownScreenPos(QGraphicsSceneMouseEvent *event)
 {
-<<<<<<< HEAD
     QPoint point = (event->scenePos().toPoint());
     std::cout << "x " << point.x();
     emit mouseClickSignal(point.x(), point.y());
-=======
-    std::cout << "x " << event->localPos().x() - 100 << " y " << event->localPos().y() - 90 << std::endl;
-    emit mouseClickSignal((int) event->localPos().x(), (int)event->localPos().y());
-}
-
-void PixamaWindow::mouseMoveEvent(QMouseEvent *event)
-{
-    std::cout << "x " << event->localPos().x() - 100 << " y " << event->localPos().y() - 90 << std::endl;
-    emit mouseClickSignal((int) event->localPos().x(), (int)event->localPos().y());
-
-}
-
-void PixamaWindow::mouseReleaseEvent(QMouseEvent *event)
-{
-    std::cout << "x " << event->localPos().x() - 100 << " y " << event->localPos().y() - 90 << std::endl;
-    emit mouseClickSignal((int) event->localPos().x(), (int)event->localPos().y());
-
->>>>>>> parent of 2f44b89... Fixed all old style casts and moved model from main to view
 }
 
 
