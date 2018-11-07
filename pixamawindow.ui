@@ -14,7 +14,7 @@
    <string>PixamaWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="QGraphicsView" name="Canvas">
     <property name="geometry">
      <rect>
       <x>25</x>

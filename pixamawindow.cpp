@@ -33,24 +33,11 @@ PixamaWindow::~PixamaWindow()
     delete ui;
 }
 
-void PixamaWindow::mousePressEvent(QMouseEvent *event)
+void PixamaWindow::buttonDownScreenPos(QGraphicsSceneMouseEvent *event)
 {
-    std::cout << "x " << event->localPos().x() - 100 << " y " << event->localPos().y() - 90 << std::endl;
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()), static_cast<int>(event->localPos().y()));
-}
-
-void PixamaWindow::mouseMoveEvent(QMouseEvent *event)
-{
-    std::cout << "x " << event->localPos().x() - 100 << " y " << event->localPos().y() - 90 << std::endl;
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()), static_cast<int>(event->localPos().y()));
-
-}
-
-void PixamaWindow::mouseReleaseEvent(QMouseEvent *event)
-{
-    std::cout << "x " << event->localPos().x() - 100 << " y " << event->localPos().y() - 90 << std::endl;
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()), static_cast<int>(event->localPos().y()));
-
+    QPoint point = (event->scenePos().toPoint());
+    std::cout << "x " << point.x();
+    emit mouseClickSignal(point.x(), point.y());
 }
 
 

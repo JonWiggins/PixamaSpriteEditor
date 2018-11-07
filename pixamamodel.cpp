@@ -10,6 +10,9 @@ PixamaModel::PixamaModel()
     //TODO replace these with meaningful values
     this->height = 100;
     this->width = 100;
+    this->pixelSize = 10; //Assuming pixels are square
+
+    this->currentColor = std::make_tuple<int, int, int, double>(0, 0, 0, 0.0); //Current color at startup is transparent
 }
 
 void PixamaModel::mouseEventSlot(int x, int y){

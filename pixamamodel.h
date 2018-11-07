@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <vector>
+#include <tuple>
 #include "frame.h"
 
 class PixamaModel : public QObject
@@ -15,6 +16,8 @@ public:
     PixamaModel();
     int height;
     int width;
+    int pixelSize;
+    std::tuple<int, int, int, double> currentColor;
 
 public slots:
     //void updateFrameSlot(int x, int y, Pixel p);
