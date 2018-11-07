@@ -54,27 +54,23 @@ void PixamaWindow::mouseReleaseEvent(QMouseEvent *event)
 }
 
 
-void PixamaWindow::buttonDownScreenPos(QGraphicsSceneMouseEvent *event)
+
+void PixamaWindow::saveButtonClicked()
 {
-    QPoint point = (event->scenePos().toPoint());
-    std::cout << "x " << point.x();
-    emit mouseClickSignal(point.x(), point.y());
-}
-
-
-void PixamaWindow::saveButtonClicked(){
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Save Pixama Project"), "",
                                                     tr("Sprite Sheet Project (*.ssp)"));
     emit saveFileSignal(fileName);
 }
 
-void PixamaWindow::displayErrorMessageSlot(QString title, QString details){
+void PixamaWindow::displayErrorMessageSlot(QString title, QString details)
+{
     QMessageBox::information(this, tr(title.toStdString().c_str()), details);
 
 }
 
-void PixamaWindow::openButtonClicked(){
+void PixamaWindow::openButtonClicked()
+{
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Open Pixama Project"), "",
                                                     tr("Sprite Sheet Project (*.ssp)"));
