@@ -2,6 +2,8 @@
 #define FRAME_H
 #include <vector>
 #include <tuple>
+#include <iostream>
+#include <QColor>
 
 class Frame
 {
@@ -16,6 +18,7 @@ public:
     void setPixel(int x, int y, int r, int g, int b, double a);
     void setPixel(int x, int y, std::tuple<int, int, int, double> p);
     std::tuple<int, int, int, double> getPixel(int x, int y);
+    QColor getColor(int x, int y);
 
 };
 

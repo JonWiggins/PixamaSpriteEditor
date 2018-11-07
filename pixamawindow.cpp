@@ -10,6 +10,22 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    image = new QImage(500, 500, QImage::Format_RGB32);
+
+
+
+    for(int i = 0; i<100; i++)
+    {
+        for(int j = 0; j<100; j++)
+        {
+            image->setPixel(i, j, qRgb(255, 0, 0));
+        }
+    }
+
+    graphic = new QGraphicsScene(this);
+    graphic->addPixmap((QPixmap::fromImage(*image)));
+    ui->canvas->setScene(graphic);
+
     //Connections from view -> model
     QObject::connect(
                 this, &PixamaWindow::mouseClickSignal,
@@ -20,6 +36,10 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     QObject::connect(
                 this, &PixamaWindow::openFileSignal,
                      &model, &PixamaModel::openFileSlot);
+    QObject::connect(
+                this, &PixamaWindow::copyFrameSignal,
+                     &model, &PixamaModel::copyFrameSlot);
+
 
     //Connections from model -> view
     QObject::connect(
@@ -31,6 +51,7 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
 PixamaWindow::~PixamaWindow()
 {
     delete ui;
+    delete graphic;
 }
 
 void PixamaWindow::mousePressEvent(QMouseEvent *event)
@@ -77,3 +98,21 @@ void PixamaWindow::openButtonClicked()
     emit openFileSignal(fileName);
 }
 
+
+void PixamaWindow::on_resizeButton_clicked()
+{
+
+}
+
+void PixamaWindow::on_copyButton_clicked()
+{
+    emit copyFrameSignal(image);
+    updateCanvas();
+}
+
+void PixamaWindow::updateCanvas()
+{
+    graphic->addPixmap((QPixmap::fromImage(*image)));
+    ui->canvas->setScene(graphic);
+    ui->canvas->show();
+}

@@ -8,8 +8,18 @@ PixamaModel::PixamaModel()
     //TODO replace these with meaningful values
     this->height = 100;
     this->width = 100;
-    this->pixelSize = 10; //Assuming pixels are square
+    this->pixelSize = 5; //Assuming pixels are square
+    this->currentFrame = 0; //Sets the currentFrame to the first frame
+    Frame firstFrame;
+    for(int i = 0; i<100; i++)
+    {
+        for(int j = 0; j<100; j++)
+        {
+            firstFrame.setPixel( i, j, 0, 255, 0, 100); //Setting a pixel in the frame to be green
+        }
+    }
 
+    this->frameList.push_back(firstFrame);
     this->currentColor = std::make_tuple<int, int, int, double>(0, 0, 0, 0.0); //Current color at startup is transparent
 }
 
@@ -70,7 +80,8 @@ void PixamaModel::saveFileSlot(QString fileName)
 
 }
 
-void PixamaModel::openFileSlot(QString fileName){
+void PixamaModel::openFileSlot(QString fileName)
+{
     if(fileName.isEmpty())
     {
         return;
@@ -95,4 +106,34 @@ void PixamaModel::openFileSlot(QString fileName){
     //Each frame in order from lowest to highest numbered. A frame is output by
     // starting at the top row and going to the bottom, list the pixels for each row as red green blue alpha values with spaces in-between two values. Finish a row with a newline. Do not add extra whitespace between color values or pixels or between rows or between frames.
 
+}
+
+void PixamaModel::copyFrameSlot(QImage *image)
+{
+
+    Frame newFrame;
+    for(int xCounter = 0; xCounter < 100 ; xCounter++)
+    {
+        for(int yCounter = 0; yCounter < 100 ; yCounter++)
+        {
+            newFrame.pixels[xCounter][yCounter] = frameList.at(currentFrame).pixels[xCounter][yCounter];
+        }
+    }
+    frameList.push_back(newFrame);
+    currentFrame = frameList.size()-1;
+    std::cout << "copied frame" << std::endl;
+    for(int xCounter = 0; xCounter < 100 ; xCounter++)
+    {
+        for(int yCounter = 0; yCounter < 100 ; yCounter++)
+        {
+            for(int pixelSizeCounterX = 0; pixelSizeCounterX < pixelSize; pixelSizeCounterX++)
+            {
+                for(int pixelSizeCounterY = 0; pixelSizeCounterY < pixelSize; pixelSizeCounterY++)
+                {
+                image->setPixelColor( pixelSize*xCounter + pixelSizeCounterX, pixelSize*yCounter + pixelSizeCounterY, frameList[currentFrame].getColor(xCounter, yCounter) );
+                }
+            }
+        }
+    }
+    std::cout << "Displayed new frame" << std::endl;
 }
