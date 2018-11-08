@@ -24,16 +24,20 @@ protected:
     void saveButtonClicked();
     void openButtonClicked();
     void buttonDownScreenPos(QGraphicsSceneMouseEvent *event);
+    void updateCanvas();
 
 private:
     Ui::PixamaWindow *ui;
     PixamaModel model;
+    QImage *image;
+    QGraphicsScene *graphic;
+
 
 signals:
     void mouseClickSignal(int x, int y);
     void saveFileSignal(QString fileName);
     void openFileSignal(QString fileName);
-    void copyFrameSignal();
+    void copyFrameSignal(QImage *image);
 
 public slots:
        void displayErrorMessageSlot(QString title, QString details);

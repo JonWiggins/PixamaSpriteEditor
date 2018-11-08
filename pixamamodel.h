@@ -4,6 +4,7 @@
 #include <QObject>
 #include <vector>
 #include <tuple>
+#include <QGraphicsScene>
 #include "frame.h"
 
 class PixamaModel : public QObject
@@ -27,7 +28,7 @@ public slots:
     void mouseEventSlot(int x, int y);
     void saveFileSlot(QString fileName);
     void openFileSlot(QString filename);
-    void copyFrameSlot();
+    void copyFrameSlot(QImage *image);
 
 signals:
     //Frame updateCanvasSignal();

@@ -8,10 +8,17 @@ PixamaModel::PixamaModel()
     //TODO replace these with meaningful values
     this->height = 100;
     this->width = 100;
-    this->pixelSize = 10; //Assuming pixels are square
+    this->pixelSize = 5; //Assuming pixels are square
     this->currentFrame = 0; //Sets the currentFrame to the first frame
     Frame firstFrame;
-    firstFrame.setPixel( 1, 1, 255, 0, 0, 100); //Setting a pixel in the frame to be red
+    for(int i = 0; i<100; i++)
+    {
+        for(int j = 0; j<100; j++)
+        {
+            firstFrame.setPixel( i, j, 0, 255, 0, 100); //Setting a pixel in the frame to be green
+        }
+    }
+
     this->frameList.push_back(firstFrame);
     this->currentColor = std::make_tuple<int, int, int, double>(0, 0, 0, 0.0); //Current color at startup is transparent
 }
@@ -101,7 +108,7 @@ void PixamaModel::openFileSlot(QString fileName)
 
 }
 
-void PixamaModel::copyFrameSlot()
+void PixamaModel::copyFrameSlot(QImage *image)
 {
 
     Frame newFrame;
@@ -115,4 +122,18 @@ void PixamaModel::copyFrameSlot()
     frameList.push_back(newFrame);
     currentFrame = frameList.size()-1;
     std::cout << "copied frame" << std::endl;
+    for(int xCounter = 0; xCounter < 100 ; xCounter++)
+    {
+        for(int yCounter = 0; yCounter < 100 ; yCounter++)
+        {
+            for(int pixelSizeCounterX = 0; pixelSizeCounterX < pixelSize; pixelSizeCounterX++)
+            {
+                for(int pixelSizeCounterY = 0; pixelSizeCounterY < pixelSize; pixelSizeCounterY++)
+                {
+                image->setPixelColor( pixelSize*xCounter + pixelSizeCounterX, pixelSize*yCounter + pixelSizeCounterY, frameList[currentFrame].getColor(xCounter, yCounter) );
+                }
+            }
+        }
+    }
+    std::cout << "Displayed new frame" << std::endl;
 }

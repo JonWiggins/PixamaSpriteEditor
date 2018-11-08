@@ -10,18 +10,20 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QImage image = QImage(600, 600, QImage::Format_RGB32);
+    image = new QImage(500, 500, QImage::Format_RGB32);
+
+
 
     for(int i = 0; i<100; i++)
     {
         for(int j = 0; j<100; j++)
         {
-            image.setPixel(i, j, qRgb(255, 0, 0));
+            image->setPixel(i, j, qRgb(255, 0, 0));
         }
     }
 
-    QGraphicsScene *graphic = new QGraphicsScene(this);
-    graphic->addPixmap((QPixmap::fromImage(image)));
+    graphic = new QGraphicsScene(this);
+    graphic->addPixmap((QPixmap::fromImage(*image)));
     ui->canvas->setScene(graphic);
 
     //Connections from view -> model
@@ -49,6 +51,7 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
 PixamaWindow::~PixamaWindow()
 {
     delete ui;
+    delete graphic;
 }
 
 void PixamaWindow::mousePressEvent(QMouseEvent *event)
@@ -103,5 +106,13 @@ void PixamaWindow::on_resizeButton_clicked()
 
 void PixamaWindow::on_copyButton_clicked()
 {
-    emit copyFrameSignal();
+    emit copyFrameSignal(image);
+    updateCanvas();
+}
+
+void PixamaWindow::updateCanvas()
+{
+    graphic->addPixmap((QPixmap::fromImage(*image)));
+    ui->canvas->setScene(graphic);
+    ui->canvas->show();
 }
