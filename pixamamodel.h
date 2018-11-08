@@ -20,6 +20,8 @@ public:
     int width;
     int pixelSize;
     std::tuple<int, int, int, double> currentColor;
+    int currentTool; //0 for draw/erase 1 for paintbucket can be different number for other tools
+    void draw(int x, int y);
 
 public slots:
     //void updateFrameSlot(int x, int y, Pixel p);

@@ -21,13 +21,35 @@ PixamaModel::PixamaModel()
 
     this->frameList.push_back(firstFrame);
     this->currentColor = std::make_tuple<int, int, int, double>(0, 0, 0, 0.0); //Current color at startup is transparent
+    this->currentTool = 0; //starting tool is single pixel draw
 }
 
+//When mouse is clicked on frame
 void PixamaModel::mouseEventSlot(int x, int y)
 {
     std::cout << "setting backing frame" << std::endl;
+    //TODO: check is x y is in bounds before drawing
+    draw(x, y);
     //Frame toChange = frameList.at(0);
     //toChange.setPixel(0,0, std::make_tuple(0, 0, 0, 0.0));
+}
+
+void PixamaModel::draw(int x, int y)
+{
+    Frame frame = frameList[static_cast<unsigned int>(currentFrame)];
+    switch(currentTool) //Using switch for possibility of new tools
+    {
+        case 0:  //draw/erase tool
+        {
+            frame.setPixel(x, y, currentColor);
+            //emit signal of color change
+            break;
+        }
+        case 1: //bucket tool
+        {
+            break;
+        }
+    }
 }
 
 void PixamaModel::saveFileSlot(QString fileName)
