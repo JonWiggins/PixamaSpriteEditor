@@ -75,7 +75,7 @@
    <widget class="QPushButton" name="copyButton">
     <property name="geometry">
      <rect>
-      <x>552</x>
+      <x>550</x>
       <y>370</y>
       <width>90</width>
       <height>25</height>
@@ -271,16 +271,33 @@
      <x>0</x>
      <y>0</y>
      <width>884</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuExport">
+     <property name="title">
+      <string>Export</string>
+     </property>
+     <widget class="QMenu" name="menuSingle_Frame">
+      <property name="title">
+       <string>Single Frame</string>
+      </property>
+      <addaction name="actionJPG_2"/>
+      <addaction name="actionPNG_2"/>
+     </widget>
+     <addaction name="actionPNG"/>
+     <addaction name="actionJPG"/>
+     <addaction name="actionGIF"/>
+     <addaction name="separator"/>
+     <addaction name="menuSingle_Frame"/>
+    </widget>
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
-    <addaction name="actionExport"/>
+    <addaction name="menuExport"/>
     <addaction name="actionClose"/>
    </widget>
    <addaction name="menuFile"/>
@@ -309,9 +326,29 @@
     <string>Close</string>
    </property>
   </action>
-  <action name="actionExport">
+  <action name="actionPNG">
    <property name="text">
-    <string>Export</string>
+    <string>PNG</string>
+   </property>
+  </action>
+  <action name="actionJPG">
+   <property name="text">
+    <string>JPG</string>
+   </property>
+  </action>
+  <action name="actionGIF">
+   <property name="text">
+    <string>GIF</string>
+   </property>
+  </action>
+  <action name="actionJPG_2">
+   <property name="text">
+    <string>PNG</string>
+   </property>
+  </action>
+  <action name="actionPNG_2">
+   <property name="text">
+    <string>JPG</string>
    </property>
   </action>
  </widget>

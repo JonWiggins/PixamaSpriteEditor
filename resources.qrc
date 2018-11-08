@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/cursors">
+        <file>bucket.png</file>
+        <file>erase.png</file>
+        <file>download.jpg</file>
+    </qresource>
+</RCC>

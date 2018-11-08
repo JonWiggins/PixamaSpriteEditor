@@ -77,3 +77,57 @@ void PixamaWindow::openButtonClicked()
     emit openFileSignal(fileName);
 }
 
+
+void PixamaWindow::on_bucketButton_clicked()
+{
+    QPixmap bucket(":/cursors/bucket.png");
+    QCursor cursorTarget = QCursor(bucket);
+    this -> setCursor(cursorTarget);
+}
+
+void PixamaWindow::on_drawButton_clicked()
+{
+    setCursor(Qt::CrossCursor);
+}
+
+void PixamaWindow::on_eraseButton_clicked()
+{
+    QPixmap bucket(":/cursors/erase.png");
+    QCursor cursorTarget = QCursor(bucket);
+    this -> setCursor(cursorTarget);
+}
+
+void PixamaWindow::on_copyButton_clicked()
+{
+
+}
+
+void PixamaWindow::on_moveButton_clicked()
+{
+
+}
+
+void PixamaWindow::on_resizeButton_clicked()
+{
+
+}
+
+void PixamaWindow::on_sliderR_sliderMoved(int position)
+{
+
+}
+
+void PixamaWindow::on_sliderG_sliderMoved(int position)
+{
+
+}
+
+void PixamaWindow::on_sliderB_actionTriggered(int action)
+{
+
+}
+
+void PixamaWindow::on_frameRateSlider_sliderMoved(int position)
+{
+
+}
