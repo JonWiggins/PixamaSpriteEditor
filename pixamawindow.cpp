@@ -10,6 +10,20 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QImage image = QImage(600, 600, QImage::Format_RGB32);
+
+    for(int i = 0; i<100; i++)
+    {
+        for(int j = 0; j<100; j++)
+        {
+            image.setPixel(i, j, qRgb(255, 0, 0));
+        }
+    }
+
+    QGraphicsScene *graphic = new QGraphicsScene(this);
+    graphic->addPixmap((QPixmap::fromImage(image)));
+    ui->canvas->setScene(graphic);
+
     //Connections from view -> model
     QObject::connect(
                 this, &PixamaWindow::mouseClickSignal,
