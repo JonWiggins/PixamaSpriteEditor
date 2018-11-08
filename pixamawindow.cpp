@@ -92,7 +92,7 @@ void PixamaWindow::on_drawButton_clicked()
 
 void PixamaWindow::on_eraseButton_clicked()
 {
-    QPixmap bucket(":/cursors/erase.png");
+    QPixmap bucket(":/cursors/cursortarget.png");
     QCursor cursorTarget = QCursor(bucket);
     this -> setCursor(cursorTarget);
 }

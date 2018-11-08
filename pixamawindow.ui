@@ -295,6 +295,7 @@
      <addaction name="separator"/>
      <addaction name="menuSingle_Frame"/>
     </widget>
+    <addaction name="actionNew"/>
     <addaction name="actionSave"/>
     <addaction name="actionLoad"/>
     <addaction name="menuExport"/>
@@ -349,6 +350,16 @@
   <action name="actionPNG_2">
    <property name="text">
     <string>JPG</string>
+   </property>
+  </action>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
    </property>
   </action>
  </widget>
