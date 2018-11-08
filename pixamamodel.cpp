@@ -15,7 +15,7 @@ PixamaModel::PixamaModel()
     {
         for(int j = 0; j<100; j++)
         {
-            firstFrame.setPixel( i, j, 0, 255, 0, 1.0); //Setting a pixel in the frame to be green
+            firstFrame.setPixel( i, j, 0, 255, 0, 100); //Setting a pixel in the frame to be green
         }
     }
 
@@ -36,8 +36,6 @@ void PixamaModel::mouseEventSlot(int x, int y)
 
 void PixamaModel::draw(int x, int y)
 {
-    x = x / pixelSize;
-    y = y / pixelSize;
     Frame frame = frameList[static_cast<unsigned int>(currentFrame)];
     switch(currentTool) //Using switch for possibility of new tools
     {
