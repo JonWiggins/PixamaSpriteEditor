@@ -11,6 +11,7 @@ class PixamaModel : public QObject
     Q_OBJECT
 
     std::vector<Frame> frameList;
+    int currentFrame;
 
 public:
     PixamaModel();
@@ -26,6 +27,7 @@ public slots:
     void mouseEventSlot(int x, int y);
     void saveFileSlot(QString fileName);
     void openFileSlot(QString filename);
+    void copyFrameSlot();
 
 signals:
     //Frame updateCanvasSignal();

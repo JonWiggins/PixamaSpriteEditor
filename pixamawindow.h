@@ -33,9 +33,13 @@ signals:
     void mouseClickSignal(int x, int y);
     void saveFileSignal(QString fileName);
     void openFileSignal(QString fileName);
+    void copyFrameSignal();
 
 public slots:
        void displayErrorMessageSlot(QString title, QString details);
+private slots:
+       void on_resizeButton_clicked();
+       void on_copyButton_clicked();
 };
 
 #endif // PIXAMAWINDOW_H

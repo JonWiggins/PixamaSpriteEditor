@@ -20,6 +20,10 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     QObject::connect(
                 this, &PixamaWindow::openFileSignal,
                      &model, &PixamaModel::openFileSlot);
+    QObject::connect(
+                this, &PixamaWindow::copyFrameSignal,
+                     &model, &PixamaModel::copyFrameSlot);
+
 
     //Connections from model -> view
     QObject::connect(
@@ -77,3 +81,13 @@ void PixamaWindow::openButtonClicked()
     emit openFileSignal(fileName);
 }
 
+
+void PixamaWindow::on_resizeButton_clicked()
+{
+
+}
+
+void PixamaWindow::on_copyButton_clicked()
+{
+    emit copyFrameSignal();
+}
