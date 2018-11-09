@@ -126,6 +126,12 @@ void PixamaWindow::on_color_clicked()
     int green = ui->spinBoxG->value();
     int blue = ui->spinBoxB->value();
     double alpha = ui->spinBoxA->value();
-    std::tuple<int,int,int,double> color = std::make_tuple(red, green, blue, alpha);
+    std::tuple<int, int, int, double> color = std::make_tuple(red, green, blue, alpha);
     emit colorButtonSignal(color);
+}
+
+void PixamaWindow::on_eraseButton_clicked()
+{
+    std::tuple<int, int, int, double> empty = std::make_tuple(0, 0, 0, 0.0);
+    emit colorButtonSignal(empty);
 }
