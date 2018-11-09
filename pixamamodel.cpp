@@ -24,6 +24,11 @@ PixamaModel::PixamaModel()
     this->currentTool = 0; //starting tool is single pixel draw
 }
 
+void PixamaModel::colorChangeSlot(std::tuple<int, int, int, double> color)
+{
+    this->currentColor = color;
+}
+
 //When mouse is clicked on frame
 void PixamaModel::mouseEventSlot(int x, int y)
 {

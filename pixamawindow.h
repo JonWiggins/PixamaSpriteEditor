@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <pixamamodel.h>
+#include <tuple>
 
 namespace Ui {
 class PixamaWindow;
@@ -35,6 +36,7 @@ private:
 
 signals:
     void mouseClickSignal(int x, int y);
+    void colorButtonSignal(std::tuple<int, int, int, double> color);
     void saveFileSignal(QString fileName);
     void openFileSignal(QString fileName);
     void copyFrameSignal(QImage *image);
@@ -44,6 +46,7 @@ public slots:
 private slots:
        void on_resizeButton_clicked();
        void on_copyButton_clicked();
+       void on_color_clicked();
 };
 
 #endif // PIXAMAWINDOW_H

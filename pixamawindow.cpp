@@ -35,10 +35,13 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
                 &model, &PixamaModel::saveFileSlot);
     QObject::connect(
                 this, &PixamaWindow::openFileSignal,
-                     &model, &PixamaModel::openFileSlot);
+                &model, &PixamaModel::openFileSlot);
     QObject::connect(
                 this, &PixamaWindow::copyFrameSignal,
-                     &model, &PixamaModel::copyFrameSlot);
+                &model, &PixamaModel::copyFrameSlot);
+    QObject::connect(
+                this, &PixamaWindow::colorButtonSignal,
+                &model, &PixamaModel::colorChangeSlot);
 
 
     //Connections from model -> view
@@ -115,4 +118,14 @@ void PixamaWindow::updateCanvas()
     graphic->addPixmap((QPixmap::fromImage(*image)));
     ui->canvas->setScene(graphic);
     ui->canvas->show();
+}
+
+void PixamaWindow::on_color_clicked()
+{
+    int red = ui->spinBoxR->value();
+    int green = ui->spinBoxG->value();
+    int blue = ui->spinBoxB->value();
+    double alpha = ui->spinBoxA->value();
+    std::tuple<int,int,int,double> color = std::make_tuple(red, green, blue, alpha);
+    emit colorButtonSignal(color);
 }

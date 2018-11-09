@@ -370,7 +370,7 @@
      <number>30</number>
     </property>
    </widget>
-   <widget class="QPushButton" name="colorButton">
+   <widget class="QPushButton" name="color">
     <property name="geometry">
      <rect>
       <x>640</x>
