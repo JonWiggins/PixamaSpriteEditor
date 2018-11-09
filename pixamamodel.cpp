@@ -24,9 +24,15 @@ PixamaModel::PixamaModel()
     this->currentTool = 0; //starting tool is single pixel draw
 }
 
+//Changes color of backing
 void PixamaModel::colorChangeSlot(std::tuple<int, int, int, double> color)
 {
     this->currentColor = color;
+}
+
+void PixamaModel::toolSelectSlot(int tool)
+{
+    this->currentTool = tool;
 }
 
 //When mouse is clicked on frame
@@ -145,11 +151,11 @@ void PixamaModel::copyFrameSlot(QImage *image)
     {
         for(int yCounter = 0; yCounter < 100 ; yCounter++)
         {
-            newFrame.pixels[xCounter][yCounter] = frameList.at(currentFrame).pixels[xCounter][yCounter];
+            newFrame.pixels[xCounter][yCounter] = frameList.at(static_cast<unsigned long>(currentFrame)).pixels[xCounter][yCounter];
         }
     }
     frameList.push_back(newFrame);
-    currentFrame = frameList.size()-1;
+    currentFrame = static_cast<int>(frameList.size()-1);
     std::cout << "copied frame" << std::endl;
     for(int xCounter = 0; xCounter < 100 ; xCounter++)
     {
@@ -159,7 +165,7 @@ void PixamaModel::copyFrameSlot(QImage *image)
             {
                 for(int pixelSizeCounterY = 0; pixelSizeCounterY < pixelSize; pixelSizeCounterY++)
                 {
-                image->setPixelColor( pixelSize*xCounter + pixelSizeCounterX, pixelSize*yCounter + pixelSizeCounterY, frameList[currentFrame].getColor(xCounter, yCounter) );
+                image->setPixelColor( pixelSize*xCounter + pixelSizeCounterX, pixelSize*yCounter + pixelSizeCounterY, frameList[static_cast<unsigned long>(currentFrame)].getColor(xCounter, yCounter) );
                 }
             }
         }

@@ -31,7 +31,8 @@ public slots:
     void saveFileSlot(QString fileName);
     void openFileSlot(QString filename);
     void copyFrameSlot(QImage *image);
-    void colorChangeSlot(std::tuple<int, int, int, double>);
+    void colorChangeSlot(std::tuple<int, int, int, double> color);
+    void toolSelectSlot(int tool);
 
 signals:
     //Frame updateCanvasSignal();

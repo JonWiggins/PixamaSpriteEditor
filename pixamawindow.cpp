@@ -42,6 +42,9 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     QObject::connect(
                 this, &PixamaWindow::colorButtonSignal,
                 &model, &PixamaModel::colorChangeSlot);
+    QObject::connect(
+                this, &PixamaWindow::toolSelect,
+                &model, &PixamaModel::toolSelectSlot);
 
 
     //Connections from model -> view
@@ -120,6 +123,7 @@ void PixamaWindow::updateCanvas()
     ui->canvas->show();
 }
 
+//When color button is clicked it takes the values from the sliders and sends it to the backing array as a color
 void PixamaWindow::on_color_clicked()
 {
     int red = ui->spinBoxR->value();
@@ -130,8 +134,16 @@ void PixamaWindow::on_color_clicked()
     emit colorButtonSignal(color);
 }
 
+//When the erase button tool is clicked it
 void PixamaWindow::on_eraseButton_clicked()
 {
     std::tuple<int, int, int, double> empty = std::make_tuple(0, 0, 0, 0.0);
     emit colorButtonSignal(empty);
+    emit toolSelect(0);
+}
+
+void PixamaWindow::on_drawButton_clicked()
+{
+    on_color_clicked();
+    emit toolSelect(0);
 }
