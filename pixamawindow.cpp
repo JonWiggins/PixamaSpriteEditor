@@ -142,6 +142,7 @@ void PixamaWindow::on_eraseButton_clicked()
     emit toolSelect(0);
 }
 
+//The draw tool is selected
 void PixamaWindow::on_drawButton_clicked()
 {
     on_color_clicked();

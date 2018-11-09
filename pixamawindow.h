@@ -37,6 +37,7 @@ private:
 signals:
     void mouseClickSignal(int x, int y);
     void colorButtonSignal(std::tuple<int, int, int, double> color);
+    void toolSelect(int tool);
     void saveFileSignal(QString fileName);
     void openFileSignal(QString fileName);
     void copyFrameSignal(QImage *image);
@@ -47,6 +48,8 @@ private slots:
        void on_resizeButton_clicked();
        void on_copyButton_clicked();
        void on_color_clicked();
+       void on_eraseButton_clicked();
+       void on_drawButton_clicked();
 };
 
 #endif // PIXAMAWINDOW_H
