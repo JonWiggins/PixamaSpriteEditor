@@ -21,8 +21,10 @@ void Frame::setPixel(int x, int y, std::tuple<int, int, int, double> p)
 
 void Frame::setPixel(int x, int y, int r, int g, int b, double a)
 {
+    std::cout << "Storing color " << r << " " << g << " " << b << std::endl;
     this->pixels[x][y] = std::make_tuple(r, g, b, a);
 }
+
 
 QColor Frame::getColor(int x, int y)
 {
