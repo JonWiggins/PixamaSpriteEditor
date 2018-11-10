@@ -17,7 +17,7 @@ PixamaModel::PixamaModel()
     {
         for(int j = 0; j<height; j++)
         {
-            firstFrame->setPixel(i, j, 255, 255, 255, 1.0); //Setting a pixel in the frame to be green
+            firstFrame->setPixel(i, j, 150, 150, 150, 1.0); //Setting a pixel in the frame to be green
         }
     }
 
@@ -141,17 +141,54 @@ void PixamaModel::openFileSlot(QString fileName)
         return;
     }
 
-    QDataStream inputFile(&file);
-    inputFile.setVersion(QDataStream::Qt_5_4);
+    //clear the current frames
+    frameList.clear();
 
-    //inputFile >> "";
+    QTextStream inputFile(&file);
 
     //File format:
     //The height and width of a sprite frame specified by 2 integers with a space between followed by a \n newline.
+    int height;
+    int width;
+
+    inputFile >> height;
+    //std::cout << "height " << height << std::endl;
+
+    inputFile >> width;
+    //std::cout << "width " << width << std::endl;
+
     //The number of frames represented by a single integer followed by a newline.
+    int frameCount;
+    inputFile >> frameCount;
+
+    //std::cout << "count " << frameCount << std::endl;
+
     //Each frame in order from lowest to highest numbered. A frame is output by
     // starting at the top row and going to the bottom, list the pixels for each row as red green blue alpha values with spaces in-between two values. Finish a row with a newline. Do not add extra whitespace between color values or pixels or between rows or between frames.
+    for(int frameCounter = 0; frameCounter < frameCount; frameCounter++)
+    {
+        Frame* toAdd = new Frame();
+        for(int hCounter = 0; hCounter < height; hCounter++)
+        {
+            for(int wCounter = 0; wCounter < width; wCounter++)
+            {
+                int r, g, b, a;
+                inputFile >> r;
+                inputFile >> g;
+                inputFile >> b;
+                inputFile >> a;
 
+                toAdd->setPixel(hCounter, wCounter, r, g, b, a);
+
+                //TODO this needs to update the canvas
+                //draw()
+
+            }
+        }
+
+        frameList.push_back(toAdd);
+
+    }
 }
 
 void PixamaModel::copyFrameSlot(QImage *image)

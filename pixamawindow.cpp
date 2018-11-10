@@ -156,3 +156,11 @@ void PixamaWindow::on_SaveTest_clicked()
                                                     tr("Sprite Sheet Project (*.ssp)"));
     emit saveFileSignal(fileName);
 }
+
+void PixamaWindow::on_OpenTest_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Open Pixama Project"), "",
+                                                    tr("Sprite Sheet Project (*.ssp)"));
+    emit openFileSignal(fileName);
+}

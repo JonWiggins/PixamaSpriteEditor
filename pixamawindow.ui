@@ -399,6 +399,19 @@
      <number>255</number>
     </property>
    </widget>
+   <widget class="QPushButton" name="OpenTest">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>540</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>OpenTest</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
