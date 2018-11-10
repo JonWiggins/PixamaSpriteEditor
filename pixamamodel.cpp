@@ -38,7 +38,6 @@ void PixamaModel::toolSelectSlot(int tool)
 //When mouse is clicked on frame
 void PixamaModel::mouseEventSlot(int x, int y, QImage *image)
 {
-    std::cout << "setting backing frame" << std::endl;
     //Changing x and y to the size of pixels
     x = x / this->pixelSize;
     y = y / this->pixelSize;
