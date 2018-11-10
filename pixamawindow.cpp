@@ -11,7 +11,8 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     ui->setupUi(this);
 
     image = new QImage(500, 500, QImage::Format_RGB32);
-
+    image->setDotsPerMeterX(1000);
+    image->setDotsPerMeterY(1000);
 
 
     for(int i = 0; i<500; i++)
@@ -62,21 +63,18 @@ PixamaWindow::~PixamaWindow()
 
 void PixamaWindow::mousePressEvent(QMouseEvent *event)
 {
-    std::cout << "x " << event->localPos().x() - 23 << " y " << event->localPos().y() - 63 << std::endl;
     emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50), image);
     updateCanvas();
 }
 
 void PixamaWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    std::cout << "x " << event->localPos().x() - 23 << " y " << event->localPos().y() - 63 << std::endl;
     emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50), image);
     updateCanvas();
 }
 
 void PixamaWindow::mouseReleaseEvent(QMouseEvent *event)
 {
-    std::cout << "x " << event->localPos().x() - 23 << " y " << event->localPos().y() - 63 << std::endl;
     emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50), image);
     updateCanvas();
 }
