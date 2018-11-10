@@ -52,6 +52,7 @@ private slots:
        void on_saveButton_clicked();
        void on_SaveTest_clicked();
        void on_bucketButton_clicked();
+       void on_OpenTest_clicked();
 };
 
 #endif // PIXAMAWINDOW_H

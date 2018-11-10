@@ -14,11 +14,11 @@ public:
     ~Frame();
     //Create 2D array of Pixel structs
     //Note that this is public for now, along with some getters/setters
-    std::tuple<int, int, int, double> pixels[100][100];
+    std::tuple<int, int, int, int> pixels[100][100];
 
-    void setPixel(int x, int y, int r, int g, int b, double a);
-    void setPixel(int x, int y, std::tuple<int, int, int, double> p);
-    std::tuple<int, int, int, double> getPixel(int x, int y);
+    void setPixel(int x, int y, int r, int g, int b, int a);
+    void setPixel(int x, int y, std::tuple<int, int, int, int> p);
+    std::tuple<int, int, int, int> getPixel(int x, int y);
     QColor getColor(int x, int y);
 
 };

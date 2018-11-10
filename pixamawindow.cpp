@@ -152,4 +152,12 @@ void PixamaWindow::on_bucketButton_clicked()
 {
     on_color_clicked();
     emit toolSelect(1);
+
+
+void PixamaWindow::on_OpenTest_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Open Pixama Project"), "",
+                                                    tr("Sprite Sheet Project (*.ssp)"));
+    emit openFileSignal(fileName);
 }
