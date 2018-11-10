@@ -5,6 +5,7 @@
 #include <vector>
 #include <tuple>
 #include <QGraphicsScene>
+#include <stack>
 #include "frame.h"
 
 class PixamaModel : public QObject
@@ -22,6 +23,7 @@ public:
     std::tuple<int, int, int, double> currentColor;
     int currentTool; //0 for draw/erase 1 for paintbucket can be different number for other tools
     void draw(int x, int y, QImage *image);
+    void colorPixel(int x, int y, Frame *frame, QImage* image);
 
 public slots:
     //void updateFrameSlot(int x, int y, Pixel p);

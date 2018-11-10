@@ -156,3 +156,9 @@ void PixamaWindow::on_SaveTest_clicked()
                                                     tr("Sprite Sheet Project (*.ssp)"));
     emit saveFileSignal(fileName);
 }
+
+void PixamaWindow::on_bucketButton_clicked()
+{
+    on_color_clicked();
+    emit toolSelect(1);
+}

@@ -17,7 +17,7 @@ PixamaModel::PixamaModel()
     {
         for(int j = 0; j<height; j++)
         {
-            firstFrame->setPixel(i, j, 255, 255, 255, 1.0); //Setting a pixel in the frame to be green
+            firstFrame->setPixel(i, j, 0, 0, 0, 0.0); //Setting a pixel in the frame to be green
         }
     }
 
@@ -59,19 +59,80 @@ void PixamaModel::draw(int x, int y, QImage *image)
     {
         case 0:  //draw/erase tool
         {
-            frame->setPixel(x, y, std::get<0>(this->currentColor), std::get<1>(this->currentColor), std::get<2>(this->currentColor), std::get<3>(this->currentColor));
-            for(int pixelSizeCounterX = 0; pixelSizeCounterX < pixelSize; pixelSizeCounterX++)
-            {
-                for(int pixelSizeCounterY = 0; pixelSizeCounterY < pixelSize; pixelSizeCounterY++)
-                {
-                    image->setPixelColor(x*pixelSize + pixelSizeCounterX, y*pixelSize + pixelSizeCounterY, frame->getColor(x, y));
-                }
-            }
+            colorPixel(x, y, frame, image);
             break;
         }
         case 1: //bucket tool
         {
+            //Creating a stack and adding the first position to start filling the bucket
+            std::stack<std::tuple<int, int>> stack;
+            stack.push(std::make_tuple(x, y));
+            QColor startColor = frame->getColor(x, y);
+            int x;
+            int y;
+            bool reachedLeft, reachedRight;
+            while(!stack.empty())
+            {
+                std::tuple<int, int> currentPixel = stack.top();
+                stack.pop();
+                x = std::get<0>(currentPixel);
+                y = std::get<1>(currentPixel);
+                while(y-- > 0 && startColor == frame->getColor(x, y)) {} //travels up to the top
+
+                y++;
+                reachedLeft = false;
+                reachedRight = false;
+
+                while(y++ <= this->height && startColor == frame->getColor(x, y))
+                {
+                    //First color the pixel
+                    colorPixel(x, y, frame, image);
+
+                    if(x > 0) //Check if you can go left
+                    {
+                        if(startColor == frame->getColor(x - 1, y))
+                        {
+                            if(!reachedLeft)
+                            {
+                                stack.push(std::make_tuple(x - 1, y));
+                                reachedLeft = true;
+                            }
+                        }
+                        else if(reachedLeft)
+                        {
+                            reachedLeft = false;
+                        }
+                    }
+                    if(x < this->width - 1) //Check if you can go right
+                    {
+                        if(startColor == frame->getColor(x + 1, y))
+                        {
+                            if(!reachedRight)
+                            {
+                                stack.push(std::make_tuple(x + 1, y));
+                                reachedRight = true;
+                            }
+                        }
+                        else if(reachedRight)
+                        {
+                            reachedRight = false;
+                        }
+                    }
+                }
+            }
             break;
+        }
+    }
+}
+
+void PixamaModel::colorPixel(int x, int y, Frame *frame, QImage *image)
+{
+    frame->setPixel(x, y, std::get<0>(this->currentColor), std::get<1>(this->currentColor), std::get<2>(this->currentColor), std::get<3>(this->currentColor));
+    for(int pixelSizeCounterX = 0; pixelSizeCounterX < pixelSize; pixelSizeCounterX++)
+    {
+        for(int pixelSizeCounterY = 0; pixelSizeCounterY < pixelSize; pixelSizeCounterY++)
+        {
+            image->setPixelColor(x*pixelSize + pixelSizeCounterX, y*pixelSize + pixelSizeCounterY, frame->getColor(x, y));
         }
     }
 }
