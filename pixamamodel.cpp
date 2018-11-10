@@ -12,7 +12,6 @@ PixamaModel::PixamaModel()
     this->currentFrame = 0; //Sets the currentFrame to the first frame
 
     Frame* firstFrame = new Frame();
-
     for(int i = 0; i<width; i++)
     {
         for(int j = 0; j<height; j++)
@@ -21,6 +20,16 @@ PixamaModel::PixamaModel()
         }
     }
 
+    this->image = new QImage(500, 500, QImage::Format_RGB32);
+    for(int i = 0; i<500; i++)
+    {
+        for(int j = 0; j<500; j++)
+        {
+            image->setPixel(i, j, qRgba(0, 0, 0, 0.0));
+        }
+    }
+
+    emit imageSignal(image);
     this->frameList.push_back(firstFrame);
     this->currentColor = std::make_tuple<int, int, int, double>(0, 0, 0, 0.0); //Current color at startup is transparent
     this->currentTool = 0; //starting tool is single pixel draw
@@ -38,7 +47,7 @@ void PixamaModel::toolSelectSlot(int tool)
 }
 
 //When mouse is clicked on frame
-void PixamaModel::mouseEventSlot(int x, int y, QImage *image)
+void PixamaModel::mouseEventSlot(int x, int y)
 {
     //Changing x and y to the size of pixels
     x = x / this->pixelSize;
@@ -49,17 +58,17 @@ void PixamaModel::mouseEventSlot(int x, int y, QImage *image)
     {
         return;
     }
-    draw(x, y, image);
+    draw(x, y);
 }
 
-void PixamaModel::draw(int x, int y, QImage *image)
+void PixamaModel::draw(int x, int y)
 {
     Frame* frame = this->frameList[static_cast<unsigned int>(currentFrame)];
     switch(this->currentTool) //Using switch for possibility of new tools
     {
         case 0:  //draw/erase tool
         {
-            colorPixel(x, y, frame, image);
+            colorPixel(x, y, frame);
             break;
         }
         case 1: //bucket tool
@@ -83,10 +92,10 @@ void PixamaModel::draw(int x, int y, QImage *image)
                 reachedLeft = false;
                 reachedRight = false;
 
-                while(y++ <= this->height && startColor == frame->getColor(x, y))
+                while(y++ < this->height - 1 && startColor == frame->getColor(x, y))
                 {
                     //First color the pixel
-                    colorPixel(x, y, frame, image);
+                    colorPixel(x, y, frame);
 
                     if(x > 0) //Check if you can go left
                     {
@@ -125,7 +134,7 @@ void PixamaModel::draw(int x, int y, QImage *image)
     }
 }
 
-void PixamaModel::colorPixel(int x, int y, Frame *frame, QImage *image)
+void PixamaModel::colorPixel(int x, int y, Frame *frame)
 {
     frame->setPixel(x, y, std::get<0>(this->currentColor), std::get<1>(this->currentColor), std::get<2>(this->currentColor), std::get<3>(this->currentColor));
     for(int pixelSizeCounterX = 0; pixelSizeCounterX < pixelSize; pixelSizeCounterX++)
@@ -135,6 +144,7 @@ void PixamaModel::colorPixel(int x, int y, Frame *frame, QImage *image)
             image->setPixelColor(x*pixelSize + pixelSizeCounterX, y*pixelSize + pixelSizeCounterY, frame->getColor(x, y));
         }
     }
+    emit imageSignal(image);
 }
 
 void PixamaModel::saveFileSlot(QString fileName)

@@ -20,16 +20,17 @@ public:
     int height;
     int width;
     int pixelSize;
+    QImage *image;
     std::tuple<int, int, int, double> currentColor;
     int currentTool; //0 for draw/erase 1 for paintbucket can be different number for other tools
-    void draw(int x, int y, QImage *image);
-    void colorPixel(int x, int y, Frame *frame, QImage* image);
+    void draw(int x, int y);
+    void colorPixel(int x, int y, Frame *frame);
 
 public slots:
     //void updateFrameSlot(int x, int y, Pixel p);
     //void updateFrameSlot(int x, int y, int r, int g, int b, int a);
     //void openSlot(std::string file);
-    void mouseEventSlot(int x, int y, QImage *image);
+    void mouseEventSlot(int x, int y);
     void saveFileSlot(QString fileName);
     void openFileSlot(QString filename);
     void copyFrameSlot(QImage *image);
@@ -37,10 +38,11 @@ public slots:
     void toolSelectSlot(int tool);
 
 signals:
+    void imageSignal(QImage *image);
+    void displayErrorMessageSignal(QString title, QString details);
     //Frame updateCanvasSignal();
     //std::vector<Frame> exportSignal(int indicestoExport[], std::string filetype);
     //void saveSignal();
-    void displayErrorMessageSignal(QString title, QString details);
 
 };
 

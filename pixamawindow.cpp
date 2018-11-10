@@ -10,21 +10,7 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    image = new QImage(500, 500, QImage::Format_RGB32);
-    image->setDotsPerMeterX(1000);
-    image->setDotsPerMeterY(1000);
-
-
-    for(int i = 0; i<500; i++)
-    {
-        for(int j = 0; j<500; j++)
-        {
-            image->setPixel(i, j, qRgba(0, 0, 0, 0.0));
-        }
-    }
-
     graphic = new QGraphicsScene(this);
-    graphic->addPixmap((QPixmap::fromImage(*image)));
     ui->canvas->setScene(graphic);
 
     //Connections from view -> model
@@ -52,6 +38,9 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     QObject::connect(
                 &model, &PixamaModel::displayErrorMessageSignal,
                 this, &PixamaWindow::displayErrorMessageSlot);
+    QObject::connect(
+                &model, &PixamaModel::imageSignal,
+                this, &PixamaWindow::updateImageSlot);
 
 }
 
@@ -63,20 +52,17 @@ PixamaWindow::~PixamaWindow()
 
 void PixamaWindow::mousePressEvent(QMouseEvent *event)
 {
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50), image);
-    updateCanvas();
+    emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50));
 }
 
 void PixamaWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50), image);
-    updateCanvas();
+    emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50));
 }
 
 void PixamaWindow::mouseReleaseEvent(QMouseEvent *event)
 {
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50), image);
-    updateCanvas();
+    emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50));
 }
 
 
@@ -109,13 +95,18 @@ void PixamaWindow::on_resizeButton_clicked()
 
 }
 
+//I BROKE THIS
 void PixamaWindow::on_copyButton_clicked()
 {
-    emit copyFrameSignal(image);
-    updateCanvas();
+    //emit copyFrameSignal(image);
 }
 
-void PixamaWindow::updateCanvas()
+void PixamaWindow::updateImageSlot(QImage *image)
+{
+    updateCanvas(image);
+}
+
+void PixamaWindow::updateCanvas(QImage *image)
 {
     graphic->addPixmap((QPixmap::fromImage(*image)));
     ui->canvas->setScene(graphic);

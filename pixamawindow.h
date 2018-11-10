@@ -24,17 +24,16 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void openButtonClicked();
     void buttonDownScreenPos(QGraphicsSceneMouseEvent *event);
-    void updateCanvas();
+    void updateCanvas(QImage *image);
 
 private:
     Ui::PixamaWindow *ui;
     PixamaModel model;
-    QImage *image;
     QGraphicsScene *graphic;
 
 
 signals:
-    void mouseClickSignal(int x, int y, QImage *image);
+    void mouseClickSignal(int x, int y);
     void colorButtonSignal(std::tuple<int, int, int, double> color);
     void toolSelect(int tool);
     void saveFileSignal(QString fileName);
@@ -43,6 +42,7 @@ signals:
 
 public slots:
        void displayErrorMessageSlot(QString title, QString details);
+       void updateImageSlot(QImage *image);
 private slots:
        void on_resizeButton_clicked();
        void on_copyButton_clicked();
