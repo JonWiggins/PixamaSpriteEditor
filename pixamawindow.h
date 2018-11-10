@@ -35,7 +35,7 @@ private:
 
 
 signals:
-    void mouseClickSignal(int x, int y);
+    void mouseClickSignal(int x, int y, QImage *image);
     void colorButtonSignal(std::tuple<int, int, int, double> color);
     void toolSelect(int tool);
     void saveFileSignal(QString fileName);

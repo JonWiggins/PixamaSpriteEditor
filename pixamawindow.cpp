@@ -14,11 +14,11 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
 
 
 
-    for(int i = 0; i<100; i++)
+    for(int i = 0; i<500; i++)
     {
-        for(int j = 0; j<100; j++)
+        for(int j = 0; j<500; j++)
         {
-            image->setPixel(i, j, qRgb(255, 0, 0));
+            image->setPixel(i, j, qRgba(255, 255, 255, 1.0));
         }
     }
 
@@ -50,7 +50,7 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     //Connections from model -> view
     QObject::connect(
                 &model, &PixamaModel::displayErrorMessageSignal,
-                     this, &PixamaWindow::displayErrorMessageSlot);
+                this, &PixamaWindow::displayErrorMessageSlot);
 
 }
 
@@ -63,21 +63,22 @@ PixamaWindow::~PixamaWindow()
 void PixamaWindow::mousePressEvent(QMouseEvent *event)
 {
     std::cout << "x " << event->localPos().x() - 23 << " y " << event->localPos().y() - 63 << std::endl;
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()), static_cast<int>(event->localPos().y()));
+    emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50), image);
+    updateCanvas();
 }
 
 void PixamaWindow::mouseMoveEvent(QMouseEvent *event)
 {
     std::cout << "x " << event->localPos().x() - 23 << " y " << event->localPos().y() - 63 << std::endl;
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()), static_cast<int>(event->localPos().y()));
-
+    emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50), image);
+    updateCanvas();
 }
 
 void PixamaWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     std::cout << "x " << event->localPos().x() - 23 << " y " << event->localPos().y() - 63 << std::endl;
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()), static_cast<int>(event->localPos().y()));
-
+    emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50), image);
+    updateCanvas();
 }
 
 
@@ -148,3 +149,4 @@ void PixamaWindow::on_drawButton_clicked()
     on_color_clicked();
     emit toolSelect(0);
 }
+

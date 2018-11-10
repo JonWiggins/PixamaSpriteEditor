@@ -11,11 +11,11 @@ PixamaModel::PixamaModel()
     this->pixelSize = 5; //Assuming pixels are square
     this->currentFrame = 0; //Sets the currentFrame to the first frame
     Frame firstFrame;
-    for(int i = 0; i<100; i++)
+    for(int i = 0; i<width; i++)
     {
-        for(int j = 0; j<100; j++)
+        for(int j = 0; j<height; j++)
         {
-            firstFrame.setPixel( i, j, 0, 255, 0, 1.0); //Setting a pixel in the frame to be green
+            firstFrame.setPixel( i, j, 0, 0, 255, 1.0); //Setting a pixel in the frame to be green
         }
     }
 
@@ -36,26 +36,36 @@ void PixamaModel::toolSelectSlot(int tool)
 }
 
 //When mouse is clicked on frame
-void PixamaModel::mouseEventSlot(int x, int y)
+void PixamaModel::mouseEventSlot(int x, int y, QImage *image)
 {
     std::cout << "setting backing frame" << std::endl;
-    //TODO: check is x y is in bounds before drawing
-    draw(x, y);
-    //Frame toChange = frameList.at(0);
-    //toChange.setPixel(0,0, std::make_tuple(0, 0, 0, 0.0));
+    //Changing x and y to the size of pixels
+    x = x / this->pixelSize;
+    y = y / this->pixelSize;
+
+    //Checking to make sure x and y are bigger than the current bounds
+    if(x >= this->width || y >= this->height)
+    {
+        return;
+    }
+    draw(x, y, image);
 }
 
-void PixamaModel::draw(int x, int y)
+void PixamaModel::draw(int x, int y, QImage *image)
 {
-    x = x / pixelSize;
-    y = y / pixelSize;
-    Frame frame = frameList[static_cast<unsigned int>(currentFrame)];
-    switch(currentTool) //Using switch for possibility of new tools
+    Frame frame = this->frameList[static_cast<unsigned int>(currentFrame)];
+    switch(this->currentTool) //Using switch for possibility of new tools
     {
         case 0:  //draw/erase tool
         {
-            frame.setPixel(x, y, currentColor);
-            //emit signal of color change
+            frame.setPixel(x, y, this->currentColor);
+            for(int pixelSizeCounterX = 0; pixelSizeCounterX < pixelSize; pixelSizeCounterX++)
+            {
+                for(int pixelSizeCounterY = 0; pixelSizeCounterY < pixelSize; pixelSizeCounterY++)
+                {
+                image->setPixelColor(x*pixelSize + pixelSizeCounterX, y*pixelSize + pixelSizeCounterY, frame.getColor(x, y));
+                }
+            }
             break;
         }
         case 1: //bucket tool
