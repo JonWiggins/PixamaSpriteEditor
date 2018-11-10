@@ -10,12 +10,14 @@ PixamaModel::PixamaModel()
     this->width = 100;
     this->pixelSize = 5; //Assuming pixels are square
     this->currentFrame = 0; //Sets the currentFrame to the first frame
+
     Frame* firstFrame = new Frame();
+
     for(int i = 0; i<width; i++)
     {
         for(int j = 0; j<height; j++)
         {
-            firstFrame->setPixel( i, j, 255, 255, 255, 1.0); //Setting a pixel in the frame to be green
+            firstFrame->setPixel(i, j, 255, 255, 255, 1.0); //Setting a pixel in the frame to be green
         }
     }
 
@@ -57,9 +59,7 @@ void PixamaModel::draw(int x, int y, QImage *image)
     {
         case 0:  //draw/erase tool
         {
-            std::cout << "Setting " << x << " " << y << " " << std::get<0>(this->currentColor) << std::endl;
             frame->setPixel(x, y, std::get<0>(this->currentColor), std::get<1>(this->currentColor), std::get<2>(this->currentColor), std::get<3>(this->currentColor));
-            frame->getPixel(x,y);
             for(int pixelSizeCounterX = 0; pixelSizeCounterX < pixelSize; pixelSizeCounterX++)
             {
                 for(int pixelSizeCounterY = 0; pixelSizeCounterY < pixelSize; pixelSizeCounterY++)
@@ -106,17 +106,13 @@ void PixamaModel::saveFileSlot(QString fileName)
   
     //Each frame in order from lowest to highest numbered. A frame is output by
     // starting at the top row and going to the bottom, list the pixels for each row as red green blue alpha values with spaces in-between two values. Finish a row with a newline. Do not add extra whitespace between color values or pixels or between rows or between frames.
-    for(int frameCounter = 0; frameCounter < this->frameList.size(); frameCounter++)
+    for(Frame* element : frameList)
     {
-        Frame* element = this->frameList[static_cast<unsigned int>(currentFrame)];
-
         for(int hIndex = 0; hIndex < this->height; hIndex ++)
         {
             for(int wIndex = 0; wIndex < this->width - 1; wIndex++)
             {
                 std::tuple<int, int, int, double> toWrite = element->getPixel(hIndex, wIndex);
-                std::cout << "Saving color " << std::get<0>(toWrite) << " " << std::get<1>(toWrite) << " " << std::get<2>(toWrite) << std::endl;
-
                 outputStream << std::get<0>(toWrite) << " " << std::get<1>(toWrite) << " " << std::get<2>(toWrite) << " " << std::get<3>(toWrite) << " ";
             }
 
@@ -171,7 +167,6 @@ void PixamaModel::copyFrameSlot(QImage *image)
     }
     frameList.push_back(newFrame);
     currentFrame = static_cast<int>(frameList.size()-1);
-    std::cout << "copied frame" << std::endl;
     for(int xCounter = 0; xCounter < 100 ; xCounter++)
     {
         for(int yCounter = 0; yCounter < 100 ; yCounter++)
