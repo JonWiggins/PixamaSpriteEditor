@@ -8,12 +8,14 @@ Frame::Frame()
 
 std::tuple<int, int, int, double> Frame::getPixel(int x, int y)
 {
-    return this->pixels[x][y];
+    auto toreturn = this->pixels[x][y];
+    std::cout << "returning color " << std::get<0>(toreturn) << " " << std::get<1>(toreturn) << " " << std::get<2>(toreturn) << std::endl;
+    return toreturn;
 }
 
 void Frame::setPixel(int x, int y, std::tuple<int, int, int, double> p)
 {
-    std::cout << "Storing color" << std::get<0>(p) << " " << std::get<1>(p) << " " << std::get<2>(p) << std::endl;
+    std::cout << "Storing color " << std::get<0>(p) << " " << std::get<1>(p) << " " << std::get<2>(p) << std::endl;
     this->pixels[x][y] = p;
 }
 
