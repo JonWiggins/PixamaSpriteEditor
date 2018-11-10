@@ -11,6 +11,7 @@ class Frame
 
 public:
     Frame();
+    ~Frame();
     //Create 2D array of Pixel structs
     //Note that this is public for now, along with some getters/setters
     std::tuple<int, int, int, double> pixels[100][100];

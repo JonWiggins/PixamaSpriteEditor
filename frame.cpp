@@ -6,6 +6,11 @@ Frame::Frame()
     std::make_tuple<int,int,int,double>(1,2,3,1.0);
 }
 
+Frame::~Frame()
+{
+    //nothing is needed here, the pixels array will free itself
+}
+
 std::tuple<int, int, int, double> Frame::getPixel(int x, int y)
 {
     return this->pixels[x][y];
