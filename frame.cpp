@@ -13,6 +13,7 @@ std::tuple<int, int, int, double> Frame::getPixel(int x, int y)
 
 void Frame::setPixel(int x, int y, std::tuple<int, int, int, double> p)
 {
+    std::cout << "Storing color" << std::get<0>(p) << " " << std::get<1>(p) << " " << std::get<2>(p) << std::endl;
     this->pixels[x][y] = p;
 }
 

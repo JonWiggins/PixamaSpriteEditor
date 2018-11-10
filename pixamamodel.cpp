@@ -1,7 +1,7 @@
 #include "pixamamodel.h"
 #include <iostream>
 #include <QFile>
-#include <QDataStream>
+#include <QTextStream>
 
 PixamaModel::PixamaModel()
 {
@@ -58,6 +58,7 @@ void PixamaModel::draw(int x, int y, QImage *image)
     {
         case 0:  //draw/erase tool
         {
+            std::cout << "Setting " << x << " " << y << " " << std::get<0>(this->currentColor) << std::endl;
             frame.setPixel(x, y, this->currentColor);
             for(int pixelSizeCounterX = 0; pixelSizeCounterX < pixelSize; pixelSizeCounterX++)
             {
@@ -89,11 +90,11 @@ void PixamaModel::saveFileSlot(QString fileName)
         return;
     }
 
-    QDataStream outputStream(&file);
+    QTextStream outputStream(&file);
 
 
     //TODO ensure that this is correct
-    outputStream.setVersion(QDataStream::Qt_5_4);
+    //outputStream.setVersion(QDataStream::Qt_5_4);
 
 
     //File format:
@@ -105,7 +106,7 @@ void PixamaModel::saveFileSlot(QString fileName)
   
     //Each frame in order from lowest to highest numbered. A frame is output by
     // starting at the top row and going to the bottom, list the pixels for each row as red green blue alpha values with spaces in-between two values. Finish a row with a newline. Do not add extra whitespace between color values or pixels or between rows or between frames.
-    for(Frame element : frameList)
+    for(Frame &element : frameList)
     {
         for(int hIndex = 0; hIndex < this->height; hIndex ++)
         {
