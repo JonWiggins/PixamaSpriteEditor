@@ -15,7 +15,7 @@ PixamaModel::PixamaModel()
     {
         for(int j = 0; j<height; j++)
         {
-            firstFrame.setPixel( i, j, 0, 0, 255, 1.0); //Setting a pixel in the frame to be green
+            firstFrame.setPixel( i, j, 0, 0, 0, 0.0); //Setting a pixel in the frame to be green
         }
     }
 

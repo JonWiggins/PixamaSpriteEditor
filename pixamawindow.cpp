@@ -19,7 +19,7 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     {
         for(int j = 0; j<500; j++)
         {
-            image->setPixel(i, j, qRgba(255, 255, 255, 1.0));
+            image->setPixel(i, j, qRgba(0, 0, 0, 0.0));
         }
     }
 
