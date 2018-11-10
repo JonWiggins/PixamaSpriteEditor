@@ -11,7 +11,7 @@ class PixamaModel : public QObject
 {
     Q_OBJECT
 
-    std::vector<Frame> frameList;
+    std::vector<Frame*> frameList;
     int currentFrame;
 
 public:

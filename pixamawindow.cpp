@@ -81,7 +81,7 @@ void PixamaWindow::mouseReleaseEvent(QMouseEvent *event)
 
 
 
-void PixamaWindow::saveButtonClicked()
+void PixamaWindow::on_saveButton_clicked()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Save Pixama Project"), "",
@@ -148,3 +148,11 @@ void PixamaWindow::on_drawButton_clicked()
     emit toolSelect(0);
 }
 
+
+void PixamaWindow::on_SaveTest_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Save Pixama Project"), "",
+                                                    tr("Sprite Sheet Project (*.ssp)"));
+    emit saveFileSignal(fileName);
+}

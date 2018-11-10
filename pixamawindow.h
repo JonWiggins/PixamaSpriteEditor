@@ -22,7 +22,6 @@ protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
-    void saveButtonClicked();
     void openButtonClicked();
     void buttonDownScreenPos(QGraphicsSceneMouseEvent *event);
     void updateCanvas();
@@ -50,6 +49,8 @@ private slots:
        void on_color_clicked();
        void on_eraseButton_clicked();
        void on_drawButton_clicked();
+       void on_saveButton_clicked();
+       void on_SaveTest_clicked();
 };
 
 #endif // PIXAMAWINDOW_H
