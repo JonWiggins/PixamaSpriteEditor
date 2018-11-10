@@ -32,12 +32,12 @@ PixamaModel::PixamaModel()
 
     emit imageSignal(image);
     this->frameList.push_back(firstFrame);
-    this->currentColor = std::make_tuple<int, int, int, double>(0, 0, 0, 0.0); //Current color at startup is transparent
+    this->currentColor = std::make_tuple<int, int, int, int>(0, 0, 0, 0.0); //Current color at startup is transparent
     this->currentTool = 0; //starting tool is single pixel draw
 }
 
 //Changes color of backing
-void PixamaModel::colorChangeSlot(std::tuple<int, int, int, double> color)
+void PixamaModel::colorChangeSlot(std::tuple<int, int, int, int> color)
 {
     this->currentColor = color;
 }
@@ -184,12 +184,12 @@ void PixamaModel::saveFileSlot(QString fileName)
         {
             for(int wIndex = 0; wIndex < this->width - 1; wIndex++)
             {
-                std::tuple<int, int, int, double> toWrite = element->getPixel(hIndex, wIndex);
+                std::tuple<int, int, int, int> toWrite = element->getPixel(hIndex, wIndex);
                 outputStream << std::get<0>(toWrite) << " " << std::get<1>(toWrite) << " " << std::get<2>(toWrite) << " " << std::get<3>(toWrite) << " ";
             }
 
             //Cannot have an extra ' ' at the end of the line
-            std::tuple<int, int, int, double> toWrite = element->getPixel(hIndex, this->width - 1);
+            std::tuple<int, int, int, int> toWrite = element->getPixel(hIndex, this->width - 1);
             outputStream << std::get<0>(toWrite) << " " << std::get<1>(toWrite) << " " << std::get<2>(toWrite) << " " << std::get<3>(toWrite);
 
             outputStream << "\n";

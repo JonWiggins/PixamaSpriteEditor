@@ -119,15 +119,15 @@ void PixamaWindow::on_color_clicked()
     int red = ui->spinBoxR->value();
     int green = ui->spinBoxG->value();
     int blue = ui->spinBoxB->value();
-    double alpha = ui->spinBoxA->value();
-    std::tuple<int, int, int, double> color = std::make_tuple(red, green, blue, alpha);
+    int alpha = ui->spinBoxA->value();
+    std::tuple<int, int, int, int> color = std::make_tuple(red, green, blue, alpha);
     emit colorButtonSignal(color);
 }
 
 //When the erase button tool is clicked it
 void PixamaWindow::on_eraseButton_clicked()
 {
-    std::tuple<int, int, int, double> empty = std::make_tuple(0, 0, 0, 0.0);
+    std::tuple<int, int, int, int> empty = std::make_tuple(0, 0, 0, 0.0);
     emit colorButtonSignal(empty);
     emit toolSelect(0);
 }

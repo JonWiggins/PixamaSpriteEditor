@@ -34,7 +34,7 @@ private:
 
 signals:
     void mouseClickSignal(int x, int y);
-    void colorButtonSignal(std::tuple<int, int, int, double> color);
+    void colorButtonSignal(std::tuple<int, int, int, int> color);
     void toolSelect(int tool);
     void saveFileSignal(QString fileName);
     void openFileSignal(QString fileName);

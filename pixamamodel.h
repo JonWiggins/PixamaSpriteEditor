@@ -21,7 +21,7 @@ public:
     int width;
     int pixelSize;
     QImage *image;
-    std::tuple<int, int, int, double> currentColor;
+    std::tuple<int, int, int, int> currentColor;
     int currentTool; //0 for draw/erase 1 for paintbucket can be different number for other tools
     void draw(int x, int y);
     void colorPixel(int x, int y, Frame *frame);
@@ -34,7 +34,7 @@ public slots:
     void saveFileSlot(QString fileName);
     void openFileSlot(QString filename);
     void copyFrameSlot(QImage *image);
-    void colorChangeSlot(std::tuple<int, int, int, double> color);
+    void colorChangeSlot(std::tuple<int, int, int, int> color);
     void toolSelectSlot(int tool);
 
 signals:
