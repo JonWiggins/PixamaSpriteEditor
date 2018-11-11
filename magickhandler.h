@@ -1,11 +1,11 @@
 #ifndef MAGICKHANDLER_H
 #define MAGICKHANDLER_H
-//#include <Magick++.h>
+#include <Magick++.h>
 #include <vector>
 #include "frame.h"
 
 
-//using namespace Magick;
+using namespace Magick;
 
 class MagicKHandler
 {

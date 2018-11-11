@@ -177,7 +177,7 @@ void PixamaWindow::on_ExportAsPNG_clicked()
 {
 
     QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Save Pixama Project"), "",
-                                                    tr("Sprite Sheet Project (*.ssp)"));
+                                                    tr("Export Project as PNG"), "",
+                                                    tr("PNG (*.png)"));
     emit exportAsPNGSignal(fileName);
 }
