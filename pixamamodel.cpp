@@ -337,5 +337,6 @@ void PixamaModel::newFrameSlot()
 }
 
 void PixamaModel::exportAsPNGSlot(QString fileName){
+    std::cout << "Exporint Frame: " << this->currentFrame << std::endl;
     this->magick->exportAsPNG(fileName, frameList[currentFrame], this->height, this->width);
 }
