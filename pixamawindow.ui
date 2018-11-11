@@ -376,7 +376,7 @@
    <widget class="QPushButton" name="SaveTest">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>10</x>
       <y>540</y>
       <width>89</width>
       <height>25</height>
@@ -402,7 +402,7 @@
    <widget class="QPushButton" name="OpenTest">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>110</x>
       <y>540</y>
       <width>89</width>
       <height>25</height>
@@ -415,7 +415,7 @@
    <widget class="QPushButton" name="NewFrame">
     <property name="geometry">
      <rect>
-      <x>330</x>
+      <x>530</x>
       <y>540</y>
       <width>89</width>
       <height>25</height>
@@ -428,7 +428,7 @@
    <widget class="QPushButton" name="ExportAsPNG">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>330</x>
       <y>540</y>
       <width>89</width>
       <height>25</height>
@@ -436,6 +436,32 @@
     </property>
     <property name="text">
      <string>Export PNG</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ExportFrameGIF">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>540</y>
+      <width>111</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Export Frame</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ExportJPG">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>540</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Export JPG</string>
     </property>
    </widget>
   </widget>

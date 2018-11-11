@@ -29,21 +29,30 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     QObject::connect(
                 this, &PixamaWindow::mouseClickSignal,
                 &model, &PixamaModel::mouseEventSlot);
+
     QObject::connect(
                 this, &PixamaWindow::saveFileSignal,
                 &model, &PixamaModel::saveFileSlot);
     QObject::connect(
-                this, &PixamaWindow::exportAsPNGSignal,
-                &model, &PixamaModel::exportAsPNGSlot);
-    QObject::connect(
                 this, &PixamaWindow::openFileSignal,
                 &model, &PixamaModel::openFileSlot);
+    QObject::connect(
+                this, &PixamaWindow::exportFrameAsGIFSignal,
+                &model, &PixamaModel::exportFrameAsGIFSlot);
+    QObject::connect(
+                this, &PixamaWindow::exportAsJPGSignal,
+                &model, &PixamaModel::exportAsJPGSlot);
+    QObject::connect(
+                this, &PixamaWindow::exportAsPNGSignal,
+                &model, &PixamaModel::exportAsPNGSlot);
+
     QObject::connect(
                 this, &PixamaWindow::newFrameSignal,
                 &model, &PixamaModel::newFrameSlot);
     QObject::connect(
                 this, &PixamaWindow::copyFrameSignal,
                 &model, &PixamaModel::copyFrameSlot);
+
     QObject::connect(
                 this, &PixamaWindow::colorButtonSignal,
                 &model, &PixamaModel::colorChangeSlot);
@@ -189,7 +198,23 @@ void PixamaWindow::on_ExportAsPNG_clicked()
 {
 
     QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Export Project as PNG"), "",
+                                                    tr("Export Frame as PNG"), "",
                                                     tr("PNG (*.png)"));
     emit exportAsPNGSignal(fileName);
+}
+
+void PixamaWindow::on_ExportFrameGIF_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Export Frame as GIF"), "",
+                                                    tr("GIF(*.gif)"));
+    emit exportFrameAsGIFSignal(fileName);
+}
+
+void PixamaWindow::on_ExportJPG_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Export Frame as JPG"), "",
+                                                    tr("JPG(*.jpg)"));
+    emit exportAsJPGSignal(fileName);
 }
