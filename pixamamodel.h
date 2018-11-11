@@ -7,6 +7,7 @@
 #include <QGraphicsScene>
 #include <stack>
 #include "frame.h"
+#include "magickhandler.h"
 
 class PixamaModel : public QObject
 {
@@ -14,6 +15,7 @@ class PixamaModel : public QObject
 
     std::vector<Frame*> frameList;
     int currentFrame;
+    MagicKHandler* magick;
 
 public:
     PixamaModel();

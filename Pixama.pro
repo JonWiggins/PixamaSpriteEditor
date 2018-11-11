@@ -28,12 +28,14 @@ SOURCES += \
         main.cpp \
         pixamawindow.cpp \
     frame.cpp \
-    pixamamodel.cpp
+    pixamamodel.cpp \
+    magickhandler.cpp
 
 HEADERS += \
         pixamawindow.h \
     frame.h \
-    pixamamodel.h
+    pixamamodel.h \
+    magickhandler.h
 
 FORMS += \
         pixamawindow.ui

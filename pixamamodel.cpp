@@ -5,7 +5,8 @@
 
 PixamaModel::PixamaModel()
 {
-    //TODO replace these with meaningful values
+    this->magick = new MagicKHandler();
+
     this->height = 100;
     this->width = 100;
     this->pixelSize = 5; //Assuming pixels are square
@@ -323,5 +324,5 @@ void PixamaModel::newFrameSlot()
 }
 
 void PixamaModel::exportAsPNGSlot(QString fileName){
-
+    this->magick->exportAsPNG(fileName, frameList[currentFrame], this->height, this->width);
 }
