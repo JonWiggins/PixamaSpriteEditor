@@ -158,7 +158,14 @@ void PixamaModel::draw(int x, int y)
 void PixamaModel::colorPixel(int x, int y, Frame *frame)
 {
     frame->setPixel(x, y, std::get<0>(this->currentColor), std::get<1>(this->currentColor), std::get<2>(this->currentColor), std::get<3>(this->currentColor));
-    image->setPixelColor(x, y, frame->getColor(x, y));
+    if(frame->getColor(x, y) == QColor(0, 0, 0, 0))
+    {
+        image->setPixelColor(x, y, QColor(255, 255, 255, 255));
+    }
+    else
+    {
+        image->setPixelColor(x, y, frame->getColor(x, y));
+    }
 }
 
 void PixamaModel::saveFileSlot(QString fileName)
