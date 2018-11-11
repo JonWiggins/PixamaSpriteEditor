@@ -57,3 +57,10 @@ DEPENDPATH += $$PWD/MagicKIncludes/ImageMagick-7
 
 INCLUDEPATH += $$PWD/MagicKIncludes/ImageMagick-7
 DEPENDPATH += $$PWD/MagicKIncludes/ImageMagick-7
+
+unix:!macx: LIBS += -L$$PWD/MagicKLibs/ -lMagickWand-7.Q16HDRI
+
+INCLUDEPATH += $$PWD/MagicKLibs/ImageMagick-7.0.8
+DEPENDPATH += $$PWD/MagicKLibs/ImageMagick-7.0.8
+
+unix:!macx: PRE_TARGETDEPS += $$PWD/MagicKLibs/libMagickWand-7.Q16HDRI.a

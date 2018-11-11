@@ -13,13 +13,13 @@ void MagicKHandler::exportAsPNG(QString fileName, Frame* toExport, int height, i
         // Read a file into image object
           Image toSave(Geometry(width, height), Color(QuantumRange, QuantumRange, QuantumRange,
           0));
+          toSave.magick("gif");
           for(int hCount = 0; hCount < height; hCount++)
           {
               for(int wCount = 0; wCount < width; wCount++)
               {
                   std::tuple<int, int, int, int> color = toExport->getPixel(wCount, hCount);
-                  Color toSet(std::get<0>(color), std::get<1>(color), std::get<2>(color), 1);
-                  toSave.magick("gif");
+                  Color toSet("Red");
                   toSave.pixelColor(wCount, hCount, toSet);
               }
           }
