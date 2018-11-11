@@ -415,7 +415,7 @@
    <widget class="QPushButton" name="NewFrame">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>330</x>
       <y>540</y>
       <width>89</width>
       <height>25</height>
@@ -423,6 +423,19 @@
     </property>
     <property name="text">
      <string>New Frame</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ExportAsPNG">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>540</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Export PNG</string>
     </property>
    </widget>
   </widget>

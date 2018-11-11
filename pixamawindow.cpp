@@ -21,6 +21,9 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
                 this, &PixamaWindow::saveFileSignal,
                 &model, &PixamaModel::saveFileSlot);
     QObject::connect(
+                this, &PixamaWindow::exportAsPNGSignal,
+                &model, &PixamaModel::exportAsPNGSlot);
+    QObject::connect(
                 this, &PixamaWindow::openFileSignal,
                 &model, &PixamaModel::openFileSlot);
     QObject::connect(
@@ -168,4 +171,13 @@ void PixamaWindow::on_OpenTest_clicked()
 void PixamaWindow::on_NewFrame_clicked()
 {
     emit newFrameSignal();
+}
+
+void PixamaWindow::on_ExportAsPNG_clicked()
+{
+
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Save Pixama Project"), "",
+                                                    tr("Sprite Sheet Project (*.ssp)"));
+    emit exportAsPNGSignal(fileName);
 }

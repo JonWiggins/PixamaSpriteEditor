@@ -321,3 +321,7 @@ void PixamaModel::newFrameSlot()
     }
     emit imageSignal(image);
 }
+
+void PixamaModel::exportAsPNGSlot(QString fileName){
+
+}

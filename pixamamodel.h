@@ -37,6 +37,7 @@ public slots:
     void copyFrameSlot();
     void colorChangeSlot(std::tuple<int, int, int, int> color);
     void toolSelectSlot(int tool);
+    void exportAsPNGSlot(QString fileName);
 
 signals:
     void imageSignal(QImage *image);

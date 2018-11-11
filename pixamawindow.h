@@ -38,6 +38,7 @@ signals:
     void toolSelect(int tool);
     void saveFileSignal(QString fileName);
     void openFileSignal(QString fileName);
+    void exportAsPNGSignal(QString fileName);
     void newFrameSignal();
     void copyFrameSignal();
 
@@ -55,6 +56,7 @@ private slots:
        void on_bucketButton_clicked();
        void on_OpenTest_clicked();
        void on_NewFrame_clicked();
+       void on_ExportAsPNG_clicked();
 };
 
 #endif // PIXAMAWINDOW_H
