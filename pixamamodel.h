@@ -33,7 +33,8 @@ public slots:
     void mouseEventSlot(int x, int y);
     void saveFileSlot(QString fileName);
     void openFileSlot(QString filename);
-    void copyFrameSlot(QImage *image);
+    void newFrameSlot();
+    void copyFrameSlot();
     void colorChangeSlot(std::tuple<int, int, int, int> color);
     void toolSelectSlot(int tool);
 

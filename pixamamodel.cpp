@@ -16,7 +16,7 @@ PixamaModel::PixamaModel()
     {
         for(int j = 0; j<height; j++)
         {
-            firstFrame->setPixel(i, j, 0, 0, 0, 0.0); //Setting a pixel in the frame to be green
+            firstFrame->setPixel(i, j, 0, 0, 0, 0.0);
         }
     }
 
@@ -263,13 +263,13 @@ void PixamaModel::openFileSlot(QString fileName)
     }
 }
 
-void PixamaModel::copyFrameSlot(QImage *image)
+void PixamaModel::copyFrameSlot()
 {
 
     Frame* newFrame = new Frame();
-    for(int xCounter = 0; xCounter < 100 ; xCounter++)
+    for(int xCounter = 0; xCounter < width ; xCounter++)
     {
-        for(int yCounter = 0; yCounter < 100 ; yCounter++)
+        for(int yCounter = 0; yCounter < height ; yCounter++)
         {
             newFrame->pixels[xCounter][yCounter] = frameList.at(static_cast<unsigned long>(currentFrame))->pixels[xCounter][yCounter];
         }
@@ -290,4 +290,34 @@ void PixamaModel::copyFrameSlot(QImage *image)
         }
     }
     std::cout << "Displayed new frame" << std::endl;
+    emit imageSignal(image);
+}
+
+void PixamaModel::newFrameSlot()
+{
+    Frame* newFrame = new Frame();
+    for(int i = 0; i<width; i++)
+    {
+        for(int j = 0; j<height; j++)
+        {
+            newFrame->setPixel(i, j, 0, 0, 0, 0.0);
+        }
+    }
+
+    frameList.push_back(newFrame);
+    currentFrame = static_cast<int>(frameList.size()-1);
+    for(int xCounter = 0; xCounter < width ; xCounter++)
+    {
+        for(int yCounter = 0; yCounter < height ; yCounter++)
+        {
+            for(int pixelSizeCounterX = 0; pixelSizeCounterX < pixelSize; pixelSizeCounterX++)
+            {
+                for(int pixelSizeCounterY = 0; pixelSizeCounterY < pixelSize; pixelSizeCounterY++)
+                {
+                image->setPixelColor( pixelSize*xCounter + pixelSizeCounterX, pixelSize*yCounter + pixelSizeCounterY, frameList[static_cast<unsigned long>(currentFrame)]->getColor(xCounter, yCounter) );
+                }
+            }
+        }
+    }
+    emit imageSignal(image);
 }

@@ -412,6 +412,19 @@
      <string>OpenTest</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="NewFrame">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>540</y>
+      <width>89</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>New Frame</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

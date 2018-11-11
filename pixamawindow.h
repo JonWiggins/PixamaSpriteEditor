@@ -38,7 +38,8 @@ signals:
     void toolSelect(int tool);
     void saveFileSignal(QString fileName);
     void openFileSignal(QString fileName);
-    void copyFrameSignal(QImage *image);
+    void newFrameSignal();
+    void copyFrameSignal();
 
 public slots:
        void displayErrorMessageSlot(QString title, QString details);
@@ -53,6 +54,7 @@ private slots:
        void on_SaveTest_clicked();
        void on_bucketButton_clicked();
        void on_OpenTest_clicked();
+       void on_NewFrame_clicked();
 };
 
 #endif // PIXAMAWINDOW_H

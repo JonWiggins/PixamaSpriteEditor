@@ -24,6 +24,9 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
                 this, &PixamaWindow::openFileSignal,
                 &model, &PixamaModel::openFileSlot);
     QObject::connect(
+                this, &PixamaWindow::newFrameSignal,
+                &model, &PixamaModel::newFrameSlot);
+    QObject::connect(
                 this, &PixamaWindow::copyFrameSignal,
                 &model, &PixamaModel::copyFrameSlot);
     QObject::connect(
@@ -95,10 +98,10 @@ void PixamaWindow::on_resizeButton_clicked()
 
 }
 
-//I BROKE THIS
+
 void PixamaWindow::on_copyButton_clicked()
 {
-    //emit copyFrameSignal(image);
+    emit copyFrameSignal();
 }
 
 void PixamaWindow::updateImageSlot(QImage *image)
@@ -137,7 +140,7 @@ void PixamaWindow::on_drawButton_clicked()
 {
     on_color_clicked();
     emit toolSelect(0);
-}
+}spinBoxR
 
 
 void PixamaWindow::on_SaveTest_clicked()
@@ -160,4 +163,9 @@ void PixamaWindow::on_OpenTest_clicked()
                                                     tr("Open Pixama Project"), "",
                                                     tr("Sprite Sheet Project (*.ssp)"));
     emit openFileSignal(fileName);
+}
+
+void PixamaWindow::on_NewFrame_clicked()
+{
+    emit newFrameSignal();
 }
