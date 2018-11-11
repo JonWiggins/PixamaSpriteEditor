@@ -32,10 +32,9 @@ public:
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
     void openButtonClicked();
     void buttonDownScreenPos(QGraphicsSceneMouseEvent *event);
-    void updateCanvas(QImage *image);
+    void updateCanvas(QImage image);
 
 private:
     Ui::PixamaWindow *ui;
@@ -57,7 +56,7 @@ signals:
 
 public slots:
        void displayErrorMessageSlot(QString title, QString details);
-       void updateImageSlot(QImage *image);
+       void updateImageSlot(QImage image);
 private slots:
        void on_resizeButton_clicked();
        void on_copyButton_clicked();

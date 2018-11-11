@@ -56,7 +56,7 @@ public slots:
     void exportFrameAsGIFSlot(QString fileName);
 
 signals:
-    void imageSignal(QImage *image);
+    void imageSignal(QImage image);
     void displayErrorMessageSignal(QString title, QString details);
     //Frame updateCanvasSignal();
     //std::vector<Frame> exportSignal(int indicestoExport[], std::string filetype);

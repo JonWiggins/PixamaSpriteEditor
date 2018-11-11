@@ -29,7 +29,6 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     QObject::connect(
                 this, &PixamaWindow::mouseClickSignal,
                 &model, &PixamaModel::mouseEventSlot);
-
     QObject::connect(
                 this, &PixamaWindow::saveFileSignal,
                 &model, &PixamaModel::saveFileSlot);
@@ -79,17 +78,12 @@ PixamaWindow::~PixamaWindow()
 
 void PixamaWindow::mousePressEvent(QMouseEvent *event)
 {
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50));
+    emit mouseClickSignal(static_cast<int>(event->localPos().x()-21), static_cast<int>(event->localPos().y()-63));
 }
 
 void PixamaWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50));
-}
-
-void PixamaWindow::mouseReleaseEvent(QMouseEvent *event)
-{
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()-15), static_cast<int>(event->localPos().y()-50));
+    emit mouseClickSignal(static_cast<int>(event->localPos().x()-21), static_cast<int>(event->localPos().y()-63));
 }
 
 
@@ -128,14 +122,14 @@ void PixamaWindow::on_copyButton_clicked()
     emit copyFrameSignal();
 }
 
-void PixamaWindow::updateImageSlot(QImage *image)
+void PixamaWindow::updateImageSlot(QImage image)
 {
     updateCanvas(image);
 }
 
-void PixamaWindow::updateCanvas(QImage *image)
+void PixamaWindow::updateCanvas(QImage image)
 {
-    graphic->addPixmap((QPixmap::fromImage(*image)));
+    graphic->addPixmap((QPixmap::fromImage(image)));
     ui->canvas->setScene(graphic);
     ui->canvas->show();
 }

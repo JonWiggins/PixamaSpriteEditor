@@ -30,23 +30,23 @@ PixamaModel::PixamaModel()
     {
         for(int j = 0; j<height; j++)
         {
-            firstFrame->setPixel(i, j, 0, 0, 0, 0.0);
+            firstFrame->setPixel(i, j, 0, 0, 0, 0);
         }
     }
 
-    this->image = new QImage(500, 500, QImage::Format_RGB32);
-    for(int i = 0; i<500; i++)
+    this->image = new QImage(100, 100, QImage::Format_RGB32);
+    for(int i = 0; i<100; i++)
     {
-        for(int j = 0; j<500; j++)
+        for(int j = 0; j<100; j++)
         {
-            image->setPixel(i, j, qRgba(0, 0, 0, 0.0));
+            image->setPixel(i, j, qRgba(255, 255, 255, 255));
 
         }
     }
 
-    emit imageSignal(image);
+    emit imageSignal(image->scaled(width*pixelSize*5, height*pixelSize*5));
     this->frameList.push_back(firstFrame);
-    this->currentColor = std::make_tuple<int, int, int, int>(0, 0, 0, 0.0); //Current color at startup is transparent
+    this->currentColor = std::make_tuple<int, int, int, int>(0, 0, 0, 0); //Current color at startup is transparent
     this->currentTool = 0; //starting tool is single pixel draw
 }
 
@@ -84,10 +84,15 @@ void PixamaModel::draw(int x, int y)
         case 0:  //draw/erase tool
         {
             colorPixel(x, y, frame);
+            emit imageSignal(image->scaled(width*pixelSize, height*pixelSize));
             break;
         }
         case 1: //bucket tool
         {
+            if(frame->getPixel(x, y) == currentColor)
+            {
+                break;
+            }
             //Creating a stack and adding the first position to start filling the bucket
             std::stack<std::tuple<int, int>> stack;
             stack.push(std::make_tuple(x, y));
@@ -103,7 +108,6 @@ void PixamaModel::draw(int x, int y)
                 y = std::get<1>(currentPixel);
                 while(y-- > 0 && startColor == frame->getColor(x, y)) {} //travels up to the top
 
-                y++;
                 reachedLeft = false;
                 reachedRight = false;
 
@@ -127,6 +131,7 @@ void PixamaModel::draw(int x, int y)
                             reachedLeft = false;
                         }
                     }
+
                     if(x < this->width - 1) //Check if you can go right
                     {
                         if(startColor == frame->getColor(x + 1, y))
@@ -144,6 +149,7 @@ void PixamaModel::draw(int x, int y)
                     }
                 }
             }
+            emit imageSignal(image->scaled(width*pixelSize, height*pixelSize));
             break;
         }
     }
@@ -152,14 +158,7 @@ void PixamaModel::draw(int x, int y)
 void PixamaModel::colorPixel(int x, int y, Frame *frame)
 {
     frame->setPixel(x, y, std::get<0>(this->currentColor), std::get<1>(this->currentColor), std::get<2>(this->currentColor), std::get<3>(this->currentColor));
-    for(int pixelSizeCounterX = 0; pixelSizeCounterX < pixelSize; pixelSizeCounterX++)
-    {
-        for(int pixelSizeCounterY = 0; pixelSizeCounterY < pixelSize; pixelSizeCounterY++)
-        {
-            image->setPixelColor(x*pixelSize + pixelSizeCounterX, y*pixelSize + pixelSizeCounterY, frame->getColor(x, y));
-        }
-    }
-    emit imageSignal(image);
+    image->setPixelColor(x, y, frame->getColor(x, y));
 }
 
 void PixamaModel::saveFileSlot(QString fileName)
@@ -304,7 +303,7 @@ void PixamaModel::copyFrameSlot()
         }
     }
     std::cout << "Displayed new frame" << std::endl;
-    emit imageSignal(image);
+    //emit imageSignal(image);
 }
 
 void PixamaModel::newFrameSlot()
@@ -333,7 +332,7 @@ void PixamaModel::newFrameSlot()
             }
         }
     }
-    emit imageSignal(image);
+    //emit imageSignal(image);
 }
 
 void PixamaModel::exportAsPNGSlot(QString fileName)
