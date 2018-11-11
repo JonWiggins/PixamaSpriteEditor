@@ -1,3 +1,15 @@
+/* CS 3505 A7: Sprite Editor
+ *
+ * Purpose: Frame Class represents the backing data structure for each sprite Frame.
+ * This class holds a 2D array which represents each pixel in the Frame, accessors and mutators
+ *  are provided to access this 2D array.
+ *
+ *
+ * @author Zak Bastiani, Alex Fritz, Conner Soule, Ryan Outtrim, and Jonathan Wiggins
+ * @version 11/11/18
+ */
+
+
 #ifndef FRAME_H
 #define FRAME_H
 #include <vector>

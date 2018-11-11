@@ -1,3 +1,15 @@
+/* CS 3505 A7: Sprite Editor
+ *
+ * Purpose: This window class represents the view for the Sprite Editor
+ * It's constructor creates a model and connects to it.
+ * It then feeds all user actions to the model for processing through signals.
+ *
+ *
+ * @author Zak Bastiani, Alex Fritz, Conner Soule, Ryan Outtrim, and Jonathan Wiggins
+ * @version 11/11/18
+ */
+
+
 #include "pixamawindow.h"
 #include "ui_pixamawindow.h"
 #include <QtWidgets>

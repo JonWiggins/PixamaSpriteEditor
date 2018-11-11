@@ -1,3 +1,16 @@
+/* CS 3505 A7: Sprite Editor
+ *
+ * Purpose: This Model serves as the backing logic frame for the Sprite Editor
+ * It handles all of the user actions, which it recives in its slots, from signals sent from the Window
+ * It keeps track of a vector of Frames which represent the curernt sprite project
+ * It holds a MagicKHandler object which it uses to export projects.
+ *
+ *
+ * @author Zak Bastiani, Alex Fritz, Conner Soule, Ryan Outtrim, and Jonathan Wiggins
+ * @version 11/11/18
+ */
+
+
 #include "pixamamodel.h"
 #include <iostream>
 #include <QFile>
