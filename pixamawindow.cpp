@@ -140,7 +140,7 @@ void PixamaWindow::on_drawButton_clicked()
 {
     on_color_clicked();
     emit toolSelect(0);
-}spinBoxR
+}
 
 
 void PixamaWindow::on_SaveTest_clicked()
