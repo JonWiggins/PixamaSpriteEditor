@@ -24,6 +24,7 @@ PixamaModel::PixamaModel()
     this->width = 100;
     this->pixelSize = 5; //Assuming pixels are square
     this->currentFrame = 0; //Sets the currentFrame to the first frame
+    this->playFrame = 0;
 
     Frame* firstFrame = new Frame();
     for(int i = 0; i<width; i++)
@@ -363,10 +364,15 @@ void PixamaModel::exportFrameAsGIFSlot(QString fileName)
     this->magick->exportFrameAsGIF(fileName, frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
 }
 
-void PixamaModel::playSlot(int frame)
+void PixamaModel::playSlot()
 {
-    if (frame < static_cast<int>(frameList.size()))
+    if (playFrame < static_cast<int>(frameList.size()))
     {
-        emit playFrameSignal(frameList[static_cast<unsigned long>(frame)]->image->scaled(width*pixelSize*5, height*pixelSize*5), frame);
+        emit playFrameSignal(frameList[static_cast<unsigned long>(playFrame)]->image->scaled(320, 320));
+        playFrame++;
+    }
+    else
+    {
+        playFrame = 0;
     }
 }

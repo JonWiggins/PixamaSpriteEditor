@@ -40,6 +40,7 @@ private:
     Ui::PixamaWindow *ui;
     PixamaModel model;
     QGraphicsScene *graphic;
+    QGraphicsScene *previewGraphic;
 
 
 signals:
@@ -54,13 +55,13 @@ signals:
     void newFrameSignal();
     void copyFrameSignal();
     void selectFrameSignal(int frameNumber);
-    void playSignal(int frame);
+    void playSignal();
 
 public slots:
        void displayErrorMessageSlot(QString title, QString details);
        void updateImageSlot(QImage image);
        void updateFrameSelectSlot(std::vector<int> frameState);
-       void playFrameSlot(QImage image, int frameNumber);
+       void playFrameSlot(QImage image);
 private slots:
        void on_resizeButton_clicked();
        void on_copyButton_clicked();

@@ -26,6 +26,7 @@ class PixamaModel : public QObject
     Q_OBJECT
 
     int currentFrame;
+    int playFrame;
     std::vector<Frame*> frameList;
     MagicKHandler* magick;
 
@@ -55,13 +56,13 @@ public slots:
     void exportAsJPGSlot(QString fileName);
     void exportFrameAsGIFSlot(QString fileName);
     void selectFrameSlot(int frameNumber);
-    void playSlot(int frame);
+    void playSlot();
 
 signals:
     void imageSignal(QImage image);
     void displayErrorMessageSignal(QString title, QString details);
     void frameStateSignal(std::vector<int> frameState);
-    void playFrameSignal(QImage frame, int frameNumber);
+    void playFrameSignal(QImage frame);
     //Frame updateCanvasSignal();
     //std::vector<Frame> exportSignal(int indicestoExport[], std::string filetype);
     //void saveSignal();

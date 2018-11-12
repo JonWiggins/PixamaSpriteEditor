@@ -24,6 +24,7 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     ui->setupUi(this);
 
     graphic = new QGraphicsScene(this);
+    previewGraphic = new QGraphicsScene(this);
     ui->canvas->setScene(graphic);
 
     //Connections from view -> model
@@ -88,6 +89,7 @@ PixamaWindow::~PixamaWindow()
 {
     delete ui;
     delete graphic;
+    delete previewGraphic;
 }
 
 void PixamaWindow::mousePressEvent(QMouseEvent *event)
@@ -131,15 +133,15 @@ void PixamaWindow::updateImageSlot(QImage image)
     updateCanvas(image);
 }
 
-void PixamaWindow::playFrameSlot(QImage image, int frameNumber)
+void PixamaWindow::playFrameSlot(QImage image)
 {
-    //Update preview;
-    graphic->addPixmap((QPixmap::fromImage(image)));
-    ui->preview->setScene(graphic);
+    //Update preview
+    previewGraphic->addPixmap((QPixmap::fromImage(image)));
+    ui->preview->setScene(previewGraphic);
     ui->preview->show();
+
     int frameRate = ui->frameRateSpinBox->value();
-    //?
-    QTimer::singleShot(1000/frameRate, this, SIGNAL(playSignal(frameNumber + 1)));
+    QTimer::singleShot(1000/frameRate, &model, SLOT(playSlot()));
 }
 
 void PixamaWindow::updateFrameSelectSlot(std::vector<int> frameState)
@@ -239,5 +241,5 @@ void PixamaWindow::on_actionJPG_triggered()
 
 void PixamaWindow::on_playButton_clicked()
 {
-    emit playSignal(0);
+    emit playSignal();
 }
