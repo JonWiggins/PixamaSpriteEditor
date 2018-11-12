@@ -399,45 +399,6 @@
      <string>+</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="ExportAsPNG">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>540</y>
-      <width>89</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Export PNG</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="ExportFrameGIF">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>540</y>
-      <width>111</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Export Frame</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="ExportJPG">
-    <property name="geometry">
-     <rect>
-      <x>430</x>
-      <y>540</y>
-      <width>89</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Export JPG</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="frameLabel">
     <property name="geometry">
      <rect>
@@ -451,7 +412,7 @@
      <string>Frame:</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="frameSpinBox">
+   <widget class="QSpinBox" name="frameSelectSpinBox">
     <property name="geometry">
      <rect>
       <x>590</x>
@@ -459,6 +420,12 @@
       <width>50</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>1</number>
     </property>
    </widget>
   </widget>
@@ -479,9 +446,12 @@
      <property name="title">
       <string>Export</string>
      </property>
+     <addaction name="actionGIF"/>
+     <addaction name="actionPNG"/>
+     <addaction name="actionJPG"/>
     </widget>
-    <addaction name="saveButton"/>
-    <addaction name="actionLoad"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionOpen"/>
     <addaction name="menuExport"/>
     <addaction name="actionClose"/>
    </widget>
@@ -496,12 +466,12 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="saveButton">
+  <action name="actionSave">
    <property name="text">
     <string>Save</string>
    </property>
   </action>
-  <action name="actionLoad">
+  <action name="actionOpen">
    <property name="text">
     <string>Open</string>
    </property>
@@ -509,6 +479,16 @@
   <action name="actionClose">
    <property name="text">
     <string>Close</string>
+   </property>
+  </action>
+  <action name="actionPNG">
+   <property name="text">
+    <string>PNG</string>
+   </property>
+  </action>
+  <action name="actionJPG">
+   <property name="text">
+    <string>JPG</string>
    </property>
   </action>
   <action name="actionGIF">

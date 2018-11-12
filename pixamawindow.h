@@ -53,25 +53,26 @@ signals:
     void exportFrameAsGIFSignal(QString fileName);
     void newFrameSignal();
     void copyFrameSignal();
+    void selectFrameSignal(int frameNumber);
 
 public slots:
        void displayErrorMessageSlot(QString title, QString details);
        void updateImageSlot(QImage image);
+       void updateFrameSelectSlot(std::vector<int> frameState);
 private slots:
        void on_resizeButton_clicked();
        void on_copyButton_clicked();
        void on_color_clicked();
        void on_eraseButton_clicked();
        void on_drawButton_clicked();
-       void on_SaveTest_clicked();
        void on_bucketButton_clicked();
-       void on_OpenTest_clicked();
-       void on_NewFrame_clicked();
-       void on_ExportAsPNG_clicked();
-       void on_ExportFrameGIF_clicked();
-       void on_ExportJPG_clicked();
-       void on_saveButton_triggered();
-       void on_actionLoad_triggered();
+       void on_actionSave_triggered();
+       void on_actionOpen_triggered();
+       void on_newFrameButton_clicked();
+       void on_frameSelectSpinBox_valueChanged(int arg1);
+       void on_actionGIF_triggered();
+       void on_actionPNG_triggered();
+       void on_actionJPG_triggered();
 };
 
 #endif // PIXAMAWINDOW_H

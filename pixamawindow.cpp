@@ -49,6 +49,9 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
                 this, &PixamaWindow::newFrameSignal,
                 &model, &PixamaModel::newFrameSlot);
     QObject::connect(
+                this, &PixamaWindow::selectFrameSignal,
+                &model, &PixamaModel::selectFrameSlot);
+    QObject::connect(
                 this, &PixamaWindow::copyFrameSignal,
                 &model, &PixamaModel::copyFrameSlot);
 
@@ -67,6 +70,9 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     QObject::connect(
                 &model, &PixamaModel::imageSignal,
                 this, &PixamaWindow::updateImageSlot);
+    QObject::connect(
+                &model, &PixamaModel::frameStateSignal,
+                this, &PixamaWindow::updateFrameSelectSlot);
 
 }
 
@@ -117,6 +123,12 @@ void PixamaWindow::updateImageSlot(QImage image)
     updateCanvas(image);
 }
 
+void PixamaWindow::updateFrameSelectSlot(std::vector<int> frameState)
+{
+    ui->frameSelectSpinBox->setMaximum(frameState[0]);
+    ui->frameSelectSpinBox->setValue(frameState[1]);
+}
+
 void PixamaWindow::updateCanvas(QImage image)
 {
     graphic->addPixmap((QPixmap::fromImage(image)));
@@ -150,8 +162,13 @@ void PixamaWindow::on_drawButton_clicked()
     emit toolSelect(0);
 }
 
+void PixamaWindow::on_bucketButton_clicked()
+{
+    on_color_clicked();
+    emit toolSelect(1);
+}
 
-void PixamaWindow::on_SaveTest_clicked()
+void PixamaWindow::on_actionSave_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Save Pixama Project"), "",
@@ -159,13 +176,7 @@ void PixamaWindow::on_SaveTest_clicked()
     emit saveFileSignal(fileName);
 }
 
-void PixamaWindow::on_bucketButton_clicked()
-{
-    on_color_clicked();
-    emit toolSelect(1);
-}
-
-void PixamaWindow::on_OpenTest_clicked()
+void PixamaWindow::on_actionOpen_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Open Pixama Project"), "",
@@ -173,21 +184,17 @@ void PixamaWindow::on_OpenTest_clicked()
     emit openFileSignal(fileName);
 }
 
-void PixamaWindow::on_NewFrame_clicked()
+void PixamaWindow::on_newFrameButton_clicked()
 {
     emit newFrameSignal();
 }
 
-void PixamaWindow::on_ExportAsPNG_clicked()
+void PixamaWindow::on_frameSelectSpinBox_valueChanged(int arg1)
 {
-
-    QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Export Frame as PNG"), "",
-                                                    tr("PNG (*.png)"));
-    emit exportAsPNGSignal(fileName);
+    emit selectFrameSignal(arg1);
 }
 
-void PixamaWindow::on_ExportFrameGIF_clicked()
+void PixamaWindow::on_actionGIF_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Export Frame as GIF"), "",
@@ -195,26 +202,18 @@ void PixamaWindow::on_ExportFrameGIF_clicked()
     emit exportFrameAsGIFSignal(fileName);
 }
 
-void PixamaWindow::on_ExportJPG_clicked()
+void PixamaWindow::on_actionPNG_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Export Frame as PNG"), "",
+                                                    tr("PNG (*.png)"));
+    emit exportAsPNGSignal(fileName);
+}
+
+void PixamaWindow::on_actionJPG_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Export Frame as JPG"), "",
                                                     tr("JPG(*.jpg)"));
     emit exportAsJPGSignal(fileName);
-}
-
-void PixamaWindow::on_saveButton_triggered()
-{
-    QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Save Pixama Project"), "",
-                                                    tr("Sprite Sheet Project (*.ssp)"));
-    emit saveFileSignal(fileName);
-}
-
-void PixamaWindow::on_actionLoad_triggered()
-{
-    QString fileName = QFileDialog::getOpenFileName(this,
-                                                    tr("Open Pixama Project"), "",
-                                                    tr("Sprite Sheet Project (*.ssp)"));
-    emit openFileSignal(fileName);
 }
