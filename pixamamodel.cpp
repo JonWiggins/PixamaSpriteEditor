@@ -356,6 +356,8 @@ void PixamaModel::newFrameSlot()
 void PixamaModel::selectFrameSlot(int frameNumber)
 {
     currentFrame = frameNumber - 1;
+    emit imageSignal(frameList[static_cast<unsigned long>(currentFrame)]->image->scaled(width*pixelSize, height*pixelSize));
+
 }
 
 void PixamaModel::exportAsPNGSlot(QString fileName)
