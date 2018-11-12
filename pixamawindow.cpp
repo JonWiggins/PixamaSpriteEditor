@@ -86,16 +86,6 @@ void PixamaWindow::mouseMoveEvent(QMouseEvent *event)
     emit mouseClickSignal(static_cast<int>(event->localPos().x()-21), static_cast<int>(event->localPos().y()-63));
 }
 
-
-
-void PixamaWindow::on_saveButton_clicked()
-{
-    QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Save Pixama Project"), "",
-                                                    tr("Sprite Sheet Project (*.ssp)"));
-    emit saveFileSignal(fileName);
-}
-
 void PixamaWindow::displayErrorMessageSlot(QString title, QString details)
 {
     QMessageBox::information(this, tr(title.toStdString().c_str()), details);
@@ -211,4 +201,20 @@ void PixamaWindow::on_ExportJPG_clicked()
                                                     tr("Export Frame as JPG"), "",
                                                     tr("JPG(*.jpg)"));
     emit exportAsJPGSignal(fileName);
+}
+
+void PixamaWindow::on_saveButton_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Save Pixama Project"), "",
+                                                    tr("Sprite Sheet Project (*.ssp)"));
+    emit saveFileSignal(fileName);
+}
+
+void PixamaWindow::on_actionLoad_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Open Pixama Project"), "",
+                                                    tr("Sprite Sheet Project (*.ssp)"));
+    emit openFileSignal(fileName);
 }

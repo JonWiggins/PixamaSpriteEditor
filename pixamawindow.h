@@ -63,7 +63,6 @@ private slots:
        void on_color_clicked();
        void on_eraseButton_clicked();
        void on_drawButton_clicked();
-       void on_saveButton_clicked();
        void on_SaveTest_clicked();
        void on_bucketButton_clicked();
        void on_OpenTest_clicked();
@@ -71,6 +70,8 @@ private slots:
        void on_ExportAsPNG_clicked();
        void on_ExportFrameGIF_clicked();
        void on_ExportJPG_clicked();
+       void on_saveButton_triggered();
+       void on_actionLoad_triggered();
 };
 
 #endif // PIXAMAWINDOW_H
