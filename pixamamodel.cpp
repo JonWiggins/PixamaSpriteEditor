@@ -31,20 +31,10 @@ PixamaModel::PixamaModel()
     {
         for(int j = 0; j<height; j++)
         {
-            firstFrame->setPixel(i, j, 255, 255, 255, 255);
+            firstFrame->setPixel(i, j, 0, 0, 0, 0);
         }
     }
 
-    this->image = new QImage(100, 100, QImage::Format_RGB32);
-    for(int i = 0; i<100; i++)
-    {
-        for(int j = 0; j<100; j++)
-        {
-            image->setPixel(i, j, qRgba(255, 255, 255, 255));
-        }
-    }
-
-    emit imageSignal(image->scaled(width*pixelSize, height*pixelSize));
     this->frameList.push_back(firstFrame);
     this->currentColor = std::make_tuple<int, int, int, int>(0, 0, 0, 0); //Current color at startup is transparent
     this->currentTool = 0; //starting tool is single pixel draw
@@ -84,7 +74,7 @@ void PixamaModel::draw(int x, int y)
         case 0:  //draw/erase tool
         {
             colorPixel(x, y, frame);
-            emit imageSignal(image->scaled(width*pixelSize, height*pixelSize));
+            emit imageSignal(frame->image->scaled(width*pixelSize, height*pixelSize));
             break;
         }
         case 1: //bucket tool
@@ -149,7 +139,7 @@ void PixamaModel::draw(int x, int y)
                     }
                 }
             }
-            emit imageSignal(image->scaled(width*pixelSize, height*pixelSize));
+            emit imageSignal(frame->image->scaled(width*pixelSize, height*pixelSize));
             break;
         }
     }
@@ -160,11 +150,11 @@ void PixamaModel::colorPixel(int x, int y, Frame *frame)
     frame->setPixel(x, y, std::get<0>(this->currentColor), std::get<1>(this->currentColor), std::get<2>(this->currentColor), std::get<3>(this->currentColor));
     if(frame->getColor(x, y) == QColor(0, 0, 0, 0))
     {
-        image->setPixelColor(x, y, QColor(255, 255, 255, 255));
+        frame->image->setPixelColor(x, y, QColor(255, 255, 255, 255));
     }
     else
     {
-        image->setPixelColor(x, y, frame->getColor(x, y));
+        frame->image->setPixelColor(x, y, frame->getColor(x, y));
     }
 }
 
@@ -291,11 +281,12 @@ void PixamaModel::copyFrameSlot()
 {
 
     Frame* newFrame = new Frame();
+    Frame* thisFrame = frameList[static_cast<unsigned long>(this->currentFrame)];
     for(int xCounter = 0; xCounter < width ; xCounter++)
     {
         for(int yCounter = 0; yCounter < height ; yCounter++)
         {
-            newFrame->pixels[xCounter][yCounter] = frameList.at(static_cast<unsigned long>(currentFrame))->pixels[xCounter][yCounter];
+            newFrame->setPixel(xCounter, yCounter, thisFrame->pixels[xCounter][yCounter]);
         }
     }
     frameList.push_back(newFrame);
@@ -304,7 +295,16 @@ void PixamaModel::copyFrameSlot()
     {
         for(int yCounter = 0; yCounter < 100 ; yCounter++)
         {
-            image->setPixelColor( xCounter, yCounter, frameList[static_cast<unsigned long>(currentFrame)]->getColor(xCounter, yCounter) );
+            if(newFrame->getColor(xCounter, yCounter) == QColor(0, 0, 0, 0))
+            {
+                newFrame->image->setPixelColor( xCounter, yCounter, QColor(255, 255, 255, 255) );
+
+            }
+            else
+            {
+                newFrame->image->setPixelColor( xCounter, yCounter, newFrame->getColor(xCounter, yCounter) );
+
+            }
         }
     }
     std::cout << "Displayed new frame" << std::endl;
@@ -313,7 +313,7 @@ void PixamaModel::copyFrameSlot()
     state.push_back(static_cast<int>(frameList.size()));
     state.push_back(currentFrame + 1);
     emit frameStateSignal(state);
-    emit imageSignal(image->scaled(width*pixelSize, height*pixelSize));
+    emit imageSignal(newFrame->image->scaled(width*pixelSize, height*pixelSize));
 }
 
 void PixamaModel::newFrameSlot()
@@ -323,7 +323,7 @@ void PixamaModel::newFrameSlot()
     {
         for(int j = 0; j<height; j++)
         {
-            newFrame->setPixel(i, j, 255, 255, 255, 255);
+            newFrame->setPixel(i, j, 0, 0, 0, 0);
         }
     }
 
@@ -334,22 +334,28 @@ void PixamaModel::newFrameSlot()
     {
         for(int yCounter = 0; yCounter < 100 ; yCounter++)
         {
-            image->setPixelColor( xCounter, yCounter, frameList[static_cast<unsigned long>(currentFrame)]->getColor(xCounter, yCounter) );
-        }
+            if(newFrame->getColor(xCounter, yCounter) == QColor(0, 0, 0, 0))
+            {
+                newFrame->image->setPixelColor( xCounter, yCounter, QColor(255, 255, 255, 255) );
+
+            }
+            else
+            {
+                newFrame->image->setPixelColor( xCounter, yCounter, newFrame->getColor(xCounter, yCounter) );
+
+            }        }
     }
-    frameList.push_back(newFrame);
-    currentFrame = static_cast<int>(frameList.size() - 1);
 
     std::vector<int> state;
     state.push_back(static_cast<int>(frameList.size()));
     state.push_back(currentFrame + 1);
     emit frameStateSignal(state);
-    emit imageSignal(image->scaled(width*pixelSize, height*pixelSize));
+    emit imageSignal(newFrame->image->scaled(width*pixelSize, height*pixelSize));
 }
 
 void PixamaModel::selectFrameSlot(int frameNumber)
 {
-    currentFrame = frameNumber;
+    currentFrame = frameNumber - 1;
 }
 
 void PixamaModel::exportAsPNGSlot(QString fileName)

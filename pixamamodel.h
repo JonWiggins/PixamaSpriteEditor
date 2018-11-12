@@ -35,7 +35,6 @@ public:
     int height;
     int width;
     int pixelSize;
-    QImage *image;
     std::tuple<int, int, int, int> currentColor;
     int currentTool; //0 for draw/erase 1 for paintbucket can be different number for other tools
     void draw(int x, int y);
@@ -63,9 +62,6 @@ signals:
     void displayErrorMessageSignal(QString title, QString details);
     void frameStateSignal(std::vector<int> frameState);
     void playFrameSignal(QImage frame);
-    //Frame updateCanvasSignal();
-    //std::vector<Frame> exportSignal(int indicestoExport[], std::string filetype);
-    //void saveSignal();
 
 };
 
