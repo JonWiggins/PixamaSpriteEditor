@@ -15,6 +15,7 @@
 #include <QtWidgets>
 #include <iostream>
 #include <QMessageBox>
+#include <QTimer>
 
 PixamaWindow::PixamaWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -62,6 +63,10 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
                 this, &PixamaWindow::toolSelect,
                 &model, &PixamaModel::toolSelectSlot);
 
+    QObject::connect(
+                this, &PixamaWindow::playSignal,
+                &model, &PixamaModel::playSlot);
+
 
     //Connections from model -> view
     QObject::connect(
@@ -73,6 +78,9 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     QObject::connect(
                 &model, &PixamaModel::frameStateSignal,
                 this, &PixamaWindow::updateFrameSelectSlot);
+    QObject::connect(
+                &model, &PixamaModel::playFrameSignal,
+                this, &PixamaWindow::playFrameSlot);
 
 }
 
@@ -121,6 +129,17 @@ void PixamaWindow::on_copyButton_clicked()
 void PixamaWindow::updateImageSlot(QImage image)
 {
     updateCanvas(image);
+}
+
+void PixamaWindow::playFrameSlot(QImage image, int frameNumber)
+{
+    //Update preview;
+    graphic->addPixmap((QPixmap::fromImage(image)));
+    ui->preview->setScene(graphic);
+    ui->preview->show();
+    int frameRate = ui->frameRateSpinBox->value();
+    //?
+    QTimer::singleShot(1000/frameRate, this, SIGNAL(playSignal(frameNumber + 1)));
 }
 
 void PixamaWindow::updateFrameSelectSlot(std::vector<int> frameState)
@@ -216,4 +235,9 @@ void PixamaWindow::on_actionJPG_triggered()
                                                     tr("Export Frame as JPG"), "",
                                                     tr("JPG(*.jpg)"));
     emit exportAsJPGSignal(fileName);
+}
+
+void PixamaWindow::on_playButton_clicked()
+{
+    emit playSignal(0);
 }

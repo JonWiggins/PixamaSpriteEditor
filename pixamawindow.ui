@@ -428,6 +428,19 @@
      <number>1</number>
     </property>
    </widget>
+   <widget class="QPushButton" name="playButton">
+    <property name="geometry">
+     <rect>
+      <x>675</x>
+      <y>0</y>
+      <width>50</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Play</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

@@ -54,11 +54,13 @@ signals:
     void newFrameSignal();
     void copyFrameSignal();
     void selectFrameSignal(int frameNumber);
+    void playSignal(int frame);
 
 public slots:
        void displayErrorMessageSlot(QString title, QString details);
        void updateImageSlot(QImage image);
        void updateFrameSelectSlot(std::vector<int> frameState);
+       void playFrameSlot(QImage image, int frameNumber);
 private slots:
        void on_resizeButton_clicked();
        void on_copyButton_clicked();
@@ -73,6 +75,7 @@ private slots:
        void on_actionGIF_triggered();
        void on_actionPNG_triggered();
        void on_actionJPG_triggered();
+       void on_playButton_clicked();
 };
 
 #endif // PIXAMAWINDOW_H

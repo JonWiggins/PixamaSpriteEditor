@@ -16,6 +16,7 @@
 #include <tuple>
 #include <iostream>
 #include <QColor>
+#include <QGraphicsScene>
 
 class Frame
 {
@@ -32,6 +33,7 @@ public:
     void setPixel(int x, int y, std::tuple<int, int, int, int> p);
     std::tuple<int, int, int, int> getPixel(int x, int y);
     QColor getColor(int x, int y);
+    QImage *image;
 
 };
 

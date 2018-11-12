@@ -55,11 +55,13 @@ public slots:
     void exportAsJPGSlot(QString fileName);
     void exportFrameAsGIFSlot(QString fileName);
     void selectFrameSlot(int frameNumber);
+    void playSlot(int frame);
 
 signals:
     void imageSignal(QImage image);
     void displayErrorMessageSignal(QString title, QString details);
     void frameStateSignal(std::vector<int> frameState);
+    void playFrameSignal(QImage frame, int frameNumber);
     //Frame updateCanvasSignal();
     //std::vector<Frame> exportSignal(int indicestoExport[], std::string filetype);
     //void saveSignal();
