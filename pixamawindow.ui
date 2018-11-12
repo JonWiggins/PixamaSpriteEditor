@@ -376,19 +376,6 @@
      <string>Select Color</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="SaveTest">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>540</y>
-      <width>89</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Save Test</string>
-    </property>
-   </widget>
    <widget class="QSpinBox" name="spinBoxA">
     <property name="geometry">
      <rect>
@@ -402,69 +389,59 @@
      <number>255</number>
     </property>
    </widget>
-   <widget class="QPushButton" name="OpenTest">
+   <widget class="QPushButton" name="newFrameButton">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>540</y>
-      <width>89</width>
-      <height>25</height>
+      <x>841</x>
+      <y>0</y>
+      <width>19</width>
+      <height>19</height>
      </rect>
     </property>
     <property name="text">
-     <string>OpenTest</string>
+     <string>+</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="NewFrame">
+   <widget class="QLabel" name="frameLabel">
     <property name="geometry">
      <rect>
-      <x>530</x>
-      <y>540</y>
-      <width>89</width>
-      <height>25</height>
+      <x>540</x>
+      <y>0</y>
+      <width>67</width>
+      <height>17</height>
      </rect>
     </property>
     <property name="text">
-     <string>New Frame</string>
+     <string>Frame:</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="ExportAsPNG">
+   <widget class="QSpinBox" name="frameSelectSpinBox">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>540</y>
-      <width>89</width>
-      <height>25</height>
+      <x>590</x>
+      <y>-1</y>
+      <width>50</width>
+      <height>21</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Export PNG</string>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>1</number>
     </property>
    </widget>
-   <widget class="QPushButton" name="ExportFrameGIF">
+   <widget class="QPushButton" name="playButton">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>540</y>
-      <width>111</width>
-      <height>25</height>
+      <x>675</x>
+      <y>0</y>
+      <width>50</width>
+      <height>19</height>
      </rect>
     </property>
     <property name="text">
-     <string>Export Frame</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="ExportJPG">
-    <property name="geometry">
-     <rect>
-      <x>430</x>
-      <y>540</y>
-      <width>89</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Export JPG</string>
+     <string>Play</string>
     </property>
    </widget>
   </widget>
@@ -481,9 +458,17 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="saveButton"/>
-    <addaction name="actionLoad"/>
-    <addaction name="actionExport"/>
+    <widget class="QMenu" name="menuExport">
+     <property name="title">
+      <string>Export</string>
+     </property>
+     <addaction name="actionGIF"/>
+     <addaction name="actionPNG"/>
+     <addaction name="actionJPG"/>
+    </widget>
+    <addaction name="actionSave"/>
+    <addaction name="actionOpen"/>
+    <addaction name="menuExport"/>
     <addaction name="actionClose"/>
    </widget>
    <addaction name="menuFile"/>
@@ -497,14 +482,14 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="saveButton">
+  <action name="actionSave">
    <property name="text">
     <string>Save</string>
    </property>
   </action>
-  <action name="actionLoad">
+  <action name="actionOpen">
    <property name="text">
-    <string>Load</string>
+    <string>Open</string>
    </property>
   </action>
   <action name="actionClose">
@@ -512,9 +497,19 @@
     <string>Close</string>
    </property>
   </action>
-  <action name="actionExport">
+  <action name="actionPNG">
    <property name="text">
-    <string>Export</string>
+    <string>PNG</string>
+   </property>
+  </action>
+  <action name="actionJPG">
+   <property name="text">
+    <string>JPG</string>
+   </property>
+  </action>
+  <action name="actionGIF">
+   <property name="text">
+    <string>GIF</string>
    </property>
   </action>
  </widget>

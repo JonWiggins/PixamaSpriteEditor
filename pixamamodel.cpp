@@ -24,13 +24,14 @@ PixamaModel::PixamaModel()
     this->width = 100;
     this->pixelSize = 5; //Assuming pixels are square
     this->currentFrame = 0; //Sets the currentFrame to the first frame
+    this->playFrame = 0;
 
     Frame* firstFrame = new Frame();
     for(int i = 0; i<width; i++)
     {
         for(int j = 0; j<height; j++)
         {
-            firstFrame->setPixel(i, j, 0, 0, 0, 0);
+            firstFrame->setPixel(i, j, 255, 255, 255, 255);
         }
     }
 
@@ -40,7 +41,6 @@ PixamaModel::PixamaModel()
         for(int j = 0; j<100; j++)
         {
             image->setPixel(i, j, qRgba(255, 255, 255, 255));
-
         }
     }
 
@@ -279,8 +279,12 @@ void PixamaModel::openFileSlot(QString fileName)
         }
 
         frameList.push_back(toAdd);
-
     }
+
+    std::vector<int> state;
+    state.push_back(static_cast<int>(frameList.size()));
+    state.push_back(currentFrame + 1);
+    emit frameStateSignal(state);
 }
 
 void PixamaModel::copyFrameSlot()
@@ -300,17 +304,16 @@ void PixamaModel::copyFrameSlot()
     {
         for(int yCounter = 0; yCounter < 100 ; yCounter++)
         {
-            for(int pixelSizeCounterX = 0; pixelSizeCounterX < pixelSize; pixelSizeCounterX++)
-            {
-                for(int pixelSizeCounterY = 0; pixelSizeCounterY < pixelSize; pixelSizeCounterY++)
-                {
-                image->setPixelColor( pixelSize*xCounter + pixelSizeCounterX, pixelSize*yCounter + pixelSizeCounterY, frameList[static_cast<unsigned long>(currentFrame)]->getColor(xCounter, yCounter) );
-                }
-            }
+            image->setPixelColor( xCounter, yCounter, frameList[static_cast<unsigned long>(currentFrame)]->getColor(xCounter, yCounter) );
         }
     }
     std::cout << "Displayed new frame" << std::endl;
-    //emit imageSignal(image);
+
+    std::vector<int> state;
+    state.push_back(static_cast<int>(frameList.size()));
+    state.push_back(currentFrame + 1);
+    emit frameStateSignal(state);
+    emit imageSignal(image->scaled(width*pixelSize, height*pixelSize));
 }
 
 void PixamaModel::newFrameSlot()
@@ -320,40 +323,60 @@ void PixamaModel::newFrameSlot()
     {
         for(int j = 0; j<height; j++)
         {
-            newFrame->setPixel(i, j, 0, 0, 0, 0.0);
+            newFrame->setPixel(i, j, 255, 255, 255, 255);
         }
     }
 
     frameList.push_back(newFrame);
-    currentFrame = static_cast<int>(frameList.size()-1);
-    for(int xCounter = 0; xCounter < width ; xCounter++)
+    currentFrame = static_cast<int>(frameList.size() - 1);
+
+    for(int xCounter = 0; xCounter < 100 ; xCounter++)
     {
-        for(int yCounter = 0; yCounter < height ; yCounter++)
+        for(int yCounter = 0; yCounter < 100 ; yCounter++)
         {
-            for(int pixelSizeCounterX = 0; pixelSizeCounterX < pixelSize; pixelSizeCounterX++)
-            {
-                for(int pixelSizeCounterY = 0; pixelSizeCounterY < pixelSize; pixelSizeCounterY++)
-                {
-                image->setPixelColor( pixelSize*xCounter + pixelSizeCounterX, pixelSize*yCounter + pixelSizeCounterY, frameList[static_cast<unsigned long>(currentFrame)]->getColor(xCounter, yCounter) );
-                }
-            }
+            image->setPixelColor( xCounter, yCounter, frameList[static_cast<unsigned long>(currentFrame)]->getColor(xCounter, yCounter) );
         }
     }
-    //emit imageSignal(image);
+    frameList.push_back(newFrame);
+    currentFrame = static_cast<int>(frameList.size() - 1);
+
+    std::vector<int> state;
+    state.push_back(static_cast<int>(frameList.size()));
+    state.push_back(currentFrame + 1);
+    emit frameStateSignal(state);
+    emit imageSignal(image->scaled(width*pixelSize, height*pixelSize));
+}
+
+void PixamaModel::selectFrameSlot(int frameNumber)
+{
+    currentFrame = frameNumber;
 }
 
 void PixamaModel::exportAsPNGSlot(QString fileName)
 {
-    this->magick->exportAsPNG(fileName, frameList[currentFrame], this->height, this->width);
+    this->magick->exportAsPNG(fileName, frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
 }
 
 void PixamaModel::exportAsJPGSlot(QString fileName)
 {
-    this->magick->exportAsJPG(fileName, frameList[currentFrame], this->height, this->width);
+    this->magick->exportAsJPG(fileName, frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
 
 }
 
 void PixamaModel::exportFrameAsGIFSlot(QString fileName)
 {
-    this->magick->exportFrameAsGIF(fileName, frameList[currentFrame], this->height, this->width);
+    this->magick->exportFrameAsGIF(fileName, frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
+}
+
+void PixamaModel::playSlot()
+{
+    if (playFrame < static_cast<int>(frameList.size()))
+    {
+        emit playFrameSignal(frameList[static_cast<unsigned long>(playFrame)]->image->scaled(320, 320));
+        playFrame++;
+    }
+    else
+    {
+        playFrame = 0;
+    }
 }

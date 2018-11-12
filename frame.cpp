@@ -14,7 +14,14 @@
 
 Frame::Frame()
 {
-
+    this->image = new QImage(100, 100, QImage::Format_RGB32);
+    for(int i = 0; i<100; i++)
+    {
+        for(int j = 0; j<100; j++)
+        {
+            image->setPixel(i, j, qRgba(255, 255, 255, 255));
+        }
+    }
 }
 
 Frame::~Frame()
@@ -30,11 +37,27 @@ std::tuple<int, int, int, int> Frame::getPixel(int x, int y)
 void Frame::setPixel(int x, int y, std::tuple<int, int, int, int> p)
 {
     this->pixels[x][y] = p;
+    if(this->getColor(x, y) == QColor(0, 0, 0, 0))
+    {
+        this->image->setPixelColor(x, y, QColor(255, 255, 255, 255));
+    }
+    else
+    {
+        this->image->setPixelColor(x, y, this->getColor(x, y));
+    }
 }
 
 void Frame::setPixel(int x, int y, int r, int g, int b, int a)
 {
     this->pixels[x][y] = std::make_tuple(r, g, b, a);
+    if(this->getColor(x, y) == QColor(0, 0, 0, 0))
+    {
+        this->image->setPixelColor(x, y, QColor(255, 255, 255, 255));
+    }
+    else
+    {
+        this->image->setPixelColor(x, y, this->getColor(x, y));
+    }
 }
 
 
