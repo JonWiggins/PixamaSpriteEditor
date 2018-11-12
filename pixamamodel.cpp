@@ -318,7 +318,6 @@ void PixamaModel::copyFrameSlot()
             }
         }
     }
-    std::cout << "Displayed new frame" << std::endl;
 
     std::vector<int> state;
     state.push_back(static_cast<int>(frameList.size()));
