@@ -119,7 +119,12 @@ void PixamaWindow::openButtonClicked()
 
 void PixamaWindow::on_resizeButton_clicked()
 {
-
+    int x = QInputDialog::getInt(this,
+                                 tr("X Value"), "X Value:",
+                                 100, 0, 100, 1);
+    int y = QInputDialog::getInt(this,
+                                 tr("Y Value"), "Y Value:",
+                                 100, 0, 100, 1);
 }
 
 
