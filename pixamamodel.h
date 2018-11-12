@@ -41,9 +41,6 @@ public:
     void colorPixel(int x, int y, Frame *frame);
 
 public slots:
-    //void updateFrameSlot(int x, int y, Pixel p);
-    //void updateFrameSlot(int x, int y, int r, int g, int b, int a);
-    //void openSlot(std::string file);
     void mouseEventSlot(int x, int y);
     void saveFileSlot(QString fileName);
     void openFileSlot(QString filename);

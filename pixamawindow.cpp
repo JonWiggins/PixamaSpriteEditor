@@ -92,11 +92,13 @@ PixamaWindow::~PixamaWindow()
     delete previewGraphic;
 }
 
+//Mouse is pressed it emits signal of location
 void PixamaWindow::mousePressEvent(QMouseEvent *event)
 {
     emit mouseClickSignal(static_cast<int>(event->localPos().x()-21), static_cast<int>(event->localPos().y()-63));
 }
 
+//When mouse is dragged emits move location coords
 void PixamaWindow::mouseMoveEvent(QMouseEvent *event)
 {
     emit mouseClickSignal(static_cast<int>(event->localPos().x()-21), static_cast<int>(event->localPos().y()-63));
@@ -133,6 +135,7 @@ void PixamaWindow::on_copyButton_clicked()
     emit copyFrameSignal();
 }
 
+//Updates the image with backing image
 void PixamaWindow::updateImageSlot(QImage image)
 {
     updateCanvas(image);
@@ -155,6 +158,7 @@ void PixamaWindow::updateFrameSelectSlot(std::vector<int> frameState)
     ui->frameSelectSpinBox->setValue(frameState[1]);
 }
 
+//Actually displays the given image
 void PixamaWindow::updateCanvas(QImage image)
 {
     graphic->addPixmap((QPixmap::fromImage(image)));
@@ -188,6 +192,7 @@ void PixamaWindow::on_drawButton_clicked()
     emit toolSelect(0);
 }
 
+//The bucket button is selected
 void PixamaWindow::on_bucketButton_clicked()
 {
     on_color_clicked();
@@ -210,6 +215,7 @@ void PixamaWindow::on_actionOpen_triggered()
     emit openFileSignal(fileName);
 }
 
+//Emits signal to create new frame
 void PixamaWindow::on_newFrameButton_clicked()
 {
     emit newFrameSignal();
@@ -244,6 +250,7 @@ void PixamaWindow::on_actionJPG_triggered()
     emit exportAsJPGSignal(fileName);
 }
 
+//Emits signal to play gif
 void PixamaWindow::on_playButton_clicked()
 {
     emit playSignal();

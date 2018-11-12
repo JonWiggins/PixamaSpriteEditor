@@ -34,33 +34,19 @@ std::tuple<int, int, int, int> Frame::getPixel(int x, int y)
     return this->pixels[x][y];
 }
 
+//Setting the pixel color with given tuple
 void Frame::setPixel(int x, int y, std::tuple<int, int, int, int> p)
 {
     this->pixels[x][y] = p;
-    /*if(this->getColor(x, y) == QColor(0, 0, 0, 0))
-    {
-        this->image->setPixelColor(x, y, QColor(255, 255, 255, 255));
-    }
-    else
-    {
-        this->image->setPixelColor(x, y, this->getColor(x, y));
-    }*/
 }
 
+//Setting pixel color with raw values
 void Frame::setPixel(int x, int y, int r, int g, int b, int a)
 {
     this->pixels[x][y] = std::make_tuple(r, g, b, a);
-    /*if(this->getColor(x, y) == QColor(0, 0, 0, 0))
-    {
-        this->image->setPixelColor(x, y, QColor(255, 255, 255, 255));
-    }
-    else
-    {
-        this->image->setPixelColor(x, y, this->getColor(x, y));
-    }*/
 }
 
-
+//Getting the QColor of the pixel at given coods
 QColor Frame::getColor(int x, int y)
 {
     return QColor(std::get<0>(this->pixels[x][y]), std::get<1>(this->pixels[x][y]), std::get<2>(this->pixels[x][y]), std::get<3>(this->pixels[x][y]));

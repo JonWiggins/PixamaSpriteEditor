@@ -46,6 +46,7 @@ void PixamaModel::colorChangeSlot(std::tuple<int, int, int, int> color)
     this->currentColor = color;
 }
 
+//Changing what the current tool is
 void PixamaModel::toolSelectSlot(int tool)
 {
     this->currentTool = tool;
@@ -63,6 +64,7 @@ void PixamaModel::mouseEventSlot(int x, int y)
     {
         return;
     }
+    //Draw using the current tool for deciding what to do
     draw(x, y);
 }
 
@@ -73,12 +75,14 @@ void PixamaModel::draw(int x, int y)
     {
         case 0:  //draw/erase tool
         {
+            //Colors the pixel in the backing array and image then displaying it
             colorPixel(x, y, frame);
             emit imageSignal(frame->image->scaled(width*pixelSize, height*pixelSize));
             break;
         }
         case 1: //bucket tool
         {
+            //No use to use bucket tool of same color on the color so ends if they are equal
             if(frame->getPixel(x, y) == currentColor)
             {
                 break;
@@ -86,6 +90,7 @@ void PixamaModel::draw(int x, int y)
             //Creating a stack and adding the first position to start filling the bucket
             std::stack<std::tuple<int, int>> stack;
             stack.push(std::make_tuple(x, y));
+            //initalizing values
             QColor startColor = frame->getColor(x, y);
             int x;
             int y;
@@ -101,6 +106,7 @@ void PixamaModel::draw(int x, int y)
                 reachedLeft = false;
                 reachedRight = false;
 
+                //While going down coloring pixels check left and right to see if they need to be colored
                 while(y++ < this->height - 1 && startColor == frame->getColor(x, y))
                 {
                     //First color the pixel
@@ -145,9 +151,11 @@ void PixamaModel::draw(int x, int y)
     }
 }
 
+//Helper method to color the backing array pixel and image
 void PixamaModel::colorPixel(int x, int y, Frame *frame)
 {
     frame->setPixel(x, y, std::get<0>(this->currentColor), std::get<1>(this->currentColor), std::get<2>(this->currentColor), std::get<3>(this->currentColor));
+    //If color is transparent, display it as white to help viability
     if(frame->getColor(x, y) == QColor(0, 0, 0, 0))
     {
         frame->image->setPixelColor(x, y, QColor(255, 255, 255, 255));
@@ -277,11 +285,13 @@ void PixamaModel::openFileSlot(QString fileName)
     emit frameStateSignal(state);
 }
 
+//Copies the current frame the user is using and making a new one at end of list
 void PixamaModel::copyFrameSlot()
 {
 
     Frame* newFrame = new Frame();
     Frame* thisFrame = frameList[static_cast<unsigned long>(this->currentFrame)];
+    //Copying the original frames backing array to new frames backing array
     for(int xCounter = 0; xCounter < width ; xCounter++)
     {
         for(int yCounter = 0; yCounter < height ; yCounter++)
@@ -291,6 +301,7 @@ void PixamaModel::copyFrameSlot()
     }
     frameList.push_back(newFrame);
     currentFrame = static_cast<int>(frameList.size()-1);
+    //Setting up the new image with transparent displaying as white
     for(int xCounter = 0; xCounter < 100 ; xCounter++)
     {
         for(int yCounter = 0; yCounter < 100 ; yCounter++)
@@ -316,8 +327,10 @@ void PixamaModel::copyFrameSlot()
     emit imageSignal(newFrame->image->scaled(width*pixelSize, height*pixelSize));
 }
 
+//Creating a new empty frame
 void PixamaModel::newFrameSlot()
 {
+    //initalizing new backing frame data
     Frame* newFrame = new Frame();
     for(int i = 0; i<width; i++)
     {
@@ -330,6 +343,7 @@ void PixamaModel::newFrameSlot()
     frameList.push_back(newFrame);
     currentFrame = static_cast<int>(frameList.size() - 1);
 
+    //Coloring new backing frame image
     for(int xCounter = 0; xCounter < 100 ; xCounter++)
     {
         for(int yCounter = 0; yCounter < 100 ; yCounter++)
