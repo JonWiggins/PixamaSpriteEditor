@@ -148,7 +148,7 @@ void PixamaWindow::on_color_clicked()
 //When the erase button tool is clicked it
 void PixamaWindow::on_eraseButton_clicked()
 {
-    std::tuple<int, int, int, int> empty = std::make_tuple(0, 0, 0, 0.0);
+    std::tuple<int, int, int, int> empty = std::make_tuple(0, 0, 0, 0);
     emit colorButtonSignal(empty);
     emit toolSelect(0);
 }

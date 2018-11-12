@@ -44,7 +44,7 @@ PixamaModel::PixamaModel()
         }
     }
 
-    emit imageSignal(image->scaled(width*pixelSize*5, height*pixelSize*5));
+    emit imageSignal(image->scaled(width*pixelSize, height*pixelSize));
     this->frameList.push_back(firstFrame);
     this->currentColor = std::make_tuple<int, int, int, int>(0, 0, 0, 0); //Current color at startup is transparent
     this->currentTool = 0; //starting tool is single pixel draw
