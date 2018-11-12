@@ -31,7 +31,7 @@ PixamaModel::PixamaModel()
     {
         for(int j = 0; j<height; j++)
         {
-            firstFrame->setPixel(i, j, 0, 0, 0, 0);
+            firstFrame->setPixel(i, j, 255, 255, 255, 255);
         }
     }
 
@@ -304,13 +304,7 @@ void PixamaModel::copyFrameSlot()
     {
         for(int yCounter = 0; yCounter < 100 ; yCounter++)
         {
-            for(int pixelSizeCounterX = 0; pixelSizeCounterX < pixelSize; pixelSizeCounterX++)
-            {
-                for(int pixelSizeCounterY = 0; pixelSizeCounterY < pixelSize; pixelSizeCounterY++)
-                {
-                image->setPixelColor( pixelSize*xCounter + pixelSizeCounterX, pixelSize*yCounter + pixelSizeCounterY, frameList[static_cast<unsigned long>(currentFrame)]->getColor(xCounter, yCounter) );
-                }
-            }
+            image->setPixelColor( xCounter, yCounter, frameList[static_cast<unsigned long>(currentFrame)]->getColor(xCounter, yCounter) );
         }
     }
     std::cout << "Displayed new frame" << std::endl;
@@ -319,7 +313,7 @@ void PixamaModel::copyFrameSlot()
     state.push_back(static_cast<int>(frameList.size()));
     state.push_back(currentFrame + 1);
     emit frameStateSignal(state);
-    //emit imageSignal(image);
+    emit imageSignal(image->scaled(width*pixelSize, height*pixelSize));
 }
 
 void PixamaModel::newFrameSlot()
@@ -329,10 +323,20 @@ void PixamaModel::newFrameSlot()
     {
         for(int j = 0; j<height; j++)
         {
-            newFrame->setPixel(i, j, 0, 0, 0, 0.0);
+            newFrame->setPixel(i, j, 255, 255, 255, 255);
         }
     }
 
+    frameList.push_back(newFrame);
+    currentFrame = static_cast<int>(frameList.size() - 1);
+
+    for(int xCounter = 0; xCounter < 100 ; xCounter++)
+    {
+        for(int yCounter = 0; yCounter < 100 ; yCounter++)
+        {
+            image->setPixelColor( xCounter, yCounter, frameList[static_cast<unsigned long>(currentFrame)]->getColor(xCounter, yCounter) );
+        }
+    }
     frameList.push_back(newFrame);
     currentFrame = static_cast<int>(frameList.size() - 1);
 
@@ -340,7 +344,7 @@ void PixamaModel::newFrameSlot()
     state.push_back(static_cast<int>(frameList.size()));
     state.push_back(currentFrame + 1);
     emit frameStateSignal(state);
-    //emit imageSignal(image);
+    emit imageSignal(image->scaled(width*pixelSize, height*pixelSize));
 }
 
 void PixamaModel::selectFrameSlot(int frameNumber)
