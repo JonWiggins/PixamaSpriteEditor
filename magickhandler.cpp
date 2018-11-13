@@ -24,7 +24,7 @@ void MagicKHandler::exportAsPNG(QString fileName, Frame* toExport, int height, i
       try {
 
           // Create a new image
-          Image toSave(Geometry(width, height), Color(QuantumRange, QuantumRange, QuantumRange,
+          Image toSave(Geometry(static_cast<unsigned long>(width), static_cast<unsigned long>(height)), Color(QuantumRange, QuantumRange, QuantumRange,
           0));
 
           toSave.magick("PNG");
@@ -71,7 +71,7 @@ void MagicKHandler::exportFrameAsGIF(QString fileName, Frame* toExport, int heig
       try {
 
           // Create a new image
-          Image toSave(Geometry(width, height), Color(QuantumRange, QuantumRange, QuantumRange,
+          Image toSave(Geometry(static_cast<unsigned long>(width), static_cast<unsigned long>(height)), Color(QuantumRange, QuantumRange, QuantumRange,
           QuantumRange));
 
           toSave.magick("gif");
@@ -118,7 +118,7 @@ void MagicKHandler::exportAsJPG(QString fileName, Frame* toExport, int height, i
       try {
 
           // Create a new image
-          Image toSave(Geometry(width, height), Color(QuantumRange, QuantumRange, QuantumRange,
+          Image toSave(Geometry(static_cast<unsigned long>(width), static_cast<unsigned long>(height)), Color(QuantumRange, QuantumRange, QuantumRange,
           0));
           toSave.magick("jpeg");
 
@@ -168,7 +168,7 @@ void MagicKHandler::exportAsAnimatedGIF(QString fileName, std::vector<Frame*> fr
 
         for(Frame* toExport : framesToExport)
         {
-            Image toSave(Geometry(width, height), Color(QuantumRange, QuantumRange, QuantumRange,
+            Image toSave(Geometry(static_cast<unsigned long>(width), static_cast<unsigned long>(height)), Color(QuantumRange, QuantumRange, QuantumRange,
                 0));
             toSave.magick("jpeg");
 
