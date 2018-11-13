@@ -50,6 +50,7 @@ public slots:
     void toolSelectSlot(int tool);
     void exportAsPNGSlot(QString fileName);
     void exportAsJPGSlot(QString fileName);
+    void exportAsGIFSlot(QString fileName, int fps);
     void exportFrameAsGIFSlot(QString fileName);
     void selectFrameSlot(int frameNumber);
     void playSlot();

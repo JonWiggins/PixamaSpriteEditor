@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/new/icons">
+        <file>Icons/Bucket.png</file>
+        <file>Icons/Copy.png</file>
+        <file>Icons/Draw.png</file>
+        <file>Icons/Erase.png</file>
+        <file>Icons/Move.png</file>
+        <file>Icons/Resize.png</file>
+    </qresource>
+</RCC>

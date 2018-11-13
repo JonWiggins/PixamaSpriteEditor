@@ -51,6 +51,7 @@ signals:
     void openFileSignal(QString fileName);
     void exportAsPNGSignal(QString fileName);
     void exportAsJPGSignal(QString fileName);
+    void exportAsGIFSignal(QString fileName, int fps);
     void exportFrameAsGIFSignal(QString fileName);
     void newFrameSignal();
     void copyFrameSignal();
@@ -63,6 +64,7 @@ public slots:
        void updateImageSlot(QImage image);
        void updateFrameSelectSlot(std::vector<int> frameState);
        void playFrameSlot(QImage image);
+
 private slots:
        void on_resizeButton_clicked();
        void on_copyButton_clicked();
@@ -79,6 +81,8 @@ private slots:
        void on_actionJPG_triggered();
        void on_playButton_clicked();
        void on_moveButton_clicked();
+       void on_actionAnimatedGif_triggered();
+
 };
 
 #endif // PIXAMAWINDOW_H

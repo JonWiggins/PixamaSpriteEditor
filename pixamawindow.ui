@@ -48,6 +48,10 @@
     <property name="text">
      <string>Draw</string>
     </property>
+    <property name="icon">
+     <iconset resource="resources.qrc">
+      <normaloff>:/new/icons/Icons/Draw.png</normaloff>:/new/icons/Icons/Draw.png</iconset>
+    </property>
    </widget>
    <widget class="QPushButton" name="eraseButton">
     <property name="geometry">
@@ -60,6 +64,10 @@
     </property>
     <property name="text">
      <string>Erase</string>
+    </property>
+    <property name="icon">
+     <iconset resource="resources.qrc">
+      <normaloff>:/new/icons/Icons/Erase.png</normaloff>:/new/icons/Icons/Erase.png</iconset>
     </property>
    </widget>
    <widget class="QGraphicsView" name="preview">
@@ -90,6 +98,10 @@
     <property name="text">
      <string>Copy</string>
     </property>
+    <property name="icon">
+     <iconset resource="resources.qrc">
+      <normaloff>:/new/icons/Icons/Copy.png</normaloff>:/new/icons/Icons/Copy.png</iconset>
+    </property>
    </widget>
    <widget class="QPushButton" name="moveButton">
     <property name="geometry">
@@ -103,6 +115,17 @@
     <property name="text">
      <string>Move</string>
     </property>
+    <property name="icon">
+     <iconset resource="resources.qrc">
+      <normaloff>:/new/icons/Icons/Move.png</normaloff>
+      <normalon>:/new/icons/Icons/Move.png</normalon>
+      <disabledoff>:/new/icons/Icons/Move.png</disabledoff>
+      <disabledon>:/new/icons/Icons/Move.png</disabledon>
+      <activeoff>:/new/icons/Icons/Move.png</activeoff>
+      <activeon>:/new/icons/Icons/Move.png</activeon>
+      <selectedoff>:/new/icons/Icons/Move.png</selectedoff>
+      <selectedon>:/new/icons/Icons/Move.png</selectedon>:/new/icons/Icons/Move.png</iconset>
+    </property>
    </widget>
    <widget class="QPushButton" name="resizeButton">
     <property name="geometry">
@@ -115,6 +138,10 @@
     </property>
     <property name="text">
      <string>Resize</string>
+    </property>
+    <property name="icon">
+     <iconset resource="resources.qrc">
+      <normaloff>:/new/icons/Icons/Resize.png</normaloff>:/new/icons/Icons/Resize.png</iconset>
     </property>
    </widget>
    <widget class="QSlider" name="frameRateSlider">
@@ -163,6 +190,10 @@
     </property>
     <property name="text">
      <string>Bucket</string>
+    </property>
+    <property name="icon">
+     <iconset resource="resources.qrc">
+      <normaloff>:/new/icons/Icons/Bucket.png</normaloff>:/new/icons/Icons/Bucket.png</iconset>
     </property>
    </widget>
    <widget class="QLabel" name="labelR">
@@ -463,6 +494,7 @@
       <string>Export</string>
      </property>
      <addaction name="actionGIF"/>
+     <addaction name="actionAnimatedGif"/>
      <addaction name="actionPNG"/>
      <addaction name="actionJPG"/>
     </widget>
@@ -509,12 +541,19 @@
   </action>
   <action name="actionGIF">
    <property name="text">
-    <string>GIF</string>
+    <string>Single Frame GIF</string>
+   </property>
+  </action>
+  <action name="actionAnimatedGif">
+   <property name="text">
+    <string>Animated GIF</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>sliderR</sender>
