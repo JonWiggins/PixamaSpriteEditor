@@ -77,6 +77,7 @@ private slots:
        void on_actionPNG_triggered();
        void on_actionJPG_triggered();
        void on_playButton_clicked();
+       void on_moveButton_clicked();
 };
 
 #endif // PIXAMAWINDOW_H

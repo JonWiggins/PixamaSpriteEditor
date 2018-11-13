@@ -257,3 +257,8 @@ void PixamaWindow::on_playButton_clicked()
 {
     emit playSignal();
 }
+
+void PixamaWindow::on_moveButton_clicked()
+{
+    emit toolSelect(2);
+}

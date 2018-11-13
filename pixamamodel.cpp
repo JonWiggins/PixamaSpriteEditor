@@ -148,6 +148,38 @@ void PixamaModel::draw(int x, int y)
             emit imageSignal(frame->image->scaled(width*pixelSize, height*pixelSize));
             break;
         }
+        case 2: // Move tool
+        {
+
+            Frame* holder = new Frame();
+            for(int xCounter = 0; xCounter + x < width; xCounter++)
+            {
+                for(int yCounter = 0; yCounter + y < height; yCounter++)
+                {
+                    holder->setPixel(xCounter + x, yCounter + y, frame->getPixel(xCounter, yCounter));
+
+                }
+            }
+            for(int xCounter = 0; xCounter < width; xCounter++)
+            {
+                for(int yCounter = 0; yCounter < height; yCounter++)
+                {
+                    if(holder->getColor(xCounter, yCounter) == QColor(0, 0, 0, 0))
+                    {
+                        frame->image->setPixelColor(xCounter, yCounter, QColor(255, 255, 255, 255));
+                    }
+                    else
+                    {
+                        holder->image->setPixelColor(xCounter, yCounter, holder->getColor(xCounter, yCounter));
+                    }
+                }
+            }
+            frame = holder;
+            frameList[static_cast<unsigned long>(this->currentFrame)] = holder;
+            this->currentTool = 0;
+            emit imageSignal(frame->image->scaled(width*pixelSize, height*pixelSize));
+            break;
+        }
     }
 }
 
