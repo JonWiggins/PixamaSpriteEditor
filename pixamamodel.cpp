@@ -145,6 +145,7 @@ void PixamaModel::draw(int x, int y)
                     }
                 }
             }
+
             emit imageSignal(frame->image->scaled(width*pixelSize, height*pixelSize));
             break;
         }
@@ -242,16 +243,16 @@ void PixamaModel::openFileSlot(QString fileName)
     int width;
 
     inputFile >> height;
-    //std::cout << "height " << height << std::endl;
+    std::cout << "height " << height << std::endl;
 
     inputFile >> width;
-    //std::cout << "width " << width << std::endl;
+    std::cout << "width " << width << std::endl;
 
     //The number of frames represented by a single integer followed by a newline.
     int frameCount;
     inputFile >> frameCount;
 
-    //std::cout << "count " << frameCount << std::endl;
+    std::cout << "count " << frameCount << std::endl;
 
     //Each frame in order from lowest to highest numbered. A frame is output by
     // starting at the top row and going to the bottom, list the pixels for each row as red green blue alpha values with spaces in-between two values. Finish a row with a newline. Do not add extra whitespace between color values or pixels or between rows or between frames.
@@ -268,10 +269,17 @@ void PixamaModel::openFileSlot(QString fileName)
                 inputFile >> b;
                 inputFile >> a;
 
-                toAdd->setPixel(hCounter, wCounter, r, g, b, a);
+                std::cout << "Got color: " << r << " " << " " << g << " " << b << " " << a << std::endl;
 
-                //TODO this needs to update the canvas
-                //draw()
+                toAdd->setPixel(wCounter, hCounter, r, g, b, a);
+                toAdd->image->setPixelColor(wCounter, hCounter, QColor(r, g, b, a) );
+
+                //if(frameCounter == 0)
+                //{
+                //    std::cout << " Adding Pixel to frame 0" << std::endl;
+                //    this->colorChangeSlot(std::make_tuple(r, g, b, a));
+                //    this->draw(wCounter, hCounter);
+                //}
 
             }
         }
@@ -283,6 +291,7 @@ void PixamaModel::openFileSlot(QString fileName)
     state.push_back(static_cast<int>(frameList.size()));
     state.push_back(currentFrame + 1);
     emit frameStateSignal(state);
+    emit imageSignal(frameList[static_cast<int>(0)]->image->scaled(width*pixelSize, height*pixelSize));
 }
 
 //Copies the current frame the user is using and making a new one at end of list
@@ -356,7 +365,8 @@ void PixamaModel::newFrameSlot()
             {
                 newFrame->image->setPixelColor( xCounter, yCounter, newFrame->getColor(xCounter, yCounter) );
 
-            }        }
+            }
+        }
     }
 
     std::vector<int> state;
@@ -387,6 +397,11 @@ void PixamaModel::exportAsJPGSlot(QString fileName)
 void PixamaModel::exportFrameAsGIFSlot(QString fileName)
 {
     this->magick->exportFrameAsGIF(fileName, frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
+}
+
+void PixamaModel::exportAsGIFSlot(QString fileName, int fps)
+{
+    this->magick->exportAsAnimatedGIF(fileName, frameList, this->height, this->width, fps);
 }
 
 void PixamaModel::playSlot()

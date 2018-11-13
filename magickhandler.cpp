@@ -18,9 +18,6 @@ MagicKHandler::MagicKHandler()
 
 void MagicKHandler::exportAsPNG(QString fileName, Frame* toExport, int height, int width)
 {
-      // debug
-      std::cout << " Trying to export to " << fileName.toStdString() << std::endl;
-
       try {
 
           // Create a new image
@@ -42,12 +39,6 @@ void MagicKHandler::exportAsPNG(QString fileName, Frame* toExport, int height, i
                   int blueQValue = static_cast<int>((std::get<2> (color) / 255.0) * 65535.0);
                   int alphaQValue = static_cast<int>((std::get<3> (color) / 100.0) * 65535.0);
 
-                  //debug printing the color writing
-                  if(std::get<0>(color) != 0){
-                  std::cout << redQValue << " " << greenQValue << " " << blueQValue << " " << alphaQValue << std::endl;
-                  std::cout << wCount << " " << hCount << std::endl;
-                  }
-
                   Color toSet(redQValue, blueQValue, greenQValue, alphaQValue);
                   toSave.pixelColor(wCount, hCount, toSet);
               }
@@ -65,8 +56,6 @@ void MagicKHandler::exportAsPNG(QString fileName, Frame* toExport, int height, i
 
 void MagicKHandler::exportFrameAsGIF(QString fileName, Frame* toExport, int height, int width)
 {
-      // debug
-      std::cout << " Trying to export to " << fileName.toStdString() << std::endl;
 
       try {
 
@@ -87,13 +76,9 @@ void MagicKHandler::exportFrameAsGIF(QString fileName, Frame* toExport, int heig
                   int redQValue = static_cast<int>((std::get<0>(color) / 255.0) * 65535.0);
                   int greenQValue = static_cast<int>((std::get<1> (color) / 255.0) * 65535.0);
                   int blueQValue = static_cast<int>((std::get<2> (color) / 255.0) * 65535.0);
-                  int alphaQValue = static_cast<int>((std::get<3> (color) / 100.0) * 65535.0);
 
-                  //debug printing the color writing
-                  if(std::get<0>(color) != 0){
-                  std::cout << redQValue << " " << greenQValue << " " << blueQValue << " " << alphaQValue << std::endl;
-                  std::cout << wCount << " " << hCount << std::endl;
-                  }
+                  //Note: GIF does not have transparency.
+                  int alphaQValue = QuantumRange;
 
                   Color toSet(redQValue, blueQValue, greenQValue, alphaQValue);
                   toSave.pixelColor(wCount, hCount, toSet);
@@ -112,9 +97,6 @@ void MagicKHandler::exportFrameAsGIF(QString fileName, Frame* toExport, int heig
 
 void MagicKHandler::exportAsJPG(QString fileName, Frame* toExport, int height, int width)
 {
-      // debug
-      std::cout << " Trying to export to " << fileName.toStdString() << std::endl;
-
       try {
 
           // Create a new image
@@ -133,13 +115,9 @@ void MagicKHandler::exportAsJPG(QString fileName, Frame* toExport, int height, i
                   int redQValue = static_cast<int>((std::get<0>(color) / 255.0) * 65535.0);
                   int greenQValue = static_cast<int>((std::get<1> (color) / 255.0) * 65535.0);
                   int blueQValue = static_cast<int>((std::get<2> (color) / 255.0) * 65535.0);
-                  int alphaQValue = static_cast<int>((std::get<3> (color) / 100.0) * 65535.0);
 
-                  //debug printing the color writing
-                  if(std::get<0>(color) != 0){
-                  std::cout << redQValue << " " << greenQValue << " " << blueQValue << " " << alphaQValue << std::endl;
-                  std::cout << wCount << " " << hCount << std::endl;
-                  }
+                  //Note: JPEG does not have transparency.
+                  int alphaQValue = QuantumRange;
 
                   Color toSet(redQValue, blueQValue, greenQValue, alphaQValue);
                   toSave.pixelColor(wCount, hCount, toSet);
@@ -158,9 +136,6 @@ void MagicKHandler::exportAsJPG(QString fileName, Frame* toExport, int height, i
 
 void MagicKHandler::exportAsAnimatedGIF(QString fileName, std::vector<Frame*> framesToExport, int height, int width, int fps)
 {
-    // debug
-    std::cout << " Trying to export to " << fileName.toStdString() << std::endl;
-
     try {
 
         // Create a new image
@@ -183,13 +158,9 @@ void MagicKHandler::exportAsAnimatedGIF(QString fileName, std::vector<Frame*> fr
                     int redQValue = static_cast<int>((std::get<0>(color) / 255.0) * 65535.0);
                     int greenQValue = static_cast<int>((std::get<1> (color) / 255.0) * 65535.0);
                     int blueQValue = static_cast<int>((std::get<2> (color) / 255.0) * 65535.0);
-                    int alphaQValue = static_cast<int>((std::get<3> (color) / 100.0) * 65535.0);
 
-                   //debug printing the color writing
-                    if(std::get<0>(color) != 0){
-                    std::cout << redQValue << " " << greenQValue << " " << blueQValue << " " << alphaQValue << std::endl;
-                    std::cout << wCount << " " << hCount << std::endl;
-                    }
+                    //Note: GIF does not have transparency.
+                    int alphaQValue = QuantumRange;
 
                     Color toSet(redQValue, blueQValue, greenQValue, alphaQValue);
                     toSave.pixelColor(wCount, hCount, toSet);

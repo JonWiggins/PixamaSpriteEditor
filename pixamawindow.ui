@@ -463,6 +463,7 @@
       <string>Export</string>
      </property>
      <addaction name="actionGIF"/>
+     <addaction name="actionAnimatedGif"/>
      <addaction name="actionPNG"/>
      <addaction name="actionJPG"/>
     </widget>
@@ -509,7 +510,12 @@
   </action>
   <action name="actionGIF">
    <property name="text">
-    <string>GIF</string>
+    <string>Single Frame GIF</string>
+   </property>
+  </action>
+  <action name="actionAnimatedGif">
+   <property name="text">
+    <string>Animated GIF</string>
    </property>
   </action>
  </widget>
