@@ -54,13 +54,15 @@ SOURCES       = main.cpp \
 		pixamawindow.cpp \
 		frame.cpp \
 		pixamamodel.cpp \
-		magickhandler.cpp moc_pixamawindow.cpp \
+		magickhandler.cpp qrc_resources.cpp \
+		moc_pixamawindow.cpp \
 		moc_pixamamodel.cpp
 OBJECTS       = main.o \
 		pixamawindow.o \
 		frame.o \
 		pixamamodel.o \
 		magickhandler.o \
+		qrc_resources.o \
 		moc_pixamawindow.o \
 		moc_pixamamodel.o
 DIST          = ../../../Qt/5.11.2/gcc_64/mkspecs/features/spec_pre.prf \
@@ -232,6 +234,7 @@ DIST          = ../../../Qt/5.11.2/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.11.2/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../Qt/5.11.2/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../Qt/5.11.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.11.2/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.11.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -439,6 +442,7 @@ Makefile: Pixama.pro ../../../Qt/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf ../.
 		../../../Qt/5.11.2/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../Qt/5.11.2/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../Qt/5.11.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.11.2/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.11.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -459,6 +463,7 @@ Makefile: Pixama.pro ../../../Qt/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf ../.
 		../../../Qt/5.11.2/gcc_64/mkspecs/features/yacc.prf \
 		../../../Qt/5.11.2/gcc_64/mkspecs/features/lex.prf \
 		Pixama.pro \
+		resources.qrc \
 		../../../Qt/5.11.2/gcc_64/lib/libQt5Widgets.prl \
 		../../../Qt/5.11.2/gcc_64/lib/libQt5Gui.prl \
 		../../../Qt/5.11.2/gcc_64/lib/libQt5Core.prl
@@ -632,6 +637,7 @@ Makefile: Pixama.pro ../../../Qt/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf ../.
 ../../../Qt/5.11.2/gcc_64/mkspecs/features/qt_config.prf:
 ../../../Qt/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf:
 ../../../Qt/5.11.2/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../Qt/5.11.2/gcc_64/mkspecs/features/exclusive_builds.prf:
 ../../../Qt/5.11.2/gcc_64/mkspecs/features/toolchain.prf:
 ../../../Qt/5.11.2/gcc_64/mkspecs/features/default_pre.prf:
@@ -652,6 +658,7 @@ Makefile: Pixama.pro ../../../Qt/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf ../.
 ../../../Qt/5.11.2/gcc_64/mkspecs/features/yacc.prf:
 ../../../Qt/5.11.2/gcc_64/mkspecs/features/lex.prf:
 Pixama.pro:
+resources.qrc:
 ../../../Qt/5.11.2/gcc_64/lib/libQt5Widgets.prl:
 ../../../Qt/5.11.2/gcc_64/lib/libQt5Gui.prl:
 ../../../Qt/5.11.2/gcc_64/lib/libQt5Core.prl:
@@ -669,6 +676,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.11.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents pixamawindow.h frame.h pixamamodel.h magickhandler.h $(DISTDIR)/
 	$(COPY_FILE) --parents main.cpp pixamawindow.cpp frame.cpp pixamamodel.cpp magickhandler.cpp $(DISTDIR)/
@@ -696,8 +704,21 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_resources.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_resources.cpp
+qrc_resources.cpp: resources.qrc \
+		../../../Qt/5.11.2/gcc_64/bin/rcc \
+		Icons/Bucket.png \
+		Icons/Move.png \
+		Icons/Resize.png \
+		Icons/Color.png \
+		Icons/Copy.png \
+		Icons/Erase.png \
+		Icons/Draw.png \
+		Icons/Play.png
+	/home/ryan/Qt/5.11.2/gcc_64/bin/rcc -name resources resources.qrc -o qrc_resources.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
@@ -1200,7 +1221,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -1708,13 +1729,53 @@ pixamawindow.o: pixamawindow.cpp pixamawindow.h \
 		MagicKIncludes/ImageMagick-7/Magick++/CoderInfo.h \
 		MagicKIncludes/ImageMagick-7/Magick++/Montage.h \
 		ui_pixamawindow.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/QIcon \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QAction \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qaction.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qactiongroup.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QApplication \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qapplication.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qguiapplication.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qinputmethod.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QGraphicsView \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qgraphicsview.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qpainter.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qtextoption.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qscrollarea.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qframe.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qlabel.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QMenu \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qmenu.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QMenuBar \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qmenubar.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QPushButton \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QSlider \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qslider.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QSpinBox \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qspinbox.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qvalidator.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qregularexpression.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QStatusBar \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qstatusbar.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QToolBar \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtoolbar.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QWidget \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QtWidgets \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QtWidgetsDepends \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/QtCore \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/QtCoreDepends \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qabstractanimation.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qabstracteventdispatcher.h \
-		../../../Qt/5.11.2/gcc_64/include/QtCore/qeventloop.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qabstractitemmodel.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qabstractproxymodel.h \
@@ -1731,7 +1792,6 @@ pixamawindow.o: pixamawindow.cpp pixamawindow.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qcollator.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qcommandlineoption.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qcommandlineparser.h \
-		../../../Qt/5.11.2/gcc_64/include/QtCore/qcoreapplication.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qcryptographichash.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qdatetime.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qdeadlinetimer.h \
@@ -1787,7 +1847,6 @@ pixamawindow.o: pixamawindow.cpp pixamawindow.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qqueue.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qrandom.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qreadwritelock.h \
-		../../../Qt/5.11.2/gcc_64/include/QtCore/qregularexpression.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qresource.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qsavefile.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qscopedvaluerollback.h \
@@ -1828,7 +1887,6 @@ pixamawindow.o: pixamawindow.cpp pixamawindow.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qtextlayout.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qtextformat.h \
-		../../../Qt/5.11.2/gcc_64/include/QtGui/qtextoption.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qglyphrun.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qrawfont.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qfontdatabase.h \
@@ -1852,8 +1910,6 @@ pixamawindow.o: pixamawindow.cpp pixamawindow.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qgenericmatrix.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qgenericplugin.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qgenericpluginfactory.h \
-		../../../Qt/5.11.2/gcc_64/include/QtGui/qguiapplication.h \
-		../../../Qt/5.11.2/gcc_64/include/QtGui/qinputmethod.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qiconengine.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qiconengineplugin.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qimageiohandler.h \
@@ -1899,7 +1955,6 @@ pixamawindow.o: pixamawindow.cpp pixamawindow.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qpagelayout.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qpagesize.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qpaintengine.h \
-		../../../Qt/5.11.2/gcc_64/include/QtGui/qpainter.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qpdfwriter.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qpicture.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qpictureformatplugin.h \
@@ -1920,25 +1975,14 @@ pixamawindow.o: pixamawindow.cpp pixamawindow.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qtextdocumentwriter.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qtextlist.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qtexttable.h \
-		../../../Qt/5.11.2/gcc_64/include/QtGui/qvalidator.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/qtguiversion.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qabstractbutton.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qstyleoption.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qabstractspinbox.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qslider.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qabstractslider.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qstyle.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtabbar.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qrubberband.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qframe.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qabstractitemview.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qabstractscrollarea.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qaccessiblewidget.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qaction.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qactiongroup.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qapplication.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qboxlayout.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qlayout.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qlayoutitem.h \
@@ -1952,7 +1996,6 @@ pixamawindow.o: pixamawindow.cpp pixamawindow.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qcolumnview.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qcombobox.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qcommandlinkbutton.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qpushbutton.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qcommonstyle.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qcompleter.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qdatawidgetmapper.h \
@@ -1986,8 +2029,6 @@ pixamawindow.o: pixamawindow.cpp pixamawindow.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qgraphicssceneevent.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qgraphicstransform.h \
 		../../../Qt/5.11.2/gcc_64/include/QtGui/QVector3D \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qgraphicsview.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qscrollarea.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qgroupbox.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qheaderview.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qinputdialog.h \
@@ -1996,18 +2037,14 @@ pixamawindow.o: pixamawindow.cpp pixamawindow.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qitemeditorfactory.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qkeyeventtransition.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qkeysequenceedit.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qlabel.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qlcdnumber.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qlistview.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qlistwidget.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qmdiarea.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qmdisubwindow.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qmenu.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qmenubar.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qmessagebox.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qmouseeventtransition.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qopenglwidget.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QWidget \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qplaintextedit.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtextedit.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qprogressbar.h \
@@ -2021,15 +2058,12 @@ pixamawindow.o: pixamawindow.cpp pixamawindow.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QScrollerProperties \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qscrollerproperties.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/QMetaType \
-		../../../Qt/5.11.2/gcc_64/include/QtCore/QVariant \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qshortcut.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qsizegrip.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qspinbox.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qsplashscreen.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qsplitter.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qstackedlayout.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qstackedwidget.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qstatusbar.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qstyleditemdelegate.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qstylefactory.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qstylepainter.h \
@@ -2038,7 +2072,6 @@ pixamawindow.o: pixamawindow.cpp pixamawindow.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtableview.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtablewidget.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtextbrowser.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtoolbar.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtoolbox.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtoolbutton.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtooltip.h \
@@ -2052,7 +2085,8 @@ pixamawindow.o: pixamawindow.cpp pixamawindow.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qwidgetaction.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qwizard.h \
 		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtwidgetsversion.h \
-		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QMessageBox
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QMessageBox \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/QTimer
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pixamawindow.o pixamawindow.cpp
 
 frame.o: frame.cpp frame.h \
@@ -2101,7 +2135,46 @@ frame.o: frame.cpp frame.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qbytearraylist.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qregexp.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../Qt/5.11.2/gcc_64/include/QtGui/qrgba64.h
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qrgba64.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QGraphicsScene \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qgraphicsscene.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qobject.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qcoreevent.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qmetatype.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qobject_impl.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qpoint.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qrect.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qmargins.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qsize.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qbrush.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qvector.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qmatrix.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qpolygon.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qregion.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qwindowdefs.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qdatastream.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qiodevice.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qline.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qtransform.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qpainterpath.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qimage.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qpaintdevice.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qpixelformat.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qpixmap.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qshareddata.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qhash.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qfont.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qpen.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o frame.o frame.cpp
 
 pixamamodel.o: pixamamodel.cpp pixamamodel.h \
@@ -2517,8 +2590,50 @@ magickhandler.o: magickhandler.cpp magickhandler.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qbytearraylist.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qregexp.h \
 		../../../Qt/5.11.2/gcc_64/include/QtCore/qstringmatcher.h \
-		../../../Qt/5.11.2/gcc_64/include/QtGui/qrgba64.h
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qrgba64.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/QGraphicsScene \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qgraphicsscene.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		../../../Qt/5.11.2/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qobject.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qcoreevent.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qmetatype.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qobject_impl.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qpoint.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qrect.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qmargins.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qsize.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qbrush.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qvector.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qmatrix.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qpolygon.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qregion.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qwindowdefs.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qdatastream.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qiodevice.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qline.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qtransform.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qpainterpath.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qimage.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qpaintdevice.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qpixelformat.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qpixmap.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qshareddata.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qhash.h \
+		../../../Qt/5.11.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qfont.h \
+		../../../Qt/5.11.2/gcc_64/include/QtGui/qpen.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o magickhandler.o magickhandler.cpp
+
+qrc_resources.o: qrc_resources.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp
 
 moc_pixamawindow.o: moc_pixamawindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_pixamawindow.o moc_pixamawindow.cpp

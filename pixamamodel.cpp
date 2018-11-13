@@ -64,6 +64,11 @@ void PixamaModel::mouseEventSlot(int x, int y)
     {
         return;
     }
+    //Or if they are below 0
+    if(x < 0 || y < 0)
+    {
+        return;
+    }
     //Draw using the current tool for deciding what to do
     draw(x, y);
 }
