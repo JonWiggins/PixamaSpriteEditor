@@ -40,7 +40,7 @@ void MagicKHandler::exportSingleFrame(QString fileName, QString type, Frame* toE
                   std::tuple<int, int, int, int> color = toExport->getPixel(wCount, hCount);
 
                   //Magick++ uses color ranges as 0-65535, we must convert these values from our 0-255
-                  int redQValue = static_cast<int>((std::get<0>(color) / 255.0) * 65535.0);
+                  int redQValue = static_cast<int>((std::get<0> (color) / 255.0) * 65535.0);
                   int greenQValue = static_cast<int>((std::get<1> (color) / 255.0) * 65535.0);
                   int blueQValue = static_cast<int>((std::get<2> (color) / 255.0) * 65535.0);
 
@@ -60,9 +60,10 @@ void MagicKHandler::exportSingleFrame(QString fileName, QString type, Frame* toE
                         blueQValue = QuantumRange;
                         greenQValue = QuantumRange;
                     }
+
                   }
 
-                  Color toSet(redQValue, blueQValue, greenQValue, alphaQValue);
+                  Color toSet(redQValue, greenQValue, blueQValue, alphaQValue);
                   toSave.pixelColor(wCount, hCount, toSet);
               }
           }
@@ -105,7 +106,7 @@ void MagicKHandler::exportAsAnimatedGIF(QString fileName, std::vector<Frame*> fr
                     std::tuple<int, int, int, int> color = toExport->getPixel(wCount, hCount);
 
                     //Magick++ uses color ranges as 0-65535, we must convert these values from our 0-255
-                    int redQValue = static_cast<int>((std::get<0>(color) / 255.0) * 65535.0);
+                    int redQValue = static_cast<int>((std::get<0> (color) / 255.0) * 65535.0);
                     int greenQValue = static_cast<int>((std::get<1> (color) / 255.0) * 65535.0);
                     int blueQValue = static_cast<int>((std::get<2> (color) / 255.0) * 65535.0);
 
@@ -120,7 +121,7 @@ void MagicKHandler::exportAsAnimatedGIF(QString fileName, std::vector<Frame*> fr
                         greenQValue = QuantumRange;
                     }
 
-                    Color toSet(redQValue, blueQValue, greenQValue, alphaQValue);
+                    Color toSet(redQValue, greenQValue, blueQValue, alphaQValue);
                     toSave.pixelColor(wCount, hCount, toSet);
                 }
             }
