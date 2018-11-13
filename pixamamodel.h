@@ -53,6 +53,7 @@ public slots:
     void exportFrameAsGIFSlot(QString fileName);
     void selectFrameSlot(int frameNumber);
     void playSlot();
+    void resizeSlot(int x, int y);
 
 signals:
     void imageSignal(QImage image);

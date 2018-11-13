@@ -26,7 +26,7 @@ PixamaModel::PixamaModel()
     this->currentFrame = 0; //Sets the currentFrame to the first frame
     this->playFrame = 0;
 
-    Frame* firstFrame = new Frame();
+    Frame* firstFrame = new Frame(width, height);
     for(int i = 0; i<width; i++)
     {
         for(int j = 0; j<height; j++)
@@ -77,7 +77,7 @@ void PixamaModel::draw(int x, int y)
         {
             //Colors the pixel in the backing array and image then displaying it
             colorPixel(x, y, frame);
-            emit imageSignal(frame->image->scaled(width*pixelSize, height*pixelSize));
+            emit imageSignal(frame->image->scaled(500, 500));
             break;
         }
         case 1: //bucket tool
@@ -145,13 +145,13 @@ void PixamaModel::draw(int x, int y)
                     }
                 }
             }
-            emit imageSignal(frame->image->scaled(width*pixelSize, height*pixelSize));
+            emit imageSignal(frame->image->scaled(500, 500));
             break;
         }
         case 2: // Move tool
         {
 
-            Frame* holder = new Frame();
+            Frame* holder = new Frame(width, height);
             for(int xCounter = 0; xCounter + x < width; xCounter++)
             {
                 for(int yCounter = 0; yCounter + y < height; yCounter++)
@@ -177,7 +177,7 @@ void PixamaModel::draw(int x, int y)
             frame = holder;
             frameList[static_cast<unsigned long>(this->currentFrame)] = holder;
             this->currentTool = 0;
-            emit imageSignal(frame->image->scaled(width*pixelSize, height*pixelSize));
+            emit imageSignal(frame->image->scaled(500, 500));
             break;
         }
     }
@@ -289,7 +289,7 @@ void PixamaModel::openFileSlot(QString fileName)
     // starting at the top row and going to the bottom, list the pixels for each row as red green blue alpha values with spaces in-between two values. Finish a row with a newline. Do not add extra whitespace between color values or pixels or between rows or between frames.
     for(int frameCounter = 0; frameCounter < frameCount; frameCounter++)
     {
-        Frame* toAdd = new Frame();
+        Frame* toAdd = new Frame(width, height);
         for(int hCounter = 0; hCounter < height; hCounter++)
         {
             for(int wCounter = 0; wCounter < width; wCounter++)
@@ -321,7 +321,7 @@ void PixamaModel::openFileSlot(QString fileName)
 void PixamaModel::copyFrameSlot()
 {
 
-    Frame* newFrame = new Frame();
+    Frame* newFrame = new Frame(width, height);
     Frame* thisFrame = frameList[static_cast<unsigned long>(this->currentFrame)];
     //Copying the original frames backing array to new frames backing array
     for(int xCounter = 0; xCounter < width ; xCounter++)
@@ -355,14 +355,14 @@ void PixamaModel::copyFrameSlot()
     state.push_back(static_cast<int>(frameList.size()));
     state.push_back(currentFrame + 1);
     emit frameStateSignal(state);
-    emit imageSignal(newFrame->image->scaled(width*pixelSize, height*pixelSize));
+    emit imageSignal(newFrame->image->scaled(500, 500));
 }
 
 //Creating a new empty frame
 void PixamaModel::newFrameSlot()
 {
     //initalizing new backing frame data
-    Frame* newFrame = new Frame();
+    Frame* newFrame = new Frame(width, height);
     for(int i = 0; i<width; i++)
     {
         for(int j = 0; j<height; j++)
@@ -395,13 +395,79 @@ void PixamaModel::newFrameSlot()
     state.push_back(static_cast<int>(frameList.size()));
     state.push_back(currentFrame + 1);
     emit frameStateSignal(state);
-    emit imageSignal(newFrame->image->scaled(width*pixelSize, height*pixelSize));
+    emit imageSignal(newFrame->image->scaled(500, 500));
+}
+
+void PixamaModel::resizeSlot(int x, int y)
+{
+    if (x > 100 || x < 1)
+    {
+        return;
+    }
+    if (y > 100 || y < 1)
+    {
+        return;
+    }
+    width = x;
+    height = y;
+    if(x > y)
+    {
+        pixelSize = 500 / x;
+    }
+    else
+    {
+        pixelSize = 500 / y;
+    }
+    Frame* frame;
+    for(int frameCount = 0; frameCount < static_cast<unsigned int>(frameList.size());frameCount++ )
+    {
+        frame = this->frameList[static_cast<unsigned int>(frameCount)];
+        if(width > height)
+        {
+            frame->image = new QImage(width, width, QImage::Format_RGB32);
+            for(int i = 0; i<width; i++)
+            {
+                for(int j = 0; j<width; j++)
+                {
+                    frame->image->setPixel(i, j, qRgba(255, 255, 255, 255));
+                }
+            }
+        }
+        else
+        {
+            frame->image = new QImage(height, height, QImage::Format_RGB32);
+            for(int i = 0; i<height; i++)
+            {
+                for(int j = 0; j<height; j++)
+                {
+                    frame->image->setPixel(i, j, qRgba(255, 255, 255, 255));
+                }
+            }
+        }
+        for(int xCounter = 0; xCounter < width; xCounter++)
+        {
+            for(int yCounter = 0; yCounter < height; yCounter++)
+            {
+                if(frame->getColor(xCounter, yCounter) == QColor(0, 0, 0, 0))
+                {
+                    frame->image->setPixelColor(xCounter, yCounter, QColor(255, 255, 255, 255));
+                }
+                else
+                   {
+                    frame->image->setPixelColor(xCounter, yCounter, frame->getColor(xCounter, yCounter));
+                }
+            }
+        }
+
+    }
+    frame = this->frameList[static_cast<unsigned int>(currentFrame)];
+    emit imageSignal(frame->image->scaled(500, 500));
 }
 
 void PixamaModel::selectFrameSlot(int frameNumber)
 {
     currentFrame = frameNumber - 1;
-    emit imageSignal(frameList[static_cast<unsigned long>(currentFrame)]->image->scaled(width*pixelSize, height*pixelSize));
+    emit imageSignal(frameList[static_cast<unsigned long>(currentFrame)]->image->scaled(500, 500));
 
 }
 

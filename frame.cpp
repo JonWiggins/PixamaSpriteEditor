@@ -12,12 +12,20 @@
 #include "frame.h"
 
 
-Frame::Frame()
+Frame::Frame(int x, int y)
 {
-    this->image = new QImage(100, 100, QImage::Format_RGB32);
-    for(int i = 0; i<100; i++)
+    if(x > y)
     {
-        for(int j = 0; j<100; j++)
+        y = x;
+    }
+    else
+    {
+        x = y;
+    }
+    this->image = new QImage(x, y, QImage::Format_RGB32);
+    for(int i = 0; i<x; i++)
+    {
+        for(int j = 0; j<y; j++)
         {
             image->setPixel(i, j, qRgba(255, 255, 255, 255));
         }

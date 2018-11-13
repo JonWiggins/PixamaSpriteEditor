@@ -56,6 +56,7 @@ signals:
     void copyFrameSignal();
     void selectFrameSignal(int frameNumber);
     void playSignal();
+    void resizeSignal(int x, int y);
 
 public slots:
        void displayErrorMessageSlot(QString title, QString details);

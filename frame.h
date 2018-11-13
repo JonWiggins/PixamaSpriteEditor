@@ -23,7 +23,7 @@ class Frame
 
 
 public:
-    Frame();
+    Frame(int x, int y);
     ~Frame();
     //Create 2D array of Pixel structs
     //Note that this is public for now, along with some getters/setters

@@ -67,7 +67,9 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     QObject::connect(
                 this, &PixamaWindow::playSignal,
                 &model, &PixamaModel::playSlot);
-
+    QObject::connect(
+                this, &PixamaWindow::resizeSignal,
+                &model, &PixamaModel::resizeSlot);
 
     //Connections from model -> view
     QObject::connect(
@@ -127,8 +129,7 @@ void PixamaWindow::on_resizeButton_clicked()
     int y = QInputDialog::getInt(this,
                                  tr("Y Value"), "Y Value:",
                                  100, 0, 100, 1);
-    x=y; //lol just to get rid of warnings
-    y=x;
+    emit resizeSignal(x, y);
 }
 
 
