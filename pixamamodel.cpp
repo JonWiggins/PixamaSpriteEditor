@@ -20,9 +20,9 @@ PixamaModel::PixamaModel()
 {
     this->magick = new MagicKHandler();
 
-    this->height = 32;
-    this->width = 32;
-    this->pixelSize = 500/32; //Assuming pixels are square
+    this->height = 100;
+    this->width = 100;
+    this->pixelSize = 5; //Assuming pixels are square
     this->currentFrame = 0; //Sets the currentFrame to the first frame
     this->playFrame = 0;
 
@@ -328,9 +328,9 @@ void PixamaModel::copyFrameSlot()
     frameList.push_back(newFrame);
     currentFrame = static_cast<int>(frameList.size()-1);
     //Setting up the new image with transparent displaying as white
-    for(int xCounter = 0; xCounter < width ; xCounter++)
+    for(int xCounter = 0; xCounter < 100 ; xCounter++)
     {
-        for(int yCounter = 0; yCounter < height ; yCounter++)
+        for(int yCounter = 0; yCounter < 100 ; yCounter++)
         {
             if(newFrame->getColor(xCounter, yCounter) == QColor(0, 0, 0, 0))
             {
