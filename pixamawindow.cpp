@@ -206,7 +206,7 @@ void PixamaWindow::on_actionSave_triggered()
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Save Pixama Project"), "",
                                                     tr("Sprite Sheet Project (*.ssp)"));
-    emit saveFileSignal(fileName);
+    emit saveFileSignal(fileName + ".ssp");
 }
 
 void PixamaWindow::on_actionOpen_triggered()
