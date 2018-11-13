@@ -6,5 +6,7 @@
         <file>Icons/Erase.png</file>
         <file>Icons/Move.png</file>
         <file>Icons/Resize.png</file>
+        <file>Icons/Play.png</file>
+        <file>Icons/Color.png</file>
     </qresource>
 </RCC>

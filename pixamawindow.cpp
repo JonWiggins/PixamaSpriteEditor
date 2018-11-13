@@ -26,6 +26,11 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
     graphic = new QGraphicsScene(this);
     previewGraphic = new QGraphicsScene(this);
     ui->canvas->setScene(graphic);
+    ui->canvas->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->canvas->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->preview->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->preview->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
 
     //Connections from view -> model
     QObject::connect(

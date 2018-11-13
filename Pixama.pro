@@ -64,3 +64,6 @@ INCLUDEPATH += $$PWD/MagicKLibs/ImageMagick-7.0.8
 DEPENDPATH += $$PWD/MagicKLibs/ImageMagick-7.0.8
 
 unix:!macx: PRE_TARGETDEPS += $$PWD/MagicKLibs/libMagickWand-7.Q16HDRI.a
+
+RESOURCES += \
+    resources.qrc
