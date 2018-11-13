@@ -20,9 +20,7 @@ class MagicKHandler
 {
 public:
     MagicKHandler();
-    void exportAsPNG(QString fileName, Frame* toExport, int height, int width);
-    void exportAsJPG(QString fileName, Frame* toExport, int height, int width);
-    void exportFrameAsGIF(QString fileName, Frame* toExport, int height, int width);
+    void exportSingleFrame(QString fileName, QString type, Frame* toExport, int height, int width);
     void exportAsAnimatedGIF(QString fileName, std::vector<Frame*>, int height, int width, int fps);
 
 

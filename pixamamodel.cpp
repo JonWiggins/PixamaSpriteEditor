@@ -145,6 +145,7 @@ void PixamaModel::draw(int x, int y)
                     }
                 }
             }
+
             emit imageSignal(frame->image->scaled(width*pixelSize, height*pixelSize));
             break;
         }
@@ -181,11 +182,6 @@ void PixamaModel::saveFileSlot(QString fileName)
     }
 
     QTextStream outputStream(&file);
-
-
-    //TODO ensure that this is correct
-    //outputStream.setVersion(QDataStream::Qt_5_4);
-
 
     //File format:
     //The height and width of a sprite frame specified by 2 integers with a space between followed by a \n newline.
@@ -242,25 +238,20 @@ void PixamaModel::openFileSlot(QString fileName)
     int width;
 
     inputFile >> height;
-    //std::cout << "height " << height << std::endl;
-
     inputFile >> width;
-    //std::cout << "width " << width << std::endl;
 
     //The number of frames represented by a single integer followed by a newline.
     int frameCount;
     inputFile >> frameCount;
-
-    //std::cout << "count " << frameCount << std::endl;
 
     //Each frame in order from lowest to highest numbered. A frame is output by
     // starting at the top row and going to the bottom, list the pixels for each row as red green blue alpha values with spaces in-between two values. Finish a row with a newline. Do not add extra whitespace between color values or pixels or between rows or between frames.
     for(int frameCounter = 0; frameCounter < frameCount; frameCounter++)
     {
         Frame* toAdd = new Frame();
-        for(int hCounter = 0; hCounter < height; hCounter++)
+        for(int wCounter = 0; wCounter < width; wCounter++)
         {
-            for(int wCounter = 0; wCounter < width; wCounter++)
+            for(int hCounter = 0; hCounter < height; hCounter++)
             {
                 int r, g, b, a;
                 inputFile >> r;
@@ -268,10 +259,8 @@ void PixamaModel::openFileSlot(QString fileName)
                 inputFile >> b;
                 inputFile >> a;
 
-                toAdd->setPixel(hCounter, wCounter, r, g, b, a);
-
-                //TODO this needs to update the canvas
-                //draw()
+                toAdd->setPixel(wCounter, hCounter, r, g, b, a);
+                toAdd->image->setPixelColor(wCounter, hCounter, QColor(r, g, b, a) );
 
             }
         }
@@ -279,10 +268,14 @@ void PixamaModel::openFileSlot(QString fileName)
         frameList.push_back(toAdd);
     }
 
+    this->width = width;
+    this->height = height;
+
     std::vector<int> state;
     state.push_back(static_cast<int>(frameList.size()));
     state.push_back(currentFrame + 1);
     emit frameStateSignal(state);
+    emit imageSignal(frameList[static_cast<int>(0)]->image->scaled(width*pixelSize, height*pixelSize));
 }
 
 //Copies the current frame the user is using and making a new one at end of list
@@ -356,7 +349,8 @@ void PixamaModel::newFrameSlot()
             {
                 newFrame->image->setPixelColor( xCounter, yCounter, newFrame->getColor(xCounter, yCounter) );
 
-            }        }
+            }
+        }
     }
 
     std::vector<int> state;
@@ -375,18 +369,23 @@ void PixamaModel::selectFrameSlot(int frameNumber)
 
 void PixamaModel::exportAsPNGSlot(QString fileName)
 {
-    this->magick->exportAsPNG(fileName, frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
+    this->magick->exportSingleFrame(fileName, "PNG", frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
 }
 
 void PixamaModel::exportAsJPGSlot(QString fileName)
 {
-    this->magick->exportAsJPG(fileName, frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
+    this->magick->exportSingleFrame(fileName, "JPG", frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
 
 }
 
 void PixamaModel::exportFrameAsGIFSlot(QString fileName)
 {
-    this->magick->exportFrameAsGIF(fileName, frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
+    this->magick->exportSingleFrame(fileName, "GIF", frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
+}
+
+void PixamaModel::exportAsGIFSlot(QString fileName, int fps)
+{
+    this->magick->exportAsAnimatedGIF(fileName, frameList, this->height, this->width, fps);
 }
 
 void PixamaModel::playSlot()

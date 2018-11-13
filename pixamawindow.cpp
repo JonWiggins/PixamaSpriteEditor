@@ -41,6 +41,9 @@ PixamaWindow::PixamaWindow(QWidget *parent) :
                 this, &PixamaWindow::exportFrameAsGIFSignal,
                 &model, &PixamaModel::exportFrameAsGIFSlot);
     QObject::connect(
+                this, &PixamaWindow::exportAsGIFSignal,
+                &model, &PixamaModel::exportAsGIFSlot);
+    QObject::connect(
                 this, &PixamaWindow::exportAsJPGSignal,
                 &model, &PixamaModel::exportAsJPGSlot);
     QObject::connect(
@@ -256,4 +259,12 @@ void PixamaWindow::on_actionJPG_triggered()
 void PixamaWindow::on_playButton_clicked()
 {
     emit playSignal();
+}
+
+void PixamaWindow::on_actionAnimatedGif_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Export Project as GIF"), "",
+                                                    tr("GIF(*.gif)"));
+    emit exportAsGIFSignal(fileName, ui->frameRateSpinBox->value());
 }
