@@ -385,18 +385,18 @@ void PixamaModel::selectFrameSlot(int frameNumber)
 
 void PixamaModel::exportAsPNGSlot(QString fileName)
 {
-    this->magick->exportAsPNG(fileName, frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
+    this->magick->exportSingleFrame(fileName, "PNG", frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
 }
 
 void PixamaModel::exportAsJPGSlot(QString fileName)
 {
-    this->magick->exportAsJPG(fileName, frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
+    this->magick->exportSingleFrame(fileName, "JPG", frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
 
 }
 
 void PixamaModel::exportFrameAsGIFSlot(QString fileName)
 {
-    this->magick->exportFrameAsGIF(fileName, frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
+    this->magick->exportSingleFrame(fileName, "GIF", frameList[static_cast<unsigned long>(currentFrame)], this->height, this->width);
 }
 
 void PixamaModel::exportAsGIFSlot(QString fileName, int fps)
