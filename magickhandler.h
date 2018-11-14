@@ -23,7 +23,6 @@ public:
     void exportSingleFrame(QString fileName, QString type, Frame* toExport, int height, int width);
     void exportAsAnimatedGIF(QString fileName, std::vector<Frame*>, int height, int width, int fps);
 
-
 };
 
 #endif // MAGICKHANDLER_H

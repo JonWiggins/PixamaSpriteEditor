@@ -205,6 +205,7 @@ void PixamaModel::colorPixel(int x, int y, Frame *frame)
 {
     frame->setPixel(x, y, std::get<0>(this->currentColor), std::get<1>(this->currentColor), std::get<2>(this->currentColor), std::get<3>(this->currentColor));
     //If color is transparent, display it as white to help viability
+
     if(frame->getColor(x, y) == QColor(0, 0, 0, 0))
     {
         frame->image->setPixelColor(x, y, QColor(255, 255, 255, 255));
@@ -298,6 +299,7 @@ void PixamaModel::openFileSlot(QString fileName)
     {
 
         Frame* toAdd = new Frame(height, width);
+
         for(int wCounter = 0; wCounter < width; wCounter++)
 
         {
@@ -324,6 +326,7 @@ void PixamaModel::openFileSlot(QString fileName)
     std::vector<int> state;
     state.push_back(static_cast<int>(frameList.size()));
     state.push_back(currentFrame + 1);
+
     emit frameStateSignal(state);
     emit imageSignal(frameList[static_cast<int>(0)]->image->scaled(width*pixelSize, height*pixelSize));
 }
@@ -374,11 +377,11 @@ void PixamaModel::newFrameSlot()
 {
     //initalizing new backing frame data
     Frame* newFrame = new Frame(width, height);
-    for(int i = 0; i<width; i++)
+    for(int x = 0; x < width; x++)
     {
-        for(int j = 0; j<height; j++)
+        for(int y = 0; y < height; y++)
         {
-            newFrame->setPixel(i, j, 0, 0, 0, 0);
+            newFrame->setPixel(x, y, 0, 0, 0, 0);
         }
     }
 
@@ -386,9 +389,9 @@ void PixamaModel::newFrameSlot()
     currentFrame = static_cast<int>(frameList.size() - 1);
 
     //Coloring new backing frame image
-    for(int xCounter = 0; xCounter < 100 ; xCounter++)
+    for(int xCounter = 0; xCounter < this->width ; xCounter++)
     {
-        for(int yCounter = 0; yCounter < 100 ; yCounter++)
+        for(int yCounter = 0; yCounter < this->height ; yCounter++)
         {
             if(newFrame->getColor(xCounter, yCounter) == QColor(0, 0, 0, 0))
             {
@@ -437,22 +440,22 @@ void PixamaModel::resizeSlot(int x, int y)
         if(width > height)
         {
             frame->image = new QImage(width, width, QImage::Format_RGB32);
-            for(int i = 0; i<width; i++)
+            for(int x = 0; x < width; x++)
             {
-                for(int j = 0; j<width; j++)
+                for(int y = 0; y < width; y++)
                 {
-                    frame->image->setPixel(i, j, qRgba(255, 255, 255, 255));
+                    frame->image->setPixel(x, y, qRgba(255, 255, 255, 255));
                 }
             }
         }
         else
         {
             frame->image = new QImage(height, height, QImage::Format_RGB32);
-            for(int i = 0; i<height; i++)
+            for(int x = 0; x < height; x++)
             {
-                for(int j = 0; j<height; j++)
+                for(int y = 0; y < height; y++)
                 {
-                    frame->image->setPixel(i, j, qRgba(255, 255, 255, 255));
+                    frame->image->setPixel(x, y, qRgba(255, 255, 255, 255));
                 }
             }
         }

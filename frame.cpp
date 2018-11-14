@@ -22,12 +22,14 @@ Frame::Frame(int x, int y)
     {
         x = y;
     }
+
     this->image = new QImage(x, y, QImage::Format_RGB32);
-    for(int i = 0; i<x; i++)
+
+    for(int xCounter = 0; xCounter<x; xCounter++)
     {
-        for(int j = 0; j<y; j++)
+        for(int yCounter = 0; yCounter<y; yCounter++)
         {
-            image->setPixel(i, j, qRgba(255, 255, 255, 255));
+            image->setPixel(xCounter, yCounter, qRgba(255, 255, 255, 255));
         }
     }
 }

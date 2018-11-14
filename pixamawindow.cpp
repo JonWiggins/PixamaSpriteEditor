@@ -105,13 +105,13 @@ PixamaWindow::~PixamaWindow()
 //Mouse is pressed it emits signal of location
 void PixamaWindow::mousePressEvent(QMouseEvent *event)
 {
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()-21), static_cast<int>(event->localPos().y()-63));
+    emit mouseClickSignal(static_cast<int>(event->localPos().x()-23), static_cast<int>(event->localPos().y()-62));
 }
 
 //When mouse is dragged emits move location coords
 void PixamaWindow::mouseMoveEvent(QMouseEvent *event)
 {
-    emit mouseClickSignal(static_cast<int>(event->localPos().x()-21), static_cast<int>(event->localPos().y()-63));
+    emit mouseClickSignal(static_cast<int>(event->localPos().x()-23), static_cast<int>(event->localPos().y()-62));
 }
 
 void PixamaWindow::displayErrorMessageSlot(QString title, QString details)
