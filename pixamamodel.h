@@ -34,7 +34,7 @@ public:
     PixamaModel();
     int height;
     int width;
-    int pixelSize;
+    double pixelSize;
     std::tuple<int, int, int, int> currentColor;
     int currentTool; //0 for draw/erase 1 for paintbucket can be different number for other tools
     void draw(int x, int y);
