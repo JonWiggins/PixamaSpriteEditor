@@ -155,16 +155,28 @@ void PixamaModel::draw(int x, int y)
         }
         case 2: // Move tool
         {
-
+            x = x - width/2;
+            y = y - height/2;
             Frame* holder = new Frame(width, height);
+
             for(int xCounter = 0; xCounter + x < width; xCounter++)
             {
                 for(int yCounter = 0; yCounter + y < height; yCounter++)
                 {
-                    holder->setPixel(xCounter + x, yCounter + y, frame->getPixel(xCounter, yCounter));
+
+                    if(yCounter + y > 0)
+                    {
+                        if(xCounter + x > 0)
+                        {
+                             holder->setPixel(xCounter + x, yCounter + y, frame->getPixel(xCounter, yCounter));
+                        }
+                    }
 
                 }
             }
+
+
+
             for(int xCounter = 0; xCounter < width; xCounter++)
             {
                 for(int yCounter = 0; yCounter < height; yCounter++)
